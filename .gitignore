@@ -1,5 +1,4 @@
+/node_modules
+npm-debug.log
 .DS_Store
-.project
-*.js
-package-lock.json
-node_modules/
+/.env
