@@ -4,8 +4,7 @@
   "version": "0.0.1",
   "lockfileVersion": 1,
   "scripts": {
-    "start": "node ./src/app.js",
-    "build": "webpack"
+    "start": "node ./src/app.js"
   },
   "dependencies": {
     "express": "*",
