@@ -8,7 +8,7 @@ app.set('view engine', 'hbs')
 
 app.get('/', (req, res) => {
 
-  fetch('http://localhost:3000/weather?address=Boston').then((response) => {
+  fetch('https://hututu.herokuapp.com/weather?address=Boston').then((response) => {
     response.json().then((data) => {
       if (data.error) {
         console.log(data.error);
