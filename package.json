@@ -1,7 +1,11 @@
 {
+  "name": "myapp",
+  "description": "a really cool app",
+  "version": "0.0.1",
   "lockfileVersion": 1,
   "scripts": {
-    "start": "node ./src/app.js"
+    "start": "node ./src/app.js",
+    "build": "webpack"
   },
   "dependencies": {
     "express": "*",
