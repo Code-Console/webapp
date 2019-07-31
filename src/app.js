@@ -1,16 +1,13 @@
 const express = require('express');
 const app = express();
-const path = require('path');
 const hbs     = require('hbs')
-const fetch = require("node-fetch");
-const publicDirectoryPath = path.join(__dirname, '..')
 const mongodb = require('mongodb')
+
 const MongoClient = mongodb.MongoClient
 const connectionURL = 'mongodb://127.0.0.1:27017/'
 const databaseName = 'task-manager'
 var Promise = require('promise');
 const mongoose = require('mongoose')
-const User = mongoose.model('User', {name: {type: String},age: {type: Number}});
 mongoose.connect(connectionURL+databaseName, {useNewUrlParser: true,useCreateIndex: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -20,8 +17,8 @@ app.set('view engine', 'hbs')
 app.use('/', require('../routes/index'));
 app.use('/users', require('../routes/users'));
 
-
 app.listen(process.env.PORT || 4000, function(){console.log('Your node js server is running');});
+
 const callDB = (name = 'user', age) => {
   console.log('Hello ' + name);
   MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) => {
@@ -38,6 +35,7 @@ const callDB = (name = 'user', age) => {
       if (error) {return console.log('Unable to insert tasks!');}console.log(result.ops)});
   });
 }//callDB() // Will print: Hello Andrew
+
 const callMongoose = () => {
   console.log("callMongoose");
   mongoose.connect(connectionURL+databaseName, {useNewUrlParser: true,useCreateIndex: true});
