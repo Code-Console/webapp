@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather</title>
+    <style>
+        table {font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}
+        td, th {border: 1px solid #dddddd; text-align: left; padding: 8px; }
+        tr:nth-child(even) {background-color: #dddddd;}
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <p>Use this site to get your weather!</p>
+        <form>
+            <input placeholder="Location">
+            <button>Search</button>
+        </form>
+        <p id="message-1"></p>
+        <p id="message-2"></p>
+    </div>
+    <div id="qrusers"></div>
+    <script >
+        const weatherForm = document.querySelector('form')
+        const search = document.querySelector('input')
+        const messageOne = document.querySelector('#message-1')
+        const messageTwo = document.querySelector('#message-2')
+
+        weatherForm.addEventListener('submit', (e) => {
+            e.preventDefault()
+            const location = search.value
+            messageOne.textContent = 'Loading...';
+            messageTwo.textContent = '';
+            fetch('http://localhost:4000/users', {method: 'GET'})
+                .then(response => response.json())
+                .then((response) => {
+                    messageOne.textContent = "";
+                    var qrtable = document.createElement("table");
+                    qrtable.setAttribute('id',"customers");
+                    var qrtr = document.createElement("tr");
+                    qrtr.appendChild(createTextChild("th","ID","id"));
+                    qrtr.appendChild(createTextChild("th","Name","giftname"));
+                    qrtr.appendChild(createTextChild("th","Age","amount"));
+                    qrtable.appendChild(qrtr);
+                    response.forEach(obj => {
+                        var qrtr = document.createElement("tr");
+                        qrtr.appendChild(createTextChild("td",obj._id,"id"));
+                        qrtr.appendChild(createTextChild("td",obj.name,"name"));
+                        qrtr.appendChild(createTextChild("td",obj.age,"age"));
+                        qrtable.appendChild(qrtr);
+                    })
+                    var element = document.getElementById("qrusers");
+                    var child = element.lastElementChild;
+                    while (child) {
+                        element.removeChild(child);
+                        child = element.lastElementChild;
+                    }
+                    element.appendChild(qrtable);
+                })
+                .catch(error => console.error('Error:', error));
+        });
+        function createTextChild(ele,txt,id) {
+            var qrth = document.createElement(ele);
+            var node = document.createTextNode(txt);
+            qrth.appendChild(node);
+            qrth.setAttribute('id',id);
+            return qrth;
+        }
+    </script>
+</body>
+
+</html>
