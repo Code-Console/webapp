@@ -15,26 +15,12 @@ mongoose.connect(connectionURL+databaseName, {useNewUrlParser: true,useCreateInd
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {console.log("we're connected!");});
-
-
-
 app.set('view engine', 'hbs')
-app.get('/', (req, res) => {
-  fetch('https://hututu.herokuapp.com/weather?address=India').then((response) => {
-    response.json().then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else { res.render('index', {
-          title: data.location,
-          name: 'Andrew Mead'
-        });
-        console.log(data.location);
-      }
-    })
-  })
-})
-app.get('/weather', (req, res) => {res.send('{"location":"'+req.query.address+'"}');})
-app.get('/yogesh', function(req, res) {res.sendFile(path.join(__dirname, 'search.html'));});
+
+app.use('/', require('../routes/index'));
+app.use('/users', require('../routes/users'));
+
+
 app.listen(process.env.PORT || 4000, function(){console.log('Your node js server is running');});
 const callDB = (name = 'user', age) => {
   console.log('Hello ' + name);
@@ -52,35 +38,6 @@ const callDB = (name = 'user', age) => {
       if (error) {return console.log('Unable to insert tasks!');}console.log(result.ops)});
   });
 }//callDB() // Will print: Hello Andrew
-
-app.use(express.json())
-app.post('/users', (req, res) => {
-  const user = new User(req.body)
-  user.save().then(() => {
-      res.send(user)
-  }).catch((e) => {
-      res.status(400).send(e)
-  }) 
-})
-
-
-app.get('/users/:id', async (req, res) => { 
-  try {
-    const _id = req.params.id // Access the id provided
-    User.findById(_id).then((user) => { 
-      if (!user) {
-        return res.status(404).send() 
-      }
-      res.send(user)
-      }).catch((e) => {
-          res.status(500).send()
-    })
-    
-  } catch (e) {
-    res.status(500).send(e+"");
-  }
-});
-
 const callMongoose = () => {
   console.log("callMongoose");
   mongoose.connect(connectionURL+databaseName, {useNewUrlParser: true,useCreateIndex: true});
@@ -107,5 +64,4 @@ const callMongoose = () => {
 
   
   
-}
-//callMongoose();
+}//callMongoose();
