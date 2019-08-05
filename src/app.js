@@ -4,8 +4,10 @@ const hbs     = require('hbs')
 const mongodb = require('mongodb')
 
 const MongoClient = mongodb.MongoClient
-const connectionURL = 'mongodb://127.0.0.1:27017/'
-const databaseName = 'task-manager'
+// const connectionURL = 'mongodb://127.0.0.1:27017/'
+// const databaseName = 'task-manager'
+const connectionURL = 'mongodb://ubki60fpiflq9731xdal:eFynxhRZrQj6ljvWw6td@btzkgpm8bn4thxz-mongodb.services.clever-cloud.com:27017/'
+const databaseName = 'btzkgpm8bn4thxz'
 var Promise = require('promise');
 const mongoose = require('mongoose')
 mongoose.connect(connectionURL+databaseName, {useNewUrlParser: true,useCreateIndex: true});
