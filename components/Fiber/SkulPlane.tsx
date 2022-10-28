@@ -27,6 +27,7 @@ function SkullPlan() {
     finalComposer.addPass(renderScene);
     finalComposer.addPass(bloomPass);
     return [comp, finalComposer];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

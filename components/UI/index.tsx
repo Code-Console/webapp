@@ -10,6 +10,7 @@ import { visitedCount } from "../Firebase/config";
 import { FaHome, FaInfo, FaFortAwesome } from "react-icons/fa";
 import { SiEthereum } from "react-icons/si";
 import Blockchain from "./Blockchain";
+import Image from "next/image";
 const UI = () => {
   const [state, setState] = React.useState({
     menu: undefined,
@@ -29,11 +30,13 @@ const UI = () => {
     <>
       <div className="ui-container">
         <div className="identity">
-          <img
+          <Image
             src={loadingGif}
             alt=""
             draggable="false"
             className="gif-animation"
+            width={100}
+            height={100}
           />
           <div className="title">
             <div>

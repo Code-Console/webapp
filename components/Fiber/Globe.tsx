@@ -4,8 +4,8 @@ import { useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import { basePath } from "../Assets";
 
-const Globe = (props) => {
-  const mesh: THREE.Mesh = useRef();
+const Globe = (props: any) => {
+  const mesh: any = useRef();
   useFrame((state, delta) => (mesh.current.rotation.x += 0.01));
 
   const texture = useTexture({

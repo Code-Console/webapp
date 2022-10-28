@@ -1,17 +1,17 @@
 import React from "react";
 import * as THREE from "three";
 const CommonAnimation = () => {
-  const canvasRef = React.useRef();
+  const canvasRef: any = React.useRef();
   const [state, setState] = React.useState({
-    camera: undefined,
-    renderer: undefined,
-    scene: undefined,
+    camera: undefined as unknown as THREE.Camera,
+    renderer: undefined as unknown as THREE.Renderer,
+    scene: undefined as unknown as THREE.Scene,
   });
   const animate = () => {
     if (state.renderer == undefined || state.scene == undefined) {
       return;
     }
-     state.renderer.render(state.scene, state.camera);
+    state.renderer.render(state.scene, state.camera);
     requestAnimationFrame(animate);
   };
   const cleanUp = () => {

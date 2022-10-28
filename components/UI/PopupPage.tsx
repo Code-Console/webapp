@@ -11,7 +11,7 @@ const PopupPage = ({ onClose, url }: { onClose?: () => void; url: string }) => {
       maxWidth="90vw"
       onClose={() => {
         console.log("~~~~~~~~~~~~~~~");
-        onClose();
+        if (onClose) onClose();
       }}
     >
       <iframe

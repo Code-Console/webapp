@@ -13,11 +13,11 @@ const Input = ({
   handleChange,
   err,
 }: {
-  placeholder;
-  name;
-  type;
-  value;
-  handleChange;
+  placeholder: string;
+  name: string;
+  type: string;
+  value: string | number;
+  handleChange: (e: any, name: string) => void;
   err?: boolean;
 }) => (
   <>
@@ -47,10 +47,10 @@ const Welcome = ({
   currentAccount: string;
   formData: CryptoData;
   connectWallet: () => void;
-  handleChange: (e, name) => void;
+  handleChange: (e: any, name: string) => void;
   sendTransaction: () => void;
 }) => {
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     const { addressTo, amount, keyword, message } = formData;
     e.preventDefault();
     if (!addressTo?.trim() && !amount) {
@@ -64,7 +64,7 @@ const Welcome = ({
 
     sendTransaction();
   };
-  const onChange = (e, name) => {
+  const onChange = (e: any, name: string) => {
     if (name === "addressTo") {
       setState({ ...state, addressErr: false });
     }
