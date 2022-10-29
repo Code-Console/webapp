@@ -1,4 +1,5 @@
 import React from "react";
+import Loading from "./Loading";
 import PopupContainer from "./PopupContainer";
 
 const PopupPage = ({ onClose, url }: { onClose?: () => void; url: string }) => {
@@ -8,9 +9,7 @@ const PopupPage = ({ onClose, url }: { onClose?: () => void; url: string }) => {
       zIndex={100000}
       className="popup-iframe"
       maxWidth="90vw"
-      onClose={() => {
-        if (onClose) onClose();
-      }}
+      onClose={onClose}
     >
       <iframe
         id="content-popup"
@@ -21,6 +20,7 @@ const PopupPage = ({ onClose, url }: { onClose?: () => void; url: string }) => {
         onError={(e) => console.log("e->", e)}
         allowFullScreen
       />
+      {!pageLoaded && <Loading />}
       <style>{`
        .iframe-container {
         width: 90vw;

@@ -3,23 +3,20 @@ import { basePath, loadingGif, MenuItem } from "../Assets";
 import About from "./About";
 import PopupContainer from "./PopupContainer";
 import PopupPage from "./PopupPage";
-import { useSelector } from "react-redux";
-import { IMainState } from "../../interfaces";
 import Loading from "./Loading";
 import { visitedCount } from "../Firebase/config";
 import { FaHome, FaInfo, FaFortAwesome } from "react-icons/fa";
 import { SiEthereum } from "react-icons/si";
 import Blockchain from "./Blockchain";
 import Image from "next/image";
+import { useIsAllModelLoadedState } from "../hooks";
 const UI = () => {
   const [state, setState] = React.useState({
     menu: undefined as unknown as MenuItem | undefined,
     url: "",
     visitCount: 0,
   });
-  const isAllModelLoaded = useSelector(
-    (state: IMainState) => state.clientState.isAllModelLoaded
-  );
+  const isAllModelLoaded = useIsAllModelLoadedState();
   React.useEffect(() => {
     visitedCount()
       .then((res) => {
@@ -103,6 +100,7 @@ const UI = () => {
             </li>
             <li className="">
               <div
+                id="about-button"
                 className="menu-item"
                 onClick={() => {
                   setState({ ...state, menu: MenuItem.ABOUT });
@@ -114,6 +112,7 @@ const UI = () => {
             </li>
             <li className="">
               <div
+                id="projects-button"
                 className="menu-item"
                 onClick={() => setState({ ...state, menu: MenuItem.EXPERTISE })}
               >
@@ -123,6 +122,7 @@ const UI = () => {
             </li>
             <li className="">
               <div
+                id="crypto-button"
                 className="menu-item"
                 onClick={() =>
                   setState({ ...state, menu: MenuItem.SEND_CRYPTO })
@@ -204,6 +204,18 @@ const UI = () => {
         }
         .footer {
           justify-content: center;
+          animation-name: example;
+          animation-duration: .2s;
+        }
+        @keyframes example {
+          from {
+            opacity: 0;
+            transform: scale(0.5) translate(-100%, -100%);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translate(0, 0);
+          }
         }
         .img-game {
           width: 80px;
