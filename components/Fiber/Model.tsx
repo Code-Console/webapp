@@ -7,13 +7,13 @@ import { setWireFrameMaterial } from "../util";
 import { actionDeposited } from "../../redux/action";
 import { useDispatch } from "react-redux";
 const Model = (props: any) => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const watchGlb = useGLTF(watchGLBPath);
   const ref = useRef();
   React.useEffect(() => {
     if (watchGlb) {
       setWireFrameMaterial(watchGlb.scene);
-      // dispatch(actionDeposited(true));
+      dispatch(actionDeposited(true));
     }
   }, [watchGlb]);
   useFrame((state) => {

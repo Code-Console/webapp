@@ -17,8 +17,9 @@ const UI = () => {
     url: "",
     visitCount: 0,
   });
-  const isAllModelLoaded = true;
-  // useSelector((state: IMainState) => state.clientState.isAllModelLoaded);
+  const isAllModelLoaded = useSelector(
+    (state: IMainState) => state.clientState.isAllModelLoaded
+  );
   React.useEffect(() => {
     visitedCount()
       .then((res) => {
