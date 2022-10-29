@@ -119,7 +119,7 @@ const Welcome = ({
       <div className="ethereum-container flex-clm">
         <div className="ethereum-title">
           <SiEthereum fontSize={24} color="#fff" />
-          {shortenAddress(currentAccount)}
+          {shortenAddress(currentAccount as string)}
         </div>
         <div className="flex-clm input-container">
           <Input
