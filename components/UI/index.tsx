@@ -13,8 +13,8 @@ import Blockchain from "./Blockchain";
 import Image from "next/image";
 const UI = () => {
   const [state, setState] = React.useState({
-    menu: undefined,
-    url: undefined,
+    menu: undefined as unknown as MenuItem | undefined,
+    url: "",
     visitCount: 0,
   });
   const isAllModelLoaded = true;
@@ -181,7 +181,7 @@ const UI = () => {
       {state.url && (
         <PopupPage
           onClose={() => {
-            setState({ ...state, url: undefined });
+            setState({ ...state, url: "" });
           }}
           url={state.url}
         />

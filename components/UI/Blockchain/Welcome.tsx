@@ -44,7 +44,7 @@ const Welcome = ({
 }: {
   isLoading: boolean;
   isConnecting: boolean;
-  currentAccount: string;
+  currentAccount: string | undefined;
   formData: CryptoData;
   connectWallet: () => void;
   handleChange: (e: any, name: string) => void;
