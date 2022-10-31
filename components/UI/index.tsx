@@ -1,89 +1,27 @@
 import React from "react";
-import { basePath, loadingGif, MenuItem } from "../Assets";
+import { basePath, MenuItem } from "../Assets";
 import About from "./About";
 import PopupContainer from "./PopupContainer";
 import PopupPage from "./PopupPage";
 import Loading from "./Loading";
-import { visitedCount } from "../Firebase/config";
 import { FaHome, FaInfo, FaFortAwesome } from "react-icons/fa";
+import { GiLevelThree } from "react-icons/gi";
 import { SiEthereum } from "react-icons/si";
 import Blockchain from "./Blockchain";
-import Image from "next/image";
 import { useIsAllModelLoadedState } from "../hooks";
+import Header from "./Header";
+import Link from "next/link";
 const UI = () => {
   const [state, setState] = React.useState({
     menu: undefined as unknown as MenuItem | undefined,
     url: "",
-    visitCount: 0,
   });
   const isAllModelLoaded = useIsAllModelLoadedState();
-  React.useEffect(() => {
-    visitedCount()
-      .then((res) => {
-        setState({ ...state, visitCount: res?.count });
-      })
-      .catch((e) => console.error(e));
-  }, []);
+
   return (
     <>
       <div className="ui-container">
-        <div className="identity">
-          <Image
-            src={loadingGif}
-            alt=""
-            draggable="false"
-            className="gif-animation"
-            width={100}
-            height={100}
-          />
-          <div className="title">
-            <div>
-              <h2 style={{ marginBottom: "10px" }}>YOGESH BANGAR</h2>
-            </div>
-
-            <span style={{ fontWeight: "800" }}>FULL STACK WEB DEVELOPER</span>
-          </div>
-          <div className="social">
-            <div className="social-icn">
-              <a
-                href="https://github.com/yogeshbangar"
-                target="_blank"
-                rel="noreferrer"
-                title="Github profile"
-              >
-                <img
-                  src="https://www.baladi.codes/github.png"
-                  alt="Github profile"
-                />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/yogesh-bangar-45632b18"
-                target="_blank"
-                rel="noreferrer"
-                title="Linkedin profile"
-              >
-                <img
-                  src="https://www.baladi.codes/linkedin.png"
-                  alt="Linkedin profile"
-                />
-              </a>
-              <a
-                href="https://www.instagram.com/yogesh.bangar25/"
-                target="_blank"
-                rel="noreferrer"
-                title="Instagram profile"
-              >
-                <img
-                  src="https://www.baladi.codes/instagram.png"
-                  alt="Instagram profile"
-                />
-              </a>
-            </div>
-            {state.visitCount ? (
-              <div style={{ textAlign: "center" }}>{state.visitCount}</div>
-            ) : null}
-          </div>
-        </div>
+        <Header />
         <div className="detail">
           <div className="side-bar"></div>
           <ul id="menu" className="menu-ui">
@@ -119,6 +57,14 @@ const UI = () => {
                 <FaFortAwesome />
                 <span className="menu-title">PROJECTS</span>
               </div>
+            </li>
+            <li className="">
+              <Link href="/games" style={{ width: "100%" }}>
+                <div id="projects-button" className="menu-item">
+                  <GiLevelThree />
+                  <span className="menu-title">GameList</span>
+                </div>
+              </Link>
             </li>
             <li className="">
               <div
@@ -205,7 +151,7 @@ const UI = () => {
         .footer {
           justify-content: center;
           animation-name: example;
-          animation-duration: .2s;
+          animation-duration: 0.2s;
         }
         @keyframes example {
           from {
@@ -223,33 +169,14 @@ const UI = () => {
           border-radius: 100px;
           margin: 0 5px;
         }
-        .social {
-          margin-left: auto;
-        }
-        .title {
-          margin-left: 10px;
-          text-shadow: 0 0 1.1em #fff, 0 0 1.2em #fff;
-          animation: title-anim;
-          animation-duration: 0.1s;
-        }
-        @keyframes title-anim {
-          from {
-            transform: translateX(-400px);
-          }
-          to {
-            transform: translateX(0px);
-          }
-        }
+
         .identity {
           display: flex;
           max-height: 100px;
           width: 100%;
           pointer-events: auto;
         }
-        .gif-animation {
-          width: auto;
-          max-height: 100px;
-        }
+
         .ui-container {
           position: fixed;
           inset: 0px;
@@ -348,28 +275,7 @@ const UI = () => {
           position: relative;
           cursor: pointer;
         }
-        .social-icn a {
-          cursor: pointer;
-          border-bottom: 1px solid rgb(165, 165, 165);
-          border-left: 1px solid rgb(165, 165, 165);
-          border-image: initial;
-          border-right: none;
-          border-top: none;
-          width: 20px;
-          height: 20px;
-          box-sizing: border-box;
-          position: relative;
-          filter: drop-shadow(rgb(255, 255, 255) 0px 0px 5px);
-          opacity: 0.6;
-          animation: 0.4s linear 2s 1 normal backwards running blink;
-          transition: opacity 0.2s ease 0s;
-        }
-        .social-icn a img {
-          width: 30px;
-          height: 100%;
-          object-fit: contain;
-          margin: 10px;
-        }
+
         @media (max-width: 576px) {
           .menu-title {
             display: none;
@@ -380,11 +286,14 @@ const UI = () => {
           .about-popup {
             padding-top: 80px !important;
           }
-          .social {
-            width: 50px;
-          }
           .ui-container {
-            padding: 20px;
+            padding: 0px;
+          }
+          .side-bar {
+            display: none;
+          }
+          .about-popup .content-container {
+            width: unset !important;
           }
         }
       `}</style>

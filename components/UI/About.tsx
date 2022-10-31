@@ -109,6 +109,7 @@ const About = ({ onClose, title }: { onClose: () => void; title: string }) => {
           overflow: hidden;
           display: flex;
           flex-direction: column;
+          padding: 0 5px;
         }
         .edvhnN {
           display: flex;
