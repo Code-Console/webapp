@@ -4,14 +4,16 @@ import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { basePath } from "../../Assets";
 import { Environment } from "./Environment";
 const Particle = () => {
+  const [environment, setEnvironment] = React.useState<Environment>();
   const preload = async () => {
     const FontLoader = (await import("three/examples/jsm/loaders/FontLoader"))
       .FontLoader;
     let manager = new THREE.LoadingManager();
-    let environment: Environment;
+
     manager.onLoad = () => {
-      console.log("manager", environment);
-      if (!environment) environment = new Environment(typo);
+      if (!environment) {
+        setEnvironment(new Environment(typo));
+      }
     };
 
     var typo: Font | null = null;
@@ -20,8 +22,13 @@ const Particle = () => {
       typo = font;
     });
   };
+  const cleanUp = () => {
+    environment?.cleanUp();
+    setEnvironment(undefined);
+  };
   useEffect(() => {
     preload();
+    return cleanUp();
   }, []);
   return <div id="magic" style={{ width: "100vw", height: "100vh" }}></div>;
 };

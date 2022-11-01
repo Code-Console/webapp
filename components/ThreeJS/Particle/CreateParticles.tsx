@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { Font } from "three/examples/jsm/loaders/FontLoader";
 const vertexShader = `
 attribute float size;
   attribute vec3 customColor;
@@ -19,14 +20,13 @@ const fragmentShader = `
     }
 `;
 export class CreateParticles {
-  scene: any;
-  font: any;
-  particleImg: any;
-  camera: any;
-  renderer: any;
-  raycaster: any;
-  mouse: any;
-  colorChange: any;
+  scene: THREE.Scene;
+  font: Font;
+  camera: THREE.Camera;
+  renderer: THREE.Renderer;
+  raycaster: THREE.Raycaster;
+  mouse: THREE.Vector2;
+  colorChange: THREE.Color;
   buttom: boolean;
   data: {
     text: string;
@@ -37,20 +37,23 @@ export class CreateParticles {
     area: number;
     ease: number;
   };
-  planeArea: any;
-  currenPosition: any;
-  particles: any;
-  geometryCopy: any;
-  constructor(
-    scene: any,
-    font: any,
-    particleImg: any,
-    camera: any,
-    renderer: any
-  ) {
+  planeArea: THREE.Mesh | undefined;
+  currenPosition: THREE.Vector3 | undefined;
+  particles: THREE.Points | undefined;
+  geometryCopy: THREE.BufferGeometry | undefined;
+  constructor({
+    scene,
+    font,
+    camera,
+    renderer,
+  }: {
+    scene: THREE.Scene;
+    font: Font;
+    camera: THREE.Camera;
+    renderer: THREE.Renderer;
+  }) {
     this.scene = scene;
     this.font = font;
-    this.particleImg = particleImg;
     this.camera = camera;
     this.renderer = renderer;
 
@@ -72,13 +75,16 @@ export class CreateParticles {
     };
 
     this.setup();
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
     this.bindEvents();
   }
 
   setup() {
     const geometry = new THREE.PlaneGeometry(
-      this.visibleWidthAtZDepth(100, this.camera),
-      this.visibleHeightAtZDepth(100, this.camera)
+      this.visibleWidthAtZDepth(100, this.camera as THREE.PerspectiveCamera),
+      this.visibleHeightAtZDepth(100, this.camera as THREE.PerspectiveCamera)
     );
     const material = new THREE.MeshBasicMaterial({
       color: 0x00ff00,
@@ -90,11 +96,15 @@ export class CreateParticles {
   }
 
   bindEvents() {
-    document.addEventListener("mousedown", this.onMouseDown.bind(this));
-    document.addEventListener("mousemove", this.onMouseMove.bind(this));
-    document.addEventListener("mouseup", this.onMouseUp.bind(this));
+    document.addEventListener("mousedown", this.onMouseDown);
+    document.addEventListener("mousemove", this.onMouseMove);
+    document.addEventListener("mouseup", this.onMouseUp);
   }
-
+  unbindEvents() {
+    document.removeEventListener("mousedown", this.onMouseDown);
+    document.removeEventListener("mousemove", this.onMouseMove);
+    document.removeEventListener("mouseup", this.onMouseUp);
+  }
   onMouseDown(event: MouseEvent) {
     this.mouse.x = (event?.clientX / window.innerWidth) * 2 - 1;
     this.mouse.y = -(event?.clientY / window.innerHeight) * 2 + 1;
@@ -107,7 +117,7 @@ export class CreateParticles {
       .clone()
       .add(dir.multiplyScalar(distance));
 
-    const pos = this.particles.geometry.attributes.position;
+    // const pos = this.particles.geometry.attributes.position;
     this.buttom = true;
     this.data.ease = 0.01;
   }
@@ -128,13 +138,15 @@ export class CreateParticles {
 
     this.raycaster.setFromCamera(this.mouse, this.camera);
 
-    const intersects = this.raycaster.intersectObject(this.planeArea);
+    const intersects = this.planeArea
+      ? this.raycaster.intersectObject(this.planeArea)
+      : [];
 
-    if (intersects.length > 0) {
+    if (intersects.length > 0 && this.particles && this.geometryCopy) {
       const pos = this.particles.geometry.attributes.position;
       const copy = this.geometryCopy.attributes.position;
       const coulors = this.particles.geometry.attributes.customColor;
-      const size = this.particles.geometry.attributes.size;
+      const size: any = this.particles.geometry.attributes.size;
 
       const mx = intersects[0].point.x;
       const my = intersects[0].point.y;
@@ -157,7 +169,6 @@ export class CreateParticles {
           this.colorChange.b
         );
         coulors.needsUpdate = true;
-
         size.array[i] = this.data.particleSize;
         size.needsUpdate = true;
 
@@ -275,7 +286,7 @@ export class CreateParticles {
 
     geometry.center();
 
-    let holeShapes = [];
+    let holeShapes: any[] = [];
 
     for (let q = 0; shapes && q < shapes.length; q++) {
       let shape = shapes[q];
@@ -289,7 +300,7 @@ export class CreateParticles {
     }
     shapes?.push.apply(shapes, holeShapes);
 
-    let colors: any[] = [];
+    let colors: number[] = [];
     let sizes: number[] = [];
 
     for (let x = 0; shapes && x < shapes.length; x++) {
@@ -348,7 +359,7 @@ export class CreateParticles {
     this.geometryCopy.copy(this.particles.geometry);
   };
 
-  visibleHeightAtZDepth(depth: number, camera: THREE.Camera) {
+  visibleHeightAtZDepth(depth: number, camera: THREE.PerspectiveCamera) {
     const cameraOffset = camera.position.z;
     if (depth < cameraOffset) depth -= cameraOffset;
     else depth += cameraOffset;
@@ -358,7 +369,7 @@ export class CreateParticles {
     return 2 * Math.tan(vFOV / 2) * Math.abs(depth);
   }
 
-  visibleWidthAtZDepth(depth: number, camera: THREE.Camera) {
+  visibleWidthAtZDepth(depth: number, camera: THREE.PerspectiveCamera) {
     const height = this.visibleHeightAtZDepth(depth, camera);
     return height * camera?.aspect;
   }
