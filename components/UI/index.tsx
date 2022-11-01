@@ -1,5 +1,5 @@
 import React from "react";
-import { basePath, MenuItem } from "../Assets";
+import { basePath } from "../Assets";
 import About from "./About";
 import PopupContainer from "./PopupContainer";
 import PopupPage from "./PopupPage";
@@ -11,6 +11,7 @@ import Blockchain from "./Blockchain";
 import { useIsAllModelLoadedState } from "../hooks";
 import Header from "./Header";
 import Link from "next/link";
+import { MenuItem } from "../../interfaces";
 const UI = () => {
   const [state, setState] = React.useState({
     menu: undefined as unknown as MenuItem | undefined,
