@@ -342,7 +342,7 @@ export class CreateParticles {
 
     const material = new THREE.ShaderMaterial({
       uniforms: {
-        color: { value: new THREE.Color(0xffffff) },
+        color: { value: new THREE.Color(0x00ffff) },
       },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,

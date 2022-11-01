@@ -30,7 +30,21 @@ const Particle = () => {
     preload();
     return cleanUp();
   }, []);
-  return <div id="magic" style={{ width: "100vw", height: "100vh" }}></div>;
+  return (
+    <>
+      <div id="magic" className="magic"></div>
+      <style>
+        {`
+          .magic{
+            position: fixed;
+            width: 100vw; height: 100vh;
+            top: 0;
+            z-index: -1;
+          }
+        `}
+      </style>
+    </>
+  );
 };
 
 export default Particle;
