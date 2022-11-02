@@ -9,7 +9,7 @@ const Games = () => {
       .then((res) => res.json())
       .then((json) => {
         const games = [];
-        for (var index in json) {
+        for (const index in json) {
           games.push(json[index]);
         }
         console.log(games);

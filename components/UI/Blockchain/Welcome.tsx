@@ -51,7 +51,7 @@ const Welcome = ({
   sendTransaction: () => void;
 }) => {
   const handleSubmit = (e: any) => {
-    const { addressTo, amount, keyword, message } = formData;
+    const { addressTo, amount } = formData;
     e.preventDefault();
     if (!addressTo?.trim() && !amount) {
       setState({ ...state, addressErr: true, amountErr: true });

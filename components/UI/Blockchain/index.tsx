@@ -24,7 +24,7 @@ const Blockchain = ({ onClose }: { onClose?: () => void }) => {
     const ethereum = (window as { [key: string]: any })["ethereum"];
     try {
       if (ethereum) {
-        const { addressTo, amount, keyword, message } = formData;
+        const { addressTo, amount } = formData;
 
         const parsedAmount = ethers.utils.parseEther(amount);
         setIsLoading(true);

@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import React from "react";
-import Games from "../UI/Games";
 import Users from "../UI/Users";
 import Particle from "./Particle";
 const ThreeJSAnimation = () => {

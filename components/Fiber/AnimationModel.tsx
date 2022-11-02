@@ -23,7 +23,7 @@ const AnimationModel = (props: any) => {
     }
   }, [watchGlb]);
   useFrame((state) => {
-    const refCurrent: THREE.Mesh = ref?.current!;
+    const refCurrent: any = ref?.current;
     const t = state.clock.getElapsedTime();
     const delta = clock.getDelta();
     if (refCurrent) {

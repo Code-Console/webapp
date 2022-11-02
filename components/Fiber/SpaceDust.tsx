@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-var-requires: "off" */
 import * as THREE from "three";
 import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
@@ -24,7 +25,7 @@ export function SpaceDust({ count }: { count: number }) {
 
   useFrame(() => {
     particles.forEach((particle, index) => {
-      let { factor, speed, x, y, z } = particle;
+      const { factor, speed, x, y, z } = particle;
       const t = (particle.time += speed);
       dummy.position.set(
         x + Math.cos((t / 10) * factor) + (Math.sin(t * 1) * factor) / 10,

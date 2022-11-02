@@ -1,4 +1,3 @@
-import * as THREE from "three";
 import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
@@ -17,7 +16,7 @@ const Model = (props: any) => {
     }
   }, [watchGlb]);
   useFrame((state) => {
-    const refCurrent: THREE.Mesh = ref?.current!;
+    const refCurrent: any = ref?.current;
     const t = state.clock.getElapsedTime();
     if (refCurrent) {
       refCurrent.rotation.x = 0.3 + Math.cos(t / 4) / 8;

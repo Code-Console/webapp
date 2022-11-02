@@ -1,4 +1,3 @@
-import React from "react";
 import * as Realm from "realm-web";
 const REALM_APP_ID = "hututuwebgl-oiytk";
 export const getAllUsers = async () => {

@@ -1,7 +1,6 @@
 import React from "react";
 import { IUser } from "../../../interfaces";
 import { logoImg } from "../../Assets";
-import { getAllUsers } from "../../MongoDB";
 import { getUserList } from "../../services/geolocation";
 
 const Users = () => {

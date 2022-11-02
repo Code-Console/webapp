@@ -1,4 +1,3 @@
-import axios from "axios";
 import { initializeApp } from "firebase/app";
 import {
   getDatabase,
@@ -7,7 +6,6 @@ import {
   child,
   set,
   Database,
-  onValue,
 } from "firebase/database";
 import { GeoLocation } from "../services/geolocation";
 const firebaseConfig = {

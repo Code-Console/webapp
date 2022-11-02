@@ -8,7 +8,7 @@ const Particle = () => {
   const preload = async () => {
     const FontLoader = (await import("three/examples/jsm/loaders/FontLoader"))
       .FontLoader;
-    let manager = new THREE.LoadingManager();
+      const manager = new THREE.LoadingManager();
 
     manager.onLoad = () => {
       if (!environment) {
@@ -16,7 +16,7 @@ const Particle = () => {
       }
     };
 
-    var typo: Font | null = null;
+    let typo: Font | null = null;
     const loader = new FontLoader(manager);
     loader.load(`${basePath}3D/Lobster_Regular.json`, (font) => {
       typo = font;

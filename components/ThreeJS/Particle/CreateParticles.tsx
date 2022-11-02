@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-var-requires: "off" */
 import * as THREE from "three";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 const vertexShader = `
@@ -150,9 +151,9 @@ export class CreateParticles {
 
       const mx = intersects[0].point.x;
       const my = intersects[0].point.y;
-      const mz = intersects[0].point.z;
+      // const mz = intersects[0].point.z;
 
-      for (var i = 0, l = pos.count; i < l; i++) {
+      for (let i = 0, l = pos.count; i < l; i++) {
         const initX = copy.getX(i);
         const initY = copy.getY(i);
         const initZ = copy.getZ(i);
@@ -174,10 +175,9 @@ export class CreateParticles {
 
         let dx = mx - px;
         let dy = my - py;
-        const dz = mz - pz;
 
         const mouseDistance = this.distance(mx, my, px, py);
-        let d = (dx = mx - px) * dx + (dy = my - py) * dy;
+        const d = (dx = mx - px) * dx + (dy = my - py) * dy;
         const f = -this.data.area / d;
 
         if (this.buttom) {
@@ -271,10 +271,13 @@ export class CreateParticles {
   }
 
   createText = () => {
-    let thePoints: THREE.Vector3[] = [];
+    const thePoints: THREE.Vector3[] = [];
 
-    let shapes = this.font?.generateShapes(this.data.text, this.data.textSize);
-    let geometry = new THREE.ShapeGeometry(shapes);
+    const shapes = this.font?.generateShapes(
+      this.data.text,
+      this.data.textSize
+    );
+    const geometry = new THREE.ShapeGeometry(shapes);
     geometry.computeBoundingBox();
 
     const xMid = geometry?.boundingBox?.max
@@ -286,36 +289,34 @@ export class CreateParticles {
 
     geometry.center();
 
-    let holeShapes: any[] = [];
+    const holeShapes: any[] = [];
 
     for (let q = 0; shapes && q < shapes.length; q++) {
-      let shape = shapes[q];
+      const shape = shapes[q];
 
       if (shape.holes && shape.holes.length > 0) {
         for (let j = 0; j < shape.holes.length; j++) {
-          let hole = shape.holes[j];
+          const hole = shape.holes[j];
           holeShapes.push(hole);
         }
       }
     }
+    /*eslint prefer-spread: "off"*/
     shapes?.push.apply(shapes, holeShapes);
 
-    let colors: number[] = [];
-    let sizes: number[] = [];
+    const colors: number[] = [];
+    const sizes: number[] = [];
 
     for (let x = 0; shapes && x < shapes.length; x++) {
-      let shape = shapes[x];
+      const shape = shapes[x];
 
       const amountPoints =
         shape.type == "Path" ? this.data.amount / 2 : this.data.amount;
 
-      let points = shape.getSpacedPoints(amountPoints);
+      const points = shape.getSpacedPoints(amountPoints);
 
       points.forEach(
-        (
-          element: { x: number | undefined; y: number | undefined },
-          i: number
-        ) => {
+        (element: { x: number | undefined; y: number | undefined }) => {
           const a = new THREE.Vector3(element.x, element.y, 0);
           thePoints.push(a);
           colors.push(
@@ -328,7 +329,7 @@ export class CreateParticles {
       );
     }
 
-    let geoParticles = new THREE.BufferGeometry().setFromPoints(thePoints);
+    const geoParticles = new THREE.BufferGeometry().setFromPoints(thePoints);
     geoParticles.translate(xMid, yMid, 0);
 
     geoParticles.setAttribute(

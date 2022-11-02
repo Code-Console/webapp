@@ -1,7 +1,7 @@
 import * as THREE from "three";
 export const setWireFrameMaterial = (model: any) => {
   if (!model) return;
-  var material = new THREE.MeshNormalMaterial({
+  const material = new THREE.MeshNormalMaterial({
     wireframe: true,
     opacity: 0.02,
     transparent: true,
