@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 import Games from "../UI/Games";
+import Users from "../UI/Users";
 import Particle from "./Particle";
 const ThreeJSAnimation = () => {
   const router = useRouter();
@@ -8,9 +9,7 @@ const ThreeJSAnimation = () => {
   return (
     <>
       {!anim && (
-        <div className="games prevent-select">
-          <Games />
-        </div>
+        <Users />
       )}
       <Particle />
     </>

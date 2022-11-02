@@ -15,3 +15,8 @@ export enum AnimType {
   BIRD = "BIRD",
   WATCH = "WATCH",
 }
+export interface IUser {
+  _id: string;
+  name?: string;
+  email?: string;
+}
