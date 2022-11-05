@@ -14,6 +14,8 @@ export enum MenuItem {
 export enum AnimType {
   BIRD = "BIRD",
   WATCH = "WATCH",
+  TOY_SHADER="ToyShader",
+  DISPLACEMENT_SHADER="DisplacementShader",
 }
 export interface IUser {
   _id: string;

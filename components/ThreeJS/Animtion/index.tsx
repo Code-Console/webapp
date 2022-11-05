@@ -4,7 +4,17 @@ import { Environment } from "@react-three/drei";
 import { AnimType } from "../../../interfaces";
 import { environmentImagePath } from "../../Assets";
 import DisplacementShader from "./DisplacementShader";
+import ToyShader from "./ToyShader";
 const FiberCanvas = ({ animationType }: { animationType?: AnimType }) => {
+  const getAnim = () => {
+    switch (animationType) {
+      case AnimType.DISPLACEMENT_SHADER:
+        return <DisplacementShader />;
+      case AnimType.TOY_SHADER:
+      default:
+        return <ToyShader />;
+    }
+  };
   return (
     <>
       <React.Suspense fallback={null}>
@@ -17,7 +27,7 @@ const FiberCanvas = ({ animationType }: { animationType?: AnimType }) => {
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
           <pointLight position={[-10, -10, -10]} />
           <Environment files={environmentImagePath} />
-          <DisplacementShader />
+          {getAnim()}
         </Canvas>
       </React.Suspense>
     </>
