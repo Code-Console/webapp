@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { AnimType } from "../../../interfaces";
 import { environmentImagePath } from "../../Assets";
-import BasicShader from "./BasicShader";
+import DisplacementShader from "./DisplacementShader";
 const FiberCanvas = ({ animationType }: { animationType?: AnimType }) => {
   return (
     <>
@@ -17,7 +17,7 @@ const FiberCanvas = ({ animationType }: { animationType?: AnimType }) => {
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
           <pointLight position={[-10, -10, -10]} />
           <Environment files={environmentImagePath} />
-          <BasicShader />
+          <DisplacementShader />
         </Canvas>
       </React.Suspense>
     </>
