@@ -20,3 +20,8 @@ export interface IUser {
   name?: string;
   email?: string;
 }
+
+export interface IShader {
+  vertex: string;
+  fragment: string;
+}

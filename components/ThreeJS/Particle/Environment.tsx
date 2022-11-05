@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
+import { cleanUpThree } from "../cleanUpThree";
 import { CreateParticles } from "./CreateParticles";
 
 export class Environment {
@@ -81,51 +82,13 @@ export class Environment {
       this.container.clientHeight
     );
   }
-  cleanTexture = (value: THREE.Texture | undefined) => {
-    if (value && typeof value === "object" && "minFilter" in value) {
-      value.dispose();
-    }
-    value = undefined;
-    return undefined;
-  };
-  cleanMaterial(material: any) {
-    for (const key of Object.keys(material)) {
-      const value = material[key];
-      if (value && typeof value === "object" && "minFilter" in value) {
-        value.dispose();
-      }
-    }
-    material.dispose();
-    material = undefined;
-  }
-
   cleanUp = () => {
-    const scene: any = this.scene;
-    if (scene != undefined) {
-      scene.traverse((object: any) => {
-        if (!object["isMesh"]) return;
-        object["geometry"].dispose();
-        if (object["material"].isMaterial) {
-          this.cleanMaterial(object["material"]);
-        } else {
-          for (const material of object["material"])
-            this.cleanMaterial(material);
-        }
-        object["geometry"] = undefined;
-        object = undefined;
-      });
-      scene.children.forEach((model: any) => {
-        scene.remove(model);
-      });
-    }
-    if (this.renderer != undefined) {
-      this.renderer.dispose();
-      this.renderer && this.renderer.renderLists.dispose();
-    }
-    if (this.renderer) this.container?.removeChild(this.renderer.domElement);
+    cleanUpThree({
+      scene: this.scene,
+      renderer: this.renderer,
+      container: this.container,
+    });
     this.createParticles?.unbindEvents();
-    this.scene = undefined;
-    this.renderer = undefined;
     this.camera = undefined;
   };
 }

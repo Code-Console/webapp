@@ -8,7 +8,7 @@ const Particle = () => {
   const preload = async () => {
     const FontLoader = (await import("three/examples/jsm/loaders/FontLoader"))
       .FontLoader;
-      const manager = new THREE.LoadingManager();
+    const manager = new THREE.LoadingManager();
 
     manager.onLoad = () => {
       if (!environment) {
@@ -24,10 +24,10 @@ const Particle = () => {
   };
   const cleanUp = () => {
     environment?.cleanUp();
-    setEnvironment(undefined);
+    // setEnvironment(undefined);
   };
   useEffect(() => {
-    preload();
+    if (!environment) preload();
     return cleanUp();
   }, []);
   return (
