@@ -1,6 +1,6 @@
 import { AnyAction } from "redux";
 import { ClientState } from "../../interfaces";
-import { DID_LOAD_FIBER } from "../action";
+import { DID_LOAD_FIBER, SET_ANIM_TYPE } from "../action";
 export const defaultClientState: ClientState = {
   isAllModelLoaded: false,
 };
@@ -15,7 +15,12 @@ const clientReducer = (
         isAllModelLoaded: action.payload,
       };
     }
-
+    case SET_ANIM_TYPE: {
+      return {
+        ...state,
+        animType: action.payload,
+      };
+    }
     default:
       return state;
   }

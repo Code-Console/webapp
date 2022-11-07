@@ -1,41 +1,57 @@
 import React from "react";
 import { FaBars, FaNapster, FaTimes } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { AnimType } from "../../../interfaces";
+import { actionAnimType } from "../../../redux/action";
 import { mobileBreakPoint } from "../../Assets";
+import { useAnimType } from "../../hooks";
 
 const Menu = () => {
+  const dispatch = useDispatch();
   const [show, setShow] = React.useState(false);
+  const animationType = useAnimType();
+  const menuItems = [
+    {
+      title: "Space dust",
+      type: AnimType.SPACE_DUST,
+    },
+    {
+      title: "Text Dust Anim",
+      type: AnimType.TEXT_DUST_ANIM,
+    },
+    {
+      title: "Displacement shader",
+      type: AnimType.DISPLACEMENT_SHADER,
+    },
+    {
+      title: "Toy shader",
+      type: AnimType.TOY_SHADER,
+    },
+  ];
+  const onClickMenu = (animType: AnimType) => {
+    dispatch(actionAnimType(animType));
+  };
   return (
     <>
       <button className="menu-nav btn" onClick={() => setShow(!show)}>
         {show ? <FaTimes /> : <FaBars />}
       </button>
       <div className={`nav-container ${show ? "show" : ""}`}>
-        <a target="_blank" className="nav-btn btn btn-visit-loft">
-          <div>
-            <FaNapster />
-            <span className="nav-text">Text Dust Anim </span>
+        {menuItems.map((item) => (
+          <div
+            onClick={() => onClickMenu(item.type)}
+            className="nav-btn btn btn-visit-loft"
+            key={item.type}
+          >
+            <div
+              className={`${item.type === animationType ? "menu-select" : ""}`}
+            >
+              <FaNapster />
+              <span className="nav-text">{item.title} </span>
+            </div>
           </div>
-        </a>
-        <a target="_blank" className="nav-btn btn btn-visit-loft">
-          <div>
-            <FaNapster />
-            <span className="nav-text">Particle</span>
-          </div>
-        </a>
-        <a target="_blank" className="nav-btn btn btn-visit-loft">
-          <div>
-            <FaNapster />
-            <span className="nav-text">Shader</span>
-          </div>
-        </a>
-        <a target="_blank" className="nav-btn btn btn-visit-loft">
-          <div>
-            <FaNapster />
-            <span className="nav-text">Glow</span>
-          </div>
-        </a>
+        ))}
       </div>
-
       <style jsx>{`
         .menu-nav {
           font-size: 22px;
@@ -44,6 +60,10 @@ const Menu = () => {
           margin: 5px 5px 0 0;
           position: absolute;
           padding-top: 6px;
+        }
+        .nav-btn .menu-select {
+          color: GREEN;
+          font-weight: 900;
         }
         :global(.touch) .menu-nav {
           font-size: 40px;

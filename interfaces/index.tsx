@@ -3,6 +3,7 @@ export interface IMainState {
 }
 export interface ClientState {
   isAllModelLoaded: boolean;
+  animType?: AnimType;
 }
 export enum MenuItem {
   ABOUT = "About",
@@ -14,8 +15,10 @@ export enum MenuItem {
 export enum AnimType {
   BIRD = "BIRD",
   WATCH = "WATCH",
-  TOY_SHADER="ToyShader",
-  DISPLACEMENT_SHADER="DisplacementShader",
+  TOY_SHADER = "ToyShader",
+  DISPLACEMENT_SHADER = "DisplacementShader",
+  SPACE_DUST = "SpaceDust",
+  TEXT_DUST_ANIM = "Text Dust Anim",
 }
 export interface IUser {
   _id: string;

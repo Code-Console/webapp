@@ -5,11 +5,16 @@ import { AnimType } from "../../../interfaces";
 import { environmentImagePath } from "../../Assets";
 import DisplacementShader from "./DisplacementShader";
 import ToyShader from "./ToyShader";
-const FiberCanvas = ({ animationType }: { animationType?: AnimType }) => {
+import { SpaceDust } from "../../Fiber/SpaceDust";
+import { useAnimType } from "../../hooks";
+const FiberCanvas = () => {
+  const animationType = useAnimType();
   const getAnim = () => {
     switch (animationType) {
       case AnimType.DISPLACEMENT_SHADER:
         return <DisplacementShader />;
+      case AnimType.SPACE_DUST:
+        return <SpaceDust count={1000} />;
       case AnimType.TOY_SHADER:
       default:
         return <ToyShader />;
