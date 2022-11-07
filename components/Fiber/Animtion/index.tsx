@@ -7,6 +7,7 @@ import DisplacementShader from "./DisplacementShader";
 import ToyShader from "./ToyShader";
 import { SpaceDust } from "../SpaceDust";
 import { useAnimType } from "../../hooks";
+import TextParticle from "./TextParticle";
 const FiberCanvas = () => {
   const animationType = useAnimType();
   const getAnim = () => {
@@ -15,6 +16,8 @@ const FiberCanvas = () => {
         return <DisplacementShader />;
       case AnimType.SPACE_DUST:
         return <SpaceDust count={1000} />;
+      case AnimType.TEXT_DUST_ANIM:
+        return <TextParticle />;
       case AnimType.TOY_SHADER:
       default:
         return <ToyShader />;

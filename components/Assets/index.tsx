@@ -13,4 +13,5 @@ export const environmentImagePath =
 
 export const logoImg = `${basePath}images/apple-touch-icon-72x72.png`;
 export const ogImg = `${basePath}3D/img.jpg`;
+export const distinctiveImg = `${basePath}3D/distinctive.jpg`;
 export const mobileBreakPoint = 820;

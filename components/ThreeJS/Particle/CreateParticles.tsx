@@ -21,7 +21,7 @@ const fragmentShader = `
     }
 `;
 export class CreateParticles {
-  scene: THREE.Scene;
+  scene: THREE.Scene | undefined;
   font: Font;
   camera: THREE.Camera;
   renderer: THREE.Renderer;
@@ -48,7 +48,7 @@ export class CreateParticles {
     camera,
     renderer,
   }: {
-    scene: THREE.Scene;
+    scene?: THREE.Scene;
     font: Font;
     camera: THREE.Camera;
     renderer: THREE.Renderer;
@@ -354,8 +354,7 @@ export class CreateParticles {
     });
     // const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
     this.particles = new THREE.Points(geoParticles, material);
-    this.scene.add(this.particles);
-
+    if (this.scene) this.scene.add(this.particles);
     this.geometryCopy = new THREE.BufferGeometry();
     this.geometryCopy.copy(this.particles.geometry);
   };

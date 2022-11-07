@@ -24,11 +24,11 @@ const Particle = () => {
   };
   const cleanUp = () => {
     environment?.cleanUp();
-    // setEnvironment(undefined);
+    setEnvironment(undefined);
   };
   useEffect(() => {
     if (!environment) preload();
-    return cleanUp();
+    return () => cleanUp();
   }, []);
   return (
     <>

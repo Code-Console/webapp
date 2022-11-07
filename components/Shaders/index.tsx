@@ -55,7 +55,7 @@ export const displacementPositionShader: IShader = {
 
   void main() {
 
-    vec3 light = vec3( 0.5, 0.2, 1.0 );
+    vec3 light = vec3( 0.5, 1.0, 1.0 );
     light = normalize( light );
 
     float dProd = dot( vNormal, light ) * 0.5 + 0.5;

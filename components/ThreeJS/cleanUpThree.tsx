@@ -15,7 +15,22 @@ export const cleanMaterial = (material: any) => {
   material.dispose();
   material = undefined;
 };
-
+export const cleanMesh = (mesh: any, scene: any) => {
+  if (mesh != undefined) {
+    mesh.traverse((object: any) => {
+      if (!object["isMesh"]) return;
+      object["geometry"].dispose();
+      if (object["material"].isMaterial) {
+        cleanMaterial(object["material"]);
+      } else {
+        for (const material of object["material"]) cleanMaterial(material);
+      }
+      object["geometry"] = undefined;
+      object = undefined;
+    });
+    scene.remove(mesh);
+  }
+};
 export const cleanUpThree = ({
   scene,
   renderer,

@@ -1,14 +1,14 @@
 import { useFrame } from "@react-three/fiber";
 import React from "react";
 import * as THREE from "three";
-import { ogImg } from "../../Assets";
+import { distinctiveImg } from "../../Assets";
 import { displacementPositionShader } from "../../Shaders";
 const DisplacementShader = (props: any) => {
   const ref: any = React.useRef();
   const uniforms = {
-    amplitude: { value: 1.0 },
+    amplitude: { value: 5.0 },
     color: { value: new THREE.Color(0xff2200) },
-    colorTexture: { value: new THREE.TextureLoader().load(ogImg) },
+    colorTexture: { value: new THREE.TextureLoader().load(distinctiveImg) },
   };
   const mesh = new THREE.Mesh(
     new THREE.SphereGeometry(16, 32, 16),
@@ -31,7 +31,7 @@ const DisplacementShader = (props: any) => {
 
   useFrame(() => {
     const time = Date.now() * 0.01;
-    ref.current.rotation.set(0, 0.01 * time, 0);
+    ref.current.rotation.set(0, 0.01 * time, 0.01 * time);
     ref.current.position.set(0, 0, -50);
     uniforms.amplitude.value = 0.5 * Math.sin(ref.current.rotation.y * 0.125);
     uniforms.color.value.offsetHSL(0.0005, 0, 0);

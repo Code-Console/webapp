@@ -7,7 +7,6 @@ const Users = () => {
   const [users, setUsers] = React.useState<IUser[]>();
   const getData = async () => {
     const _users = await getUserList();
-    console.log(_users);
     setUsers(_users);
   };
   React.useEffect(() => {
@@ -18,18 +17,15 @@ const Users = () => {
       <div className="games prevent-select">
         {users &&
           users.map((user: IUser) => (
-            <>
-              <div className="flex-row">
-                <div className="user-image">
-                  <img className="member-img rounded-circle" src={logoImg} />
-                </div>
-                <div className="user-name">
-                  <label>{user.name}</label>
-                  <label className="email-text">{user.email}</label>
-                </div>
-                
+            <div className="flex-row" key={user._id}>
+              <div className="user-image">
+                <img className="member-img rounded-circle" src={logoImg} />
               </div>
-            </>
+              <div className="user-name">
+                <label>{user.name}</label>
+                <label className="email-text">{user.email}</label>
+              </div>
+            </div>
           ))}
       </div>
       <style>{`
