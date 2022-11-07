@@ -9,6 +9,7 @@ export interface GeoLocation {
   latitude?: number;
   longitude?: number;
   ip?: string;
+  data?: string;
 }
 
 export const getGeolocation = async (ip: string): Promise<GeoLocation> => {
@@ -24,6 +25,7 @@ export const getGeolocation = async (ip: string): Promise<GeoLocation> => {
       region_name: result.data?.region_name || "undefined",
       city: result.data?.city || "undefined",
       ip: ip,
+      data: new Date().toLocaleString("en-GB", { timeZone: "IST" }),
     };
   } catch (error) {
     console.error(`Failed to get geolocation data for ip with error`);
