@@ -30,6 +30,7 @@ const Menu = () => {
   ];
   const onClickMenu = (animType: AnimType) => {
     dispatch(actionAnimType(animType));
+    setTimeout(() => setShow(false), 300);
   };
   return (
     <>

@@ -1,6 +1,6 @@
 import React from "react";
 import Styles from "../components/Styles";
-import Animation from "../components/ThreeJS/Animtion";
+import Animation from "../components/Fiber/Animtion";
 import HTMLHeader from "../components/UI/HTMLHeader";
 import Menu from "../components/UI/Menu";
 

@@ -5,7 +5,7 @@ import { AnimType } from "../../../interfaces";
 import { environmentImagePath } from "../../Assets";
 import DisplacementShader from "./DisplacementShader";
 import ToyShader from "./ToyShader";
-import { SpaceDust } from "../../Fiber/SpaceDust";
+import { SpaceDust } from "../SpaceDust";
 import { useAnimType } from "../../hooks";
 const FiberCanvas = () => {
   const animationType = useAnimType();
