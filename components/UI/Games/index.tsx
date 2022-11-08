@@ -1,4 +1,6 @@
+import Link from "next/link";
 import React from "react";
+import { FaHome } from "react-icons/fa";
 import { basePath } from "../../Assets";
 import Header from "../Header";
 
@@ -20,8 +22,16 @@ const Games = () => {
   return (
     <>
       <Header />
-      <h1 style={{ textAlign: "center" }}>Game List</h1>
+
       <div className="container h-100">
+        <Link href="/">
+          <FaHome
+            size={24}
+            style={{ position: "absolute", marginTop: "5px" }}
+          />
+        </Link>
+
+        <h1 style={{ textAlign: "center" }}>Game List</h1>
         {json && (
           <div className="game-list">
             {json?.map((game, i) => (

@@ -8,6 +8,7 @@ import ToyShader from "./ToyShader";
 import { SpaceDust } from "../SpaceDust";
 import { useAnimType } from "../../hooks";
 import TextParticle from "./TextParticle";
+import RandomShader from "./RandomShader";
 const FiberCanvas = () => {
   const animationType = useAnimType();
   const getAnim = () => {
@@ -19,8 +20,9 @@ const FiberCanvas = () => {
       case AnimType.TEXT_DUST_ANIM:
         return <TextParticle />;
       case AnimType.TOY_SHADER:
-      default:
         return <ToyShader />;
+      default:
+        return <RandomShader />;
     }
   };
   return (

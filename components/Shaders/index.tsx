@@ -103,3 +103,66 @@ export const troyShader: IShader = {
     }
   `,
 };
+export const randomShader: IShader = {
+  vertex: `
+  varying vec3 vNormal;
+  void main() {
+      vNormal = normal;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+    }`,
+  fragment: `
+    #ifdef GL_ES
+      precision mediump float;
+    #endif
+    uniform vec2 u_resolution;
+    uniform float u_time;
+    #define PI 3.14159265358979323846
+    varying vec3 vNormal;
+    vec2 rotate2D(vec2 _st, float _angle){
+        _st -= 0.5;
+        _st =  mat2(cos(_angle),-sin(_angle),
+                    sin(_angle),cos(_angle)) * _st;
+        _st += 0.5;
+        return _st;
+    }
+
+    vec2 tile(vec2 _st, float _zoom){
+        _st *= _zoom;
+        return fract(_st);
+    }
+
+    float box(vec2 _st, vec2 _size, float _smoothEdges){
+        _size = vec2(0.5)-_size*0.5;
+        vec2 aa = vec2(_smoothEdges*0.5);
+        vec2 uv = smoothstep(_size,_size+aa,_st);
+        uv *= smoothstep(_size,_size+aa,vec2(1.0)-_st);
+        return uv.x*uv.y;
+    }
+    float circle(in vec2 _st, in float _radius){
+      vec2 l = _st-vec2(0.5);
+      return 1.-smoothstep(_radius-(_radius*0.01),
+                           _radius+(_radius*0.01),
+                           dot(l,l)*4.0);
+  }
+    void main() {
+      vec2 st = gl_FragCoord.xy/u_resolution.xy;
+      vec2 st2 = gl_FragCoord.xy/u_resolution.xy;
+      vec3 color = vec3(0.,0.,0.5);
+      vec3 light = vec3( 0.5, 0.5, 0.5 );
+      light = normalize( light );
+      // Divide the space in 4
+      st = tile(st,4.);
+
+      // Use a matrix to rotate the space 45 degrees
+      st = rotate2D(st,PI*0.25);
+
+      // Draw a square
+      float time = abs(sin(u_time));
+      color = vec3(box(st,vec2(0.7),time));
+      st2 *= 3.0;      // Scale up the space by 3
+      st2 = fract(st2); // Wrap around 1.
+      float dProd = dot( vNormal, light ) * 0.5 + 0.5;
+      vec3 stmul = vec3(st2,time) * dProd;
+      gl_FragColor = vec4(stmul,1.0);
+    }`,
+};
