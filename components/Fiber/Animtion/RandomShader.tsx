@@ -1,31 +1,63 @@
 import { useFrame } from "@react-three/fiber";
 import React from "react";
 import * as THREE from "three";
-import { randomShader } from "../../Shaders";
+import { birdImg, distinctiveImg } from "../../Assets";
+import { lineShader, randomShader } from "../../Shaders";
 const RandomShader = (props: any) => {
   const ref: any = React.useRef();
+  const texture = new THREE.TextureLoader().load(distinctiveImg);
+  const texture1 = new THREE.TextureLoader().load(birdImg);
+  texture.minFilter = THREE.NearestFilter;
+  texture.magFilter = THREE.NearestFilter;
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
   const uniforms = {
-    u_resolution: { value: new THREE.Vector3(128, 128, 1) },
-    u_time: { value: 1.0 },
+    iResolution: { value: new THREE.Vector3(1024, 1024, 1024) },
+    iTime: { value: 1.0 },
+    iChannel0: { value: texture1 },
+    iChannel1: { value: texture1 },
+    iChannel2: { value: texture1 },
+    iMouse: { value: new THREE.Vector4() },
+    uPerspective: { value: 0.1 },
+    uViewport: { value: new THREE.Vector4(1, 1, 128, 128) },
+    uMaterialColor: { value: new THREE.Vector4(0.1, 1, 1, 1) },
   };
   const mesh = new THREE.Mesh(
-    new THREE.BoxGeometry(16, 16, 16),
+    new THREE.PlaneGeometry(512, 512),
     new THREE.ShaderMaterial({
       uniforms: uniforms,
-      vertexShader: randomShader.vertex,
-      fragmentShader: randomShader.fragment,
+      vertexShader: lineShader.vertex,
+      fragmentShader: lineShader.fragment,
     })
   );
-
+  const noise = new Float32Array(4);
+  for (let i = 0; i < 4; i++) {
+    noise[i] = Math.random() * 5;
+  }
+  mesh.geometry.setAttribute("aPosition", new THREE.BufferAttribute(noise, 1));
+  mesh.geometry.setAttribute("aDirection", new THREE.BufferAttribute(noise, 1));
+  const eventMove = (e: any) => {
+    // console.log(e.clientX, uniforms.iMouse.value);
+    uniforms.iMouse.value.set(e.clientX*.01, e.clientY*.01, 0, 0);
+  };
+  React.useEffect(() => {
+    document.addEventListener("mousemove", eventMove);
+    console.log(THREE.REVISION ,'~~~~~~~~~~');
+  }, []);
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
-    ref.current.position.set(0, 0, -50);
-    ref.current.rotation.set(time, 0, -50);
-    uniforms.u_time.value +=.01;
+    ref.current.position.set(0, 0, -20);
+    // ref.current.rotation.set(time, 0, -50);
+    uniforms.iTime.value += 0.01;
   });
   return (
     <group ref={ref} {...props} dispose={null}>
       <primitive object={mesh} dispose={null} />
+      <mesh
+        geometry={new THREE.BoxGeometry(16, 16, 16)}
+        material={new THREE.MeshNormalMaterial()}
+        position={[50, 0, 0]}
+      />
     </group>
   );
 };

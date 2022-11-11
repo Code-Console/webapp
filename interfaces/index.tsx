@@ -19,6 +19,7 @@ export enum AnimType {
   DISPLACEMENT_SHADER = "DisplacementShader",
   SPACE_DUST = "SpaceDust",
   TEXT_DUST_ANIM = "Text Dust Anim",
+  MAKERS_FUND = "Makers Fund",
 }
 export interface IUser {
   _id: string;

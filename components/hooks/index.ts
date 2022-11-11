@@ -11,7 +11,7 @@ export const useIsAllModelLoadedState = () => {
 export const useAnimType = () => {
   const animType = useSelector(
     (state: IMainState) =>
-      state.clientState.animType || AnimType.DISPLACEMENT_SHADER
+      state.clientState.animType// || AnimType.DISPLACEMENT_SHADER
   );
   return animType;
 };
