@@ -27,6 +27,10 @@ const Menu = () => {
       title: "Toy shader",
       type: AnimType.TOY_SHADER,
     },
+    {
+      title: "Makers fund",
+      type: AnimType.MAKERS_FUND,
+    },
   ];
   const onClickMenu = (animType: AnimType) => {
     dispatch(actionAnimType(animType));
