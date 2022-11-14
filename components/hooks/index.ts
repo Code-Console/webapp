@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { AnimType, IMainState } from "../../interfaces";
+import { IMainState } from "../../interfaces";
 
 export const useIsAllModelLoadedState = () => {
   const isAllModelLoaded = useSelector(

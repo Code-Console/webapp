@@ -10,6 +10,45 @@ const MakersFund = (props: any) => {
   const mesh = createCube();
   mesh.position.set(2, 0, 0);
   const position = mesh.position;
+  const setPositionValue = ({
+    startX,
+    endX,
+    trigger,
+    start,
+    end,
+  }: {
+    startX: number;
+    endX: number;
+    trigger: string;
+    start: string;
+    end: string;
+  }) => {
+    gsap.fromTo(
+      position,
+      {
+        scrollTrigger: {
+          trigger: trigger,
+          start: start,
+          end: end,
+          markers: true,
+          scrub: true,
+          immediateRender: false,
+        },
+        x: startX,
+      },
+      {
+        scrollTrigger: {
+          trigger: trigger,
+          start: start,
+          end: end,
+          markers: true,
+          scrub: true,
+          immediateRender: false,
+        },
+        x: endX,
+      }
+    );
+  };
   React.useEffect(() => {
     gsap.to(".section-first", {
       scrollTrigger: {
@@ -23,66 +62,38 @@ const MakersFund = (props: any) => {
 
       opacity: 0,
     });
-    gsap.fromTo(
-      position,
-      {
-        scrollTrigger: {
-          trigger: ".section-third",
-          start: "top bottom",
-          end: "top top",
-          markers: true,
-          scrub: true,
-          immediateRender: false,
-        },
-        x: -2,
-      },
-      {
-        scrollTrigger: {
-          trigger: ".section-third",
-          start: "top bottom",
-          end: "top top",
-          markers: true,
-          scrub: true,
-          immediateRender: false,
-        },
-        x: 2,
-      }
-    );
-    gsap.fromTo(
-      position,
-      {
-        scrollTrigger: {
-          trigger: ".section-second",
-          start: "top bottom",
-          end: "top top",
-          markers: true,
-          scrub: true,
-          immediateRender: false,
-        },
-        x: 2,
-      },
-      {
-        scrollTrigger: {
-          trigger: ".section-second",
-          start: "top bottom",
-          end: "top top",
-          markers: true,
-          scrub: true,
-          immediateRender: false,
-        },
-        x: -2,
-        onUpdate: () => {
-          console.log("~~~~~~~~~~~", position.x);
-        },
-        onComplete: () => {
-          console.log("~~~~onComplete~~~~~~~", position.x);
-        },
-      }
-    );
+    setPositionValue({
+      startX: -2,
+      endX: 2,
+      trigger: ".section-third",
+      start: "top bottom",
+      end: "top top",
+    });
+    setPositionValue({
+      startX: 2,
+      endX: -2,
+      trigger: ".section-fourth",
+      start: "top 10%",
+      end: "top top",
+    });
+    setPositionValue({
+      startX: -2,
+      endX: 2,
+      trigger: ".section-fifth",
+      start: "top 20%",
+      end: "top top",
+    });
+    setPositionValue({
+      startX: 2,
+      endX: -2,
+      trigger: ".section-second",
+      start: "top bottom",
+      end: "top center",
+    });
     
   });
-  useFrame((state) => {
-    const time = state.clock.getElapsedTime();
+  useFrame(() => {
+    // const time = state.clock.getElapsedTime();
   });
   return (
     <group ref={ref} {...props} dispose={null}>

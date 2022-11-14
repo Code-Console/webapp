@@ -2,7 +2,7 @@ import { useFrame } from "@react-three/fiber";
 import React from "react";
 import * as THREE from "three";
 import { birdImg, distinctiveImg } from "../../Assets";
-import { lineShader, randomShader } from "../../Shaders";
+import { lineShader } from "../../Shaders";
 const RandomShader = (props: any) => {
   const ref: any = React.useRef();
   const texture = new THREE.TextureLoader().load(distinctiveImg);
@@ -38,14 +38,14 @@ const RandomShader = (props: any) => {
   mesh.geometry.setAttribute("aDirection", new THREE.BufferAttribute(noise, 1));
   const eventMove = (e: any) => {
     // console.log(e.clientX, uniforms.iMouse.value);
-    uniforms.iMouse.value.set(e.clientX*.01, e.clientY*.01, 0, 0);
+    uniforms.iMouse.value.set(e.clientX * 0.01, e.clientY * 0.01, 0, 0);
   };
   React.useEffect(() => {
     document.addEventListener("mousemove", eventMove);
-    console.log(THREE.REVISION ,'~~~~~~~~~~');
+    console.log(THREE.REVISION, "~~~~~~~~~~");
   }, []);
-  useFrame((state) => {
-    const time = state.clock.getElapsedTime();
+  useFrame(() => {
+    // const time = state.clock.getElapsedTime();
     ref.current.position.set(0, 0, -20);
     // ref.current.rotation.set(time, 0, -50);
     uniforms.iTime.value += 0.01;
