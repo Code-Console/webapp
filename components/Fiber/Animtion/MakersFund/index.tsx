@@ -1,45 +1,88 @@
 import { useFrame } from "@react-three/fiber";
 import React from "react";
-import * as THREE from "three";
-import { bufferGeometry } from "./PipeMesh";
-
-const createCube = () => {
-  const group = new THREE.Group();
-  const mesh = bufferGeometry();
-  group.add(mesh);
-  for (let i = 0; i < 11; i++) {
-    const m = mesh.clone();
-    group.add(m);
-    if (i > 2) m.rotation.set(0, 0, Math.PI / 2);
-    if (i > 6) m.rotation.set(0, Math.PI / 2, Math.PI / 2);
-  }
-  const diff = 2;
-  
-  group.children[5].position.set(0, -diff / 2, diff / 2);
-  group.children[7].position.set(0, -diff / 2, -diff / 2);
-  group.children[8].position.set(-diff / 2, -diff / 2, 0);
-  group.children[10].position.set(diff / 2, -diff / 2, 0);
-
-  group.children[0].position.set(-diff / 2, 0, -diff / 2);
-  group.children[1].position.set(diff / 2, 0, -diff / 2);
-  group.children[2].position.set(diff / 2, 0, diff / 2);
-  group.children[3].position.set(-diff / 2, 0, diff / 2);
-
-  group.children[4].position.set(0, diff / 2, diff / 2);
-  group.children[6].position.set(0, diff / 2, -diff / 2);
-  group.children[9].position.set(-diff / 2, diff / 2, 0);
-  group.children[11].position.set(diff / 2, diff / 2, 0);
-
-  return group;
-};
+import { createCube } from "./PipeMesh";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 const MakersFund = (props: any) => {
+  gsap.registerPlugin(ScrollTrigger);
   const ref: any = React.useRef();
   const mesh = createCube();
+  mesh.position.set(2, 0, 0);
+  const position = mesh.position;
+  React.useEffect(() => {
+    gsap.to(".section-first", {
+      scrollTrigger: {
+        trigger: ".section-second",
+        start: "top bottom",
+        end: "top top",
+        markers: true,
+        scrub: true,
+        immediateRender: false,
+      },
+
+      opacity: 0,
+    });
+    gsap.fromTo(
+      position,
+      {
+        scrollTrigger: {
+          trigger: ".section-third",
+          start: "top bottom",
+          end: "top top",
+          markers: true,
+          scrub: true,
+          immediateRender: false,
+        },
+        x: -2,
+      },
+      {
+        scrollTrigger: {
+          trigger: ".section-third",
+          start: "top bottom",
+          end: "top top",
+          markers: true,
+          scrub: true,
+          immediateRender: false,
+        },
+        x: 2,
+      }
+    );
+    gsap.fromTo(
+      position,
+      {
+        scrollTrigger: {
+          trigger: ".section-second",
+          start: "top bottom",
+          end: "top top",
+          markers: true,
+          scrub: true,
+          immediateRender: false,
+        },
+        x: 2,
+      },
+      {
+        scrollTrigger: {
+          trigger: ".section-second",
+          start: "top bottom",
+          end: "top top",
+          markers: true,
+          scrub: true,
+          immediateRender: false,
+        },
+        x: -2,
+        onUpdate: () => {
+          console.log("~~~~~~~~~~~", position.x);
+        },
+        onComplete: () => {
+          console.log("~~~~onComplete~~~~~~~", position.x);
+        },
+      }
+    );
+    
+  });
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
-    ref.current.position.set(0, 0, 0);
-    // ref.current.rotation.set(time, 0, 0);
   });
   return (
     <group ref={ref} {...props} dispose={null}>

@@ -10,7 +10,7 @@ import { useAnimType } from "../../hooks";
 import TextParticle from "./TextParticle";
 import RandomShader from "./RandomShader";
 import MakersFund from "./MakersFund";
-const FiberCanvas = () => {
+const AnimationFiberCanvas = () => {
   const animationType = useAnimType() || AnimType.MAKERS_FUND;
   const getAnim = () => {
     switch (animationType) {
@@ -23,7 +23,10 @@ const FiberCanvas = () => {
       case AnimType.TOY_SHADER:
         return <ToyShader />;
       case AnimType.MAKERS_FUND:
-        return <MakersFund />;
+        return <>
+        <RandomShader />
+        <MakersFund />
+        </>;
       default:
         return <RandomShader />;
     }
@@ -32,10 +35,10 @@ const FiberCanvas = () => {
     <>
       <React.Suspense fallback={null}>
         <Canvas
-          style={{ position: "fixed", zIndex: "-1" }}
+          style={{ position: "fixed", zIndex: "-1", top: "0" }}
           gl={{ antialias: true }}
         >
-          <color attach="background" args={[1, 0, 0]} />
+          <color attach="background" args={[0, 0, 0]} />
           <ambientLight intensity={0.5} />
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
           <pointLight position={[-10, -10, -10]} />
@@ -46,4 +49,4 @@ const FiberCanvas = () => {
     </>
   );
 };
-export default FiberCanvas;
+export default AnimationFiberCanvas;

@@ -63,7 +63,7 @@ const Menu = () => {
           left: auto;
           right: 0;
           margin: 5px 5px 0 0;
-          position: absolute;
+          position: fixed;
           padding-top: 6px;
         }
         .nav-btn .menu-select {
