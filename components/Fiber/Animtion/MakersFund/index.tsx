@@ -1,6 +1,6 @@
 import { useFrame } from "@react-three/fiber";
 import React from "react";
-import { createCube } from "./PipeMesh";
+import { createCube, hitAnimation, zoomAnimation } from "./PipeMesh";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
@@ -30,7 +30,7 @@ const MakersFund = (props: any) => {
           trigger: trigger,
           start: start,
           end: end,
-          markers: true,
+          markers: false,
           scrub: true,
           immediateRender: false,
         },
@@ -41,11 +41,19 @@ const MakersFund = (props: any) => {
           trigger: trigger,
           start: start,
           end: end,
-          markers: true,
+          markers: false,
           scrub: true,
           immediateRender: false,
         },
         x: endX,
+        onComplete: () => {
+          console.log("trigger->  ", trigger);
+          zoomAnimation(mesh);
+        },
+        onReverseComplete:()=>{
+          console.log("onReverseComplete->  ", trigger);
+          zoomAnimation(mesh);
+        }
       }
     );
   };
@@ -55,11 +63,11 @@ const MakersFund = (props: any) => {
         trigger: ".section-second",
         start: "top bottom",
         end: "top top",
-        markers: true,
+        markers: false,
         scrub: true,
         immediateRender: false,
       },
-
+      rotate: "50%",
       opacity: 0,
     });
     setPositionValue({
@@ -73,14 +81,14 @@ const MakersFund = (props: any) => {
       startX: 2,
       endX: -2,
       trigger: ".section-fourth",
-      start: "top 10%",
+      start: "top 70%",
       end: "top top",
     });
     setPositionValue({
       startX: -2,
-      endX: 2,
+      endX: 0,
       trigger: ".section-fifth",
-      start: "top 20%",
+      start: "top 11%",
       end: "top top",
     });
     setPositionValue({
@@ -88,12 +96,13 @@ const MakersFund = (props: any) => {
       endX: -2,
       trigger: ".section-second",
       start: "top bottom",
-      end: "top center",
+      end: "top top",
     });
-    
+    hitAnimation(mesh);
   });
-  useFrame(() => {
-    // const time = state.clock.getElapsedTime();
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime();
+    mesh.rotation.set(time*.1,time*.1,0);
   });
   return (
     <group ref={ref} {...props} dispose={null}>

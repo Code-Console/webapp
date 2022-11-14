@@ -24,7 +24,6 @@ const AnimationFiberCanvas = () => {
         return <ToyShader />;
       case AnimType.MAKERS_FUND:
         return <>
-        <RandomShader />
         <MakersFund />
         </>;
       default:
