@@ -2,7 +2,6 @@ import React from "react";
 import { shallow, ShallowWrapper } from "enzyme";
 import UI from ".";
 import * as redux from "../hooks";
-import { loadingGif } from "../Assets";
 import About from "./About";
 import PopupPage from "./PopupPage";
 import Blockchain from "./Blockchain";
