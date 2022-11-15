@@ -2,7 +2,7 @@ import { useFrame } from "@react-three/fiber";
 import React from "react";
 import * as THREE from "three";
 import { birdImg, distinctiveImg } from "../../Assets";
-import { lineShader } from "../../Shaders";
+import { galaxyShader } from "../../Shaders";
 const RandomShader = (props: any) => {
   const ref: any = React.useRef();
   const texture = new THREE.TextureLoader().load(distinctiveImg);
@@ -26,8 +26,8 @@ const RandomShader = (props: any) => {
     new THREE.PlaneGeometry(512, 512),
     new THREE.ShaderMaterial({
       uniforms: uniforms,
-      vertexShader: lineShader.vertex,
-      fragmentShader: lineShader.fragment,
+      vertexShader: galaxyShader.vertex,
+      fragmentShader: galaxyShader.fragment,
     })
   );
   const noise = new Float32Array(4);

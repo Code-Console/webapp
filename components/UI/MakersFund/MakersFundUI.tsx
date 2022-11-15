@@ -1,19 +1,30 @@
 import React from "react";
 import gsap from "gsap";
+import { useIsAllModelLoadedState } from "../../hooks";
+import Spinner from "../Blockchain/Spinner";
 
 const MakersFundUI = () => {
+  const isAllModelLoaded = useIsAllModelLoadedState();
+  const [state, setState] = React.useState({ hide: false });
   React.useEffect(() => {
-    setTimeout(
-      () =>
-        gsap.to(".main-overlay", {
-          duration: 1,
-          height: "0px",
-          opacity: "0",
-          ease: "bounce.out",
-        }),
-      200
-    );
-  }, []);
+    if (isAllModelLoaded) {
+      setTimeout(
+        () =>
+          gsap.to(".main-overlay", {
+            duration: 1,
+            height: "0px",
+            opacity: ".51",
+            ease: "bounce.out",
+            onComplete: () => {
+              setState((state) => {
+                return { ...state, hide: true };
+              });
+            },
+          }),
+        200
+      );
+    }
+  }, [isAllModelLoaded]);
   return (
     <>
       <main className="MakersFundUI">
@@ -59,9 +70,14 @@ const MakersFundUI = () => {
         <section className="section-container section-fifth">
           <h1 className="title-h1">IN CREATORS WITH DEER CRAFTSMANSHIP</h1>
         </section>
-        <div className="main-overlay">
-          <p className="loading">loading..</p>
-        </div>
+        {!state.hide && (
+          <div className="main-overlay">
+            <div className="loading">
+              <Spinner radius={"50px"} />
+            </div>
+            <p className="loading">loading..</p>
+          </div>
+        )}
       </main>
       <style>{`
         .main-overlay{

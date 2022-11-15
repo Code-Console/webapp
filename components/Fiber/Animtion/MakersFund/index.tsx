@@ -3,8 +3,11 @@ import React from "react";
 import { createCube, hitAnimation, zoomAnimation } from "./PipeMesh";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { actionDeposited } from "../../../../redux/action";
+import { useDispatch } from "react-redux";
 
 const MakersFund = (props: any) => {
+  const dispatch = useDispatch();
   gsap.registerPlugin(ScrollTrigger);
   const ref: any = React.useRef();
   const mesh = createCube();
@@ -50,10 +53,10 @@ const MakersFund = (props: any) => {
           console.log("trigger->  ", trigger);
           zoomAnimation(mesh);
         },
-        onReverseComplete:()=>{
+        onReverseComplete: () => {
           console.log("onReverseComplete->  ", trigger);
           zoomAnimation(mesh);
-        }
+        },
       }
     );
   };
@@ -100,9 +103,14 @@ const MakersFund = (props: any) => {
     });
     hitAnimation(mesh);
   });
+  React.useEffect(() => {
+    if (mesh) {
+      dispatch(actionDeposited(true));
+    }
+  }, [mesh]);
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
-    mesh.rotation.set(time*.1,time*.1,0);
+    mesh.rotation.set(time * 0.1, time * 0.1, 0);
   });
   return (
     <group ref={ref} {...props} dispose={null}>
