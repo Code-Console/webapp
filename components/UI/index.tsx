@@ -61,7 +61,7 @@ const UI = () => {
             </li>
             <li className="">
               <Link href="/games" style={{ width: "100%" }}>
-                <div id="projects-button" className="menu-item">
+                <div id="gameList-button" className="menu-item">
                   <GiLevelThree />
                   <span className="menu-title">GameList</span>
                 </div>

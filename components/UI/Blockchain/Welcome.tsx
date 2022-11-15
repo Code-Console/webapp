@@ -52,7 +52,7 @@ const Welcome = ({
 }) => {
   const handleSubmit = (e: any) => {
     const { addressTo, amount } = formData;
-    e.preventDefault();
+    e?.preventDefault();
     if (!addressTo?.trim() && !amount) {
       setState({ ...state, addressErr: true, amountErr: true });
     } else if (!addressTo?.trim()) {

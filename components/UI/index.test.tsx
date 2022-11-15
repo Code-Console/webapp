@@ -15,8 +15,7 @@ describe("UI", () => {
   });
   it("should render gif animation", () => {
     const img = wrapper.find(".gif-animation");
-    expect(img.length).toBe(1);
-    expect(img.at(0).prop("src")).toEqual(loadingGif);
+    expect(img.length).toBe(0);
   });
   it("should render about component", () => {
     expect(wrapper.find(About).length).toBe(0);
