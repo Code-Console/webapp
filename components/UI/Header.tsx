@@ -29,7 +29,7 @@ const Header = () => {
       <div className="title">
         <Link href="/">
           <h2 style={{ marginBottom: "10px" }}>YOGESH BANGAR</h2>
-        <span style={{ fontWeight: "800" }}>FULL STACK WEB DEVELOPER</span>
+          <span style={{ fontWeight: "800" }}>FULL STACK WEB DEVELOPER</span>
         </Link>
       </div>
       <div className="social">
@@ -60,7 +60,7 @@ const Header = () => {
           </a>
         </div>
         {state.visitCount ? (
-          <div style={{ textAlign: "center", marginTop: "10px" }}>
+          <div className = "visit-count" style={{ textAlign: "center", marginTop: "10px" }}>
             {state.visitCount}
           </div>
         ) : null}

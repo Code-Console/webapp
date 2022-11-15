@@ -1,10 +1,13 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, ShallowWrapper } from "enzyme";
 import Blockchain from "./";
 
 describe("Blockchain", () => {
+  let wrapper: ShallowWrapper;
+  beforeEach(() => {
+    wrapper = shallow(<Blockchain />);
+  });
   it("should render my close", () => {
-    const wrapper = shallow(<Blockchain />);
     expect(wrapper.find(".close").length).toBe(1);
   });
 });
