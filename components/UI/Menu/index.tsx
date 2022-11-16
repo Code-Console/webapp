@@ -1,5 +1,6 @@
+import Link from "next/link";
 import React from "react";
-import { FaBars, FaNapster, FaTimes } from "react-icons/fa";
+import { FaBars, FaHome, FaNapster, FaTimes } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { AnimType } from "../../../interfaces";
 import { actionAnimType } from "../../../redux/action";
@@ -42,6 +43,14 @@ const Menu = () => {
         {show ? <FaTimes /> : <FaBars />}
       </button>
       <div className={`nav-container ${show ? "show" : ""}`}>
+        <div className="nav-btn btn btn-visit-loft">
+          <Link href="/" style={{ width: "100%" }}>
+            <div>
+              <FaHome />
+              <span className="nav-text">Home</span>
+            </div>
+          </Link>
+        </div>
         {menuItems.map((item) => (
           <div
             onClick={() => onClickMenu(item.type)}

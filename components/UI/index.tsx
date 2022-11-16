@@ -27,15 +27,17 @@ const UI = () => {
           <div className="side-bar"></div>
           <ul id="menu" className="menu-ui">
             <li className="">
-              <div
-                className="menu-item"
-                onClick={() => {
-                  setState({ ...state, menu: undefined });
-                }}
-              >
-                <FaHome />
-                <span className="menu-title">HOME</span>
-              </div>
+              <Link href="/animation" style={{ width: "100%" }}>
+                <div
+                  className="menu-item"
+                  onClick={() => {
+                    setState({ ...state, menu: undefined });
+                  }}
+                >
+                  <FaHome />
+                  <span className="menu-title">3D Web</span>
+                </div>
+              </Link>
             </li>
             <li className="">
               <div

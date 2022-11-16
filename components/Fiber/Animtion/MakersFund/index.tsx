@@ -5,13 +5,19 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { actionDeposited } from "../../../../redux/action";
 import { useDispatch } from "react-redux";
+import { isPortraitViewport } from "../../../util";
 
 const MakersFund = (props: any) => {
   const dispatch = useDispatch();
+  const isPortrait = isPortraitViewport();
   gsap.registerPlugin(ScrollTrigger);
   const ref: any = React.useRef();
   const mesh = createCube();
-  mesh.position.set(2, 0, 0);
+  if (isPortrait) {
+    mesh.position.set(0, 7, -10);
+  } else {
+    mesh.position.set(2, 0, 0);
+  }
   const position = mesh.position;
   const setPositionValue = ({
     startX,
@@ -64,13 +70,12 @@ const MakersFund = (props: any) => {
     gsap.to(".section-first", {
       scrollTrigger: {
         trigger: ".section-second",
-        start: "top bottom",
+        start: "top center",
         end: "top top",
         markers: false,
         scrub: true,
         immediateRender: false,
       },
-      rotate: "50%",
       opacity: 0,
     });
     setPositionValue({
@@ -95,7 +100,7 @@ const MakersFund = (props: any) => {
       end: "top top",
     });
     setPositionValue({
-      startX: 2,
+      startX: isPortrait ? 0 : 2,
       endX: -2,
       trigger: ".section-second",
       start: "top bottom",

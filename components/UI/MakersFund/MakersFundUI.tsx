@@ -2,6 +2,7 @@ import React from "react";
 import gsap from "gsap";
 import { useIsAllModelLoadedState } from "../../hooks";
 import Spinner from "../Blockchain/Spinner";
+import Link from "next/link";
 
 const MakersFundUI = () => {
   const isAllModelLoaded = useIsAllModelLoadedState();
@@ -34,22 +35,45 @@ const MakersFundUI = () => {
             FUTURE OF INTERACTIVE{" "}
             <span className="gradient-text">ENTERTAINMENT</span>
           </h1>
-          <p>
-            Makers Fund is a global venture capital fund dedicated to games and
-            interactive entertainment
-          </p>
+          <div>
+            <div className="section-left">
+              <h1 className="section-title gradient-text">250+</h1>
+              <h4 className="section-title">Games developed and designed</h4>
+            </div>
+            <div className="section-left">
+              <h1 className="section-title gradient-text">150+</h1>
+              <h4 className="section-title">Game developers under one roof</h4>
+            </div>
+            <div className="section-left">
+              <h1 className="section-title gradient-text">13+</h1>
+              <h4 className="section-title">
+                Years in software development business
+              </h4>
+            </div>
+            <div className="section-left ">
+              <h1 className="section-title gradient-text">50M+</h1>
+              <h4 className="section-title">Game downloads on app stores</h4>
+            </div>
+
+            <p>
+              All applications are created from scratch, so that each one can be
+              modeled to do its job perfectly. Our final result is a clean,
+              uncomplicated and an inviting design that is a pleasure to use.
+            </p>
+          </div>
         </section>
         <section className="section-container section-second">
           <p>We Support</p>
           <h1 className="title-h1">
-            INNOVATIVE, <span className="gradient-text">AMBITIOUS</span>{" "}
-            FOUNDERS
+            STRIVEN TO MOVE DEEPER INTO{" "}
+            <span className="gradient-text">SOFTWARE DEVELOPMENT</span>
           </h1>
-          <p>
-            Our fund helps visionary entrepreneurs create their initial
-            foundation and support them as they navigate the waters of
-            early-stage business
-          </p>
+          <h4 className="detail">
+            We experienced a rich and varied career that is most often in
+            cadence with a strong and dedicated group of experienced and skilled
+            developers and artist. Immediately setting out to work into S/W
+            Development.
+          </h4>
         </section>
         <section className="section-container section-third">
           <p>We embrace</p>
@@ -65,7 +89,7 @@ const MakersFundUI = () => {
         </section>
         <section className="section-container section-fourth">
           <h1 className="title-h1">ECOSYSTEM</h1>
-          <p>See our Portfolio</p>
+          <p><Link href="/games" style={{ width: "100%" }} >See our Portfolio</Link></p>
         </section>
         <section className="section-container section-fifth">
           <h1 className="title-h1">IN CREATORS WITH DEER CRAFTSMANSHIP</h1>
@@ -80,12 +104,20 @@ const MakersFundUI = () => {
         )}
       </main>
       <style>{`
+        .section-left{
+          display: flex;
+          align-items: center;
+        }
+        .section-title{
+          margin: 0px 10px 10px 0px;
+        }
         .main-overlay{
             position:fixed;
-            width:100vw;
-            height:100vh;
+            width:100%;
+            height:100%;
             top:0;
             right:0;
+            left:0;
             background:blue;
         }
         .loading{
@@ -137,6 +169,18 @@ const MakersFundUI = () => {
         }
         p{
             max-width: 500px;
+        }
+        .detail{
+          max-width: 500px;
+        }
+        @media (max-width: 576px) {
+          .section-second{
+              align-items: flex-start;
+          }
+          .title-h1{
+            font-size: 2.0rem;
+            max-width: 500px;
+        }
         }
     `}</style>
     </>

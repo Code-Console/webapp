@@ -25,3 +25,6 @@ export const updateMaterial = (model: any) => {
     }
   });
 };
+export const isPortraitViewport = () =>
+  Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) <
+  Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
