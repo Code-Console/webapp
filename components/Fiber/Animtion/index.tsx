@@ -10,8 +10,9 @@ import { useAnimType } from "../../hooks";
 import TextParticle from "./TextParticle";
 import RandomShader from "./RandomShader";
 import MakersFund from "./MakersFund";
+import BlockXYZ from "./BlockXYZ";
 const AnimationFiberCanvas = () => {
-  const animationType = useAnimType() || AnimType.MAKERS_FUND;
+  const animationType = useAnimType();
   const getAnim = () => {
     switch (animationType) {
       case AnimType.DISPLACEMENT_SHADER:
@@ -29,6 +30,8 @@ const AnimationFiberCanvas = () => {
             <MakersFund />
           </>
         );
+      case AnimType.BlockXYZ:
+        return <BlockXYZ />;
       default:
         return <RandomShader />;
     }

@@ -71,6 +71,7 @@ const Menu = () => {
           font-size: 22px;
           left: auto;
           right: 0;
+          top:0;
           margin: 5px 5px 0 0;
           position: fixed;
           padding-top: 6px;

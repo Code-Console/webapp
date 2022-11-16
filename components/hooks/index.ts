@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { IMainState } from "../../interfaces";
+import { AnimType, IMainState } from "../../interfaces";
 
 export const useIsAllModelLoadedState = () => {
   const isAllModelLoaded = useSelector(
@@ -11,7 +11,7 @@ export const useIsAllModelLoadedState = () => {
 export const useAnimType = () => {
   const animType = useSelector(
     (state: IMainState) =>
-      state.clientState.animType// || AnimType.DISPLACEMENT_SHADER
+      state.clientState.animType || AnimType.MAKERS_FUND
   );
   return animType;
 };

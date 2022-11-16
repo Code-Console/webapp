@@ -11,11 +11,6 @@ import {
 import { addGeoLocation } from "../components/Firebase/config";
 import React from "react";
 import { AnimType } from "../interfaces";
-declare global {
-  interface Window {
-    geolocation: any;
-  }
-}
 function Home({ geolocation }: { geolocation: GeoLocation }) {
   React.useEffect(() => {
     if (typeof window !== "undefined") {

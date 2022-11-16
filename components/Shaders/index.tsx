@@ -484,3 +484,17 @@ export const lineShader: IShader = {
       mainImage(gl_FragColor, gl_FragCoord.xy);
     }`,
 };
+
+export const pointShaderAnim: IShader = {
+  vertex: `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+  }`,
+  fragment: `
+   
+    void main() {
+      gl_FragColor = vec4(1.,1.,1.,1.);
+    }`,
+};

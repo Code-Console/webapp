@@ -1,3 +1,9 @@
+declare global {
+  interface Window {
+    geolocation: any;
+    setKey: any;
+  }
+}
 export interface IMainState {
   clientState: ClientState;
 }
@@ -20,6 +26,7 @@ export enum AnimType {
   SPACE_DUST = "SpaceDust",
   TEXT_DUST_ANIM = "Text Dust Anim",
   MAKERS_FUND = "Makers Fund",
+  BlockXYZ = "BlockXYZ",
 }
 export interface IUser {
   _id: string;
