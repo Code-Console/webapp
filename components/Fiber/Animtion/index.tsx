@@ -11,10 +11,13 @@ import TextParticle from "./TextParticle";
 import RandomShader from "./RandomShader";
 import MakersFund from "./MakersFund";
 import BlockXYZ from "./BlockXYZ";
+import AnimationModel from "../AnimationModel";
 const AnimationFiberCanvas = () => {
   const animationType = useAnimType();
   const getAnim = () => {
     switch (animationType) {
+      case AnimType.BIRD:
+        return <AnimationModel />;
       case AnimType.DISPLACEMENT_SHADER:
         return <DisplacementShader />;
       case AnimType.SPACE_DUST:
@@ -32,6 +35,8 @@ const AnimationFiberCanvas = () => {
         );
       case AnimType.BlockXYZ:
         return <BlockXYZ />;
+      case AnimType.TEXT_STRACE:
+        return <BlockXYZ />;
       default:
         return <RandomShader />;
     }
@@ -43,7 +48,7 @@ const AnimationFiberCanvas = () => {
           style={{ position: "fixed", zIndex: "-1", top: "0" }}
           gl={{ antialias: true }}
         >
-          <color attach="background" args={[0, 0, 0]} />
+          <color attach="background" args={[0.1, 0.1, 0.1]} />
           <ambientLight intensity={0.5} />
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
           <pointLight position={[-10, -10, -10]} />

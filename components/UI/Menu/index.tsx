@@ -11,28 +11,7 @@ const Menu = () => {
   const dispatch = useDispatch();
   const [show, setShow] = React.useState(false);
   const animationType = useAnimType();
-  const menuItems = [
-    {
-      title: "Space dust",
-      type: AnimType.SPACE_DUST,
-    },
-    {
-      title: "Text Dust Anim",
-      type: AnimType.TEXT_DUST_ANIM,
-    },
-    {
-      title: "Displacement shader",
-      type: AnimType.DISPLACEMENT_SHADER,
-    },
-    {
-      title: "Toy shader",
-      type: AnimType.TOY_SHADER,
-    },
-    {
-      title: "Makers fund",
-      type: AnimType.MAKERS_FUND,
-    },
-  ];
+  const menuItems = Object.values(AnimType);
   const onClickMenu = (animType: AnimType) => {
     dispatch(actionAnimType(animType));
     setTimeout(() => setShow(false), 300);
@@ -53,15 +32,13 @@ const Menu = () => {
         </div>
         {menuItems.map((item) => (
           <div
-            onClick={() => onClickMenu(item.type)}
+            onClick={() => onClickMenu(item)}
             className="nav-btn btn btn-visit-loft"
-            key={item.type}
+            key={item}
           >
-            <div
-              className={`${item.type === animationType ? "menu-select" : ""}`}
-            >
+            <div className={`${item === animationType ? "menu-select" : ""}`}>
               <FaNapster />
-              <span className="nav-text">{item.title} </span>
+              <span className="nav-text">{item} </span>
             </div>
           </div>
         ))}
@@ -71,7 +48,7 @@ const Menu = () => {
           font-size: 22px;
           left: auto;
           right: 0;
-          top:0;
+          top: 0;
           margin: 5px 5px 0 0;
           position: fixed;
           padding-top: 6px;

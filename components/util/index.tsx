@@ -18,7 +18,7 @@ export const updateMaterial = (model: any) => {
   model.traverse((object: any) => {
     if (!object["isMesh"]) return;
     if (object["material"].isMaterial) {
-      object["material"].color = new THREE.Color('rgb(255,0,0)');
+      object["material"].color = new THREE.Color("rgb(255,0,0)");
       object["material"].wireframe = false;
       object["material"].metalness = 1;
       object["material"].roughness = 0;

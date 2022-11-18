@@ -488,13 +488,28 @@ export const lineShader: IShader = {
 export const pointShaderAnim: IShader = {
   vertex: `
   varying vec2 vUv;
+  varying float vOpacity;
+  attribute float opacity;
   void main() {
     vUv = uv;
+    vOpacity = opacity;
+    vec4 mvPosition = modelViewMatrix * vec4(position, 1.);
+    gl_PointSize = 200. * (1. / -mvPosition.z);
     gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
   }`,
   fragment: `
-   
+    varying float vOpacity;
+    varying vec2 vUv;
     void main() {
-      gl_FragColor = vec4(1.,1.,1.,1.);
+      vec2 uv = vec2(gl_PointCoord.x, 1. - gl_PointCoord.y); 
+      vec2 cUv = 2.*uv - 1.;
+      float dist = length(cUv);
+      vec3 originalColor = vec3(4./255.,10./255.,20./255.); 
+      vec4 color = vec4(.08/dist);
+      color.rgb = min(vec3(10.),color.rgb);
+      color.rgb *= originalColor*120.;
+      color *=vOpacity;
+      gl_FragColor = vec4(1. - dist,0.,0.,1.)*vOpacity;
+      gl_FragColor = vec4(color.rgba) ;
     }`,
 };

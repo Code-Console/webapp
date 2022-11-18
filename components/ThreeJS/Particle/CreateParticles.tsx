@@ -1,6 +1,11 @@
 /* eslint @typescript-eslint/no-var-requires: "off" */
 import * as THREE from "three";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
+import {
+  distance,
+  visibleHeightAtZDepth,
+  visibleWidthAtZDepth,
+} from "../../util/three";
 const vertexShader = `
 attribute float size;
   attribute vec3 customColor;
@@ -84,8 +89,8 @@ export class CreateParticles {
 
   setup() {
     const geometry = new THREE.PlaneGeometry(
-      this.visibleWidthAtZDepth(100, this.camera as THREE.PerspectiveCamera),
-      this.visibleHeightAtZDepth(100, this.camera as THREE.PerspectiveCamera)
+      visibleWidthAtZDepth(100, this.camera as THREE.PerspectiveCamera),
+      visibleHeightAtZDepth(100, this.camera as THREE.PerspectiveCamera)
     );
     const material = new THREE.MeshBasicMaterial({
       color: 0x00ff00,
@@ -176,7 +181,7 @@ export class CreateParticles {
         let dx = mx - px;
         let dy = my - py;
 
-        const mouseDistance = this.distance(mx, my, px, py);
+        const mouseDistance = distance(mx, my, px, py);
         const d = (dx = mx - px) * dx + (dy = my - py) * dy;
         const f = -this.data.area / d;
 
@@ -358,23 +363,4 @@ export class CreateParticles {
     this.geometryCopy = new THREE.BufferGeometry();
     this.geometryCopy.copy(this.particles.geometry);
   };
-
-  visibleHeightAtZDepth(depth: number, camera: THREE.PerspectiveCamera) {
-    const cameraOffset = camera.position.z;
-    if (depth < cameraOffset) depth -= cameraOffset;
-    else depth += cameraOffset;
-
-    const vFOV = (camera?.fov * Math.PI) / 180;
-
-    return 2 * Math.tan(vFOV / 2) * Math.abs(depth);
-  }
-
-  visibleWidthAtZDepth(depth: number, camera: THREE.PerspectiveCamera) {
-    const height = this.visibleHeightAtZDepth(depth, camera);
-    return height * camera?.aspect;
-  }
-
-  distance(x1: number, y1: number, x2: number, y2: number) {
-    return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
-  }
 }

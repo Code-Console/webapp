@@ -19,14 +19,15 @@ export enum MenuItem {
   CONTACT = "CONTACT",
 }
 export enum AnimType {
-  BIRD = "BIRD",
-  WATCH = "WATCH",
-  TOY_SHADER = "ToyShader",
-  DISPLACEMENT_SHADER = "DisplacementShader",
-  SPACE_DUST = "SpaceDust",
+  BIRD = "Bird",
+  WATCH = "Watch",
+  TOY_SHADER = "Toy Shader",
+  DISPLACEMENT_SHADER = "Displacement Shader",
+  SPACE_DUST = "Space Dust",
   TEXT_DUST_ANIM = "Text Dust Anim",
   MAKERS_FUND = "Makers Fund",
-  BlockXYZ = "BlockXYZ",
+  BlockXYZ = "Block XYZ",
+  TEXT_STRACE = "Text Strace",
 }
 export interface IUser {
   _id: string;
