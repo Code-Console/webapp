@@ -418,7 +418,8 @@ const Reveal = (props: any) => {
     } else {
       // mesh?.children[0].position.set(0, 100, 0);
     }
-    if (reveal.disturbObj?.mesh?.position?.y > -250 && reveal.disturbObj?.mesh?.position?.y < 100) {
+    const val = reveal?.disturbObj?.mesh?.position?.y;
+    if (val && val > -250 && val < 100) {
       meshBackref?.current?.position.set(0, 0, -210);
     }else{
       meshBackref?.current?.position.set(0, 5000, 0);
