@@ -13,6 +13,7 @@ import MakersFund from "./MakersFund";
 import BlockXYZ from "./BlockXYZ";
 import AnimationModel from "../AnimationModel";
 import TextAnim from "./TextAnim";
+import Reveal from "./Reveal";
 const AnimationFiberCanvas = () => {
   const animationType = useAnimType();
   const getAnim = () => {
@@ -38,6 +39,8 @@ const AnimationFiberCanvas = () => {
         return <BlockXYZ />;
       case AnimType.TEXT_STRACE:
         return <TextAnim />;
+      case AnimType.REVEAL:
+        return <Reveal />;
       default:
         return <RandomShader />;
     }
@@ -49,7 +52,7 @@ const AnimationFiberCanvas = () => {
           style={{ position: "fixed", zIndex: "-1", top: "0" }}
           gl={{ antialias: true }}
         >
-          <color attach="background" args={[0.1, 0.1, 0.1]} />
+          <color attach="background" args={[0.98, 0.98, 0.98]} />
           <ambientLight intensity={0.5} />
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
           <pointLight position={[-10, -10, -10]} />

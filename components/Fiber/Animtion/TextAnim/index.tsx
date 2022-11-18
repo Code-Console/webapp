@@ -16,7 +16,7 @@ const TextAnim = (props: any) => {
   let check: any[];
   let geometry: THREE.ShapeGeometry | undefined;
   loader.load(`${basePath}3D/Lobster_Regular.json`, (font) => {
-    const shapes = font?.generateShapes("this.data.text", 30);
+    const shapes = font?.generateShapes("This is for", 30);
     geometry = new THREE.ShapeGeometry(shapes);
     geometry.computeBoundingBox();
     geometry.center();

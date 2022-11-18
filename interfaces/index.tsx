@@ -28,6 +28,7 @@ export enum AnimType {
   MAKERS_FUND = "Makers Fund",
   BlockXYZ = "Block XYZ",
   TEXT_STRACE = "Text Strace",
+  REVEAL = "Reveal",
 }
 export interface IUser {
   _id: string;
