@@ -10,8 +10,7 @@ export const useIsAllModelLoadedState = () => {
 };
 export const useAnimType = () => {
   const animType = useSelector(
-    (state: IMainState) =>
-      state.clientState.animType || AnimType.MAKERS_FUND
+    (state: IMainState) => state.clientState.animType || AnimType.REVEAL
   );
   return animType;
 };

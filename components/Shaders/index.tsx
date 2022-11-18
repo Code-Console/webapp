@@ -513,3 +513,21 @@ export const pointShaderAnim: IShader = {
       gl_FragColor = vec4(color.rgba) ;
     }`,
 };
+
+
+export const basicMultiShader: IShader = {
+  vertex: `
+    varying vec2 vUv;
+    void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+    }`,
+  fragment: `
+    varying vec2 vUv;
+    uniform float u_time;
+    void main() {
+        vec2 colb = vec2(sin(u_time*.1),cos(u_time*.1));
+        
+        gl_FragColor = vec4(vUv.x,colb,1.0);
+    }`,
+};

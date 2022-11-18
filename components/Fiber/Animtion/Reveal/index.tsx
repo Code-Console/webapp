@@ -6,6 +6,8 @@ import { dealWithKeyboard } from "../../../util/Keyboard";
 import { FontLoader, Font } from "three/examples/jsm/loaders/FontLoader";
 import { basePath } from "../../../Assets";
 import gsap from "gsap";
+import { MeshBasicMaterial, ShaderMaterial } from "three";
+import { basicMultiShader, basicShader } from "../../../Shaders";
 
 interface IObject {
   positions?: THREE.BufferGeometry;
@@ -15,15 +17,19 @@ interface IObject {
 interface IReveal {
   font?: Font;
   first?: IObject;
+  disturbObj?: IObject;
 }
 
 const Reveal = (props: any) => {
   const ref: any = React.useRef();
+  const meshBackref: any = React.useRef();
   const loader = new FontLoader();
   const group = new THREE.Group();
   group.position.set(0, 0, -200);
   const gsapState = { count: 0 };
-
+  const uniforms = {
+    u_time: { value: 0 },
+  };
   const reveal: IReveal = {};
   const gsapAnim = ({
     str,
@@ -77,7 +83,7 @@ const Reveal = (props: any) => {
       geometry: geometry,
       mesh: new THREE.Mesh(
         geometry,
-        new THREE.MeshBasicMaterial({ color: "#000000" })
+        new THREE.MeshBasicMaterial({ color: "#000000", depthWrite: false })
       ),
     };
   };
@@ -132,6 +138,7 @@ const Reveal = (props: any) => {
       ease: "Power1.out",
     });
 
+
     /////----2
     const madeText = createShapeGeometry({
       str: "WE’RE MADE OF\n       STORIES",
@@ -177,7 +184,7 @@ const Reveal = (props: any) => {
       ease: "Power1.out",
     });
     let time = 5.5;
-    let delTime = 0.1;
+    let delTime = 1;
     ///////----4
     gsapAnim({
       str: "REVEAL THE IMPOSSIBLE",
@@ -338,6 +345,30 @@ const Reveal = (props: any) => {
     //   size: 25,
     // });
 
+
+    time += delTime;
+    const disturb = createShapeGeometry({ str: "DISTURB", size: 35 });
+    reveal.disturbObj = disturb;
+    //group.add(disturb.mesh);
+    const disturbMesh = [disturb.mesh];
+
+    for (let i = 0; i < 5; i++) {
+      disturbMesh.push(disturb.mesh.clone());
+    }
+
+    disturbMesh.forEach((mesh, i) => {
+      group.add(mesh);
+      mesh.position.set(0, -250, 0);
+      gsap.to(mesh.position, {
+        x: 0,
+        y: 120 - 50 * i,
+        duration: 0.3,
+        delay: time + i * 0.1,
+        ease: "back.out(2)",
+      });
+    });
+
+
     // ///////----9
     gsapAnim({
       str: "DISTURB",
@@ -355,6 +386,7 @@ const Reveal = (props: any) => {
 
   useFrame((state) => {
     state.clock.getElapsedTime();
+    uniforms.u_time.value++;
     if (
       reveal.first?.geometry &&
       reveal.first?.positions &&
@@ -386,6 +418,11 @@ const Reveal = (props: any) => {
     } else {
       // mesh?.children[0].position.set(0, 100, 0);
     }
+    if (reveal.disturbObj?.mesh?.position?.y > -250 && reveal.disturbObj?.mesh?.position?.y < 100) {
+      meshBackref?.current?.position.set(0, 0, -210);
+    }else{
+      meshBackref?.current?.position.set(0, 5000, 0);
+    }
   });
   React.useEffect(() => {
     document.addEventListener("keydown", dealWithKeyboard);
@@ -394,6 +431,20 @@ const Reveal = (props: any) => {
     <group ref={ref} {...props} dispose={null}>
       <CameraController />
       <primitive object={group} dispose={null} />
+      {
+        <mesh
+          ref={meshBackref}
+          geometry={new THREE.PlaneGeometry(800.46, 500.46)}
+          material={
+            new ShaderMaterial({
+              uniforms: uniforms,
+              vertexShader: basicMultiShader.vertex,
+              fragmentShader: basicMultiShader.fragment,
+            })
+          }
+          position={[0, 1000, -210]}
+        />
+      }
     </group>
   );
 };
