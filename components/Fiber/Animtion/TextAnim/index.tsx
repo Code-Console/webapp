@@ -11,7 +11,7 @@ const TextAnim = (props: any) => {
     new THREE.PlaneGeometry(1, 1),
     new THREE.MeshBasicMaterial({ color: "#000000" })
   );
-  mesh.position.set(0,0,-200);
+  mesh.position.set(0, 0, -200);
   const check = new THREE.BufferGeometry();
   let geometry: THREE.ShapeGeometry | undefined;
   loader.load(`${basePath}3D/Lobster_Regular.json`, (font) => {
@@ -31,11 +31,27 @@ const TextAnim = (props: any) => {
   useFrame((state) => {
     state.clock.getElapsedTime();
     count += 50;
+    const copy = check?.attributes.position;
     for (
       let i = 0;
       geometry && check && i < geometry.attributes.position.array.length;
-      i += 3
+      i++
     ) {
+      if (count < i) {
+        geometry.attributes.position.setXYZ(
+          i,
+          copy.getX(i) - 10,
+          copy.getY(i) - 300,
+          copy.getZ(i) - 100
+        );
+      } else {
+        geometry.attributes.position.setXYZ(
+          i,
+          copy.getX(i),
+          copy.getY(i),
+          copy.getZ(i)
+        );
+      }
       // if (count % geometry.attributes.position.array.length < i) {
       //   geometry.attributes.position.array[i + 0] = check[i + 0] - 10;
       //   geometry.attributes.position.array[i + 1] = check[i + 1] - 300;
