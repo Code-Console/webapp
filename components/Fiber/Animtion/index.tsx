@@ -12,6 +12,7 @@ import RandomShader from "./RandomShader";
 import MakersFund from "./MakersFund";
 import BlockXYZ from "./BlockXYZ";
 import AnimationModel from "../AnimationModel";
+import TextAnim from "./TextAnim";
 const AnimationFiberCanvas = () => {
   const animationType = useAnimType();
   const getAnim = () => {
@@ -36,7 +37,7 @@ const AnimationFiberCanvas = () => {
       case AnimType.BlockXYZ:
         return <BlockXYZ />;
       case AnimType.TEXT_STRACE:
-        return <BlockXYZ />;
+        return <TextAnim />;
       default:
         return <RandomShader />;
     }

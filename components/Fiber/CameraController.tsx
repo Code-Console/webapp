@@ -7,7 +7,7 @@ const CameraController = () => {
     React.useEffect(
       () => {
         const controls = new OrbitControls(camera, gl.domElement);
-        controls.minDistance = 100;
+        controls.minDistance = 1;
         controls.maxDistance = 1000;
         controls.reset();
         return () => {
