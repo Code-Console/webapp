@@ -93,7 +93,7 @@ const BlockXYZ = (props: any) => {
         j++;
       }
     });
-    geometry.attributes.position.array = positions;
+    // geometry.attributes.position.array = positions;
     geometry.attributes.position.needsUpdate = true;
   });
   React.useEffect(() => {
