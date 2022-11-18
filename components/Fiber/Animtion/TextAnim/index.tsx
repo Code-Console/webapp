@@ -1,6 +1,5 @@
 import React from "react";
 import * as THREE from "three";
-import CameraController from "../../CameraController";
 import { useFrame } from "@react-three/fiber";
 import { dealWithKeyboard } from "../../../util/Keyboard";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";

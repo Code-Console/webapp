@@ -6,8 +6,8 @@ import { dealWithKeyboard } from "../../../util/Keyboard";
 import { FontLoader, Font } from "three/examples/jsm/loaders/FontLoader";
 import { basePath } from "../../../Assets";
 import gsap from "gsap";
-import { MeshBasicMaterial, ShaderMaterial } from "three";
-import { basicMultiShader, basicShader } from "../../../Shaders";
+import { ShaderMaterial } from "three";
+import { basicMultiShader } from "../../../Shaders";
 
 interface IObject {
   positions?: THREE.BufferGeometry;
@@ -184,7 +184,7 @@ const Reveal = (props: any) => {
       ease: "Power1.out",
     });
     let time = 5.5;
-    let delTime = 1;
+    const delTime = 1;
     ///////----4
     gsapAnim({
       str: "REVEAL THE IMPOSSIBLE",
