@@ -514,7 +514,6 @@ export const pointShaderAnim: IShader = {
     }`,
 };
 
-
 export const basicMultiShader: IShader = {
   vertex: `
     varying vec2 vUv;
@@ -529,5 +528,20 @@ export const basicMultiShader: IShader = {
         vec2 colb = vec2(sin(u_time*.1),cos(u_time*.1));
         
         gl_FragColor = vec4(vUv.x,colb,1.0);
+    }`,
+};
+export const moveTexShader: IShader = {
+  vertex: `
+  uniform vec2 uvScale;
+  varying vec2 vUv;
+  void main(){
+    vUv = uvScale * uv;
+    vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+    gl_Position = projectionMatrix * mvPosition;
+  }`,
+  fragment: `
+    varying vec2 vUv;
+    void main( void ) {
+      gl_FragColor = vec4(vUv.rg,1.,1.);
     }`,
 };

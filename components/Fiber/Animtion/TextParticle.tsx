@@ -1,7 +1,7 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import React from "react";
 import { CreateParticles } from "../../ThreeJS/Particle/CreateParticles";
-import { basePath } from "../../Assets";
+import { Lobster_Regular } from "../../Assets";
 const TextParticle = (props: any) => {
   const [createParticles, setCreateParticles] =
     React.useState<CreateParticles>();
@@ -10,7 +10,7 @@ const TextParticle = (props: any) => {
     const FontLoader = (await import("three/examples/jsm/loaders/FontLoader"))
       .FontLoader;
     const loader = new FontLoader();
-    loader.load(`${basePath}3D/Lobster_Regular.json`, (font) => {
+    loader.load(Lobster_Regular, (font) => {
       if (camera && gl && scene) {
         const createParticles = new CreateParticles({
           scene: scene,
