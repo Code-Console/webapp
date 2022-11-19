@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import * as THREE from "three";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
-import { basePath } from "../../Assets";
+import { Lobster_Regular } from "../../Assets";
 import { Environment } from "./Environment";
 const Particle = () => {
   const [environment, setEnvironment] = React.useState<Environment>();
@@ -18,7 +18,7 @@ const Particle = () => {
 
     let typo: Font | null = null;
     const loader = new FontLoader(manager);
-    loader.load(`${basePath}3D/Lobster_Regular.json`, (font) => {
+    loader.load(Lobster_Regular, (font) => {
       typo = font;
     });
   };

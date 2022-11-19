@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
-import { FaBars, FaHome, FaNapster, FaTimes } from "react-icons/fa";
+import { FaBars, FaHome, FaNapster, FaRegHandPointRight, FaTimes } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { AnimType } from "../../../interfaces";
 import { actionAnimType } from "../../../redux/action";
@@ -8,6 +9,7 @@ import { mobileBreakPoint } from "../../Assets";
 import { useAnimType } from "../../hooks";
 
 const Menu = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const [show, setShow] = React.useState(false);
   const animationType = useAnimType();
@@ -16,6 +18,12 @@ const Menu = () => {
     dispatch(actionAnimType(animType));
     setTimeout(() => setShow(false), 300);
   };
+  React.useEffect(() => {
+    const animType = router.query.type as AnimType;
+    if (menuItems.includes(animType)) {
+      dispatch(actionAnimType(animType));
+    }
+  }, [router]);
   return (
     <>
       <button className="menu-nav btn" onClick={() => setShow(!show)}>
@@ -24,7 +32,7 @@ const Menu = () => {
       <div className={`nav-container ${show ? "show" : ""}`}>
         <div className="nav-btn btn btn-visit-loft">
           <Link href="/" style={{ width: "100%" }}>
-            <div>
+            <div style={{ color: "orange" }}>
               <FaHome />
               <span className="nav-text">Home</span>
             </div>
@@ -37,7 +45,7 @@ const Menu = () => {
             key={item}
           >
             <div className={`${item === animationType ? "menu-select" : ""}`}>
-              <FaNapster />
+              {item === animationType ? <FaRegHandPointRight /> : <FaNapster />}
               <span className="nav-text">{item} </span>
             </div>
           </div>

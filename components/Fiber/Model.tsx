@@ -11,7 +11,7 @@ const Model = (props: any) => {
   const ref = useRef();
   React.useEffect(() => {
     if (watchGlb) {
-      setWireFrameMaterial(watchGlb.scene);
+      setWireFrameMaterial({ model: watchGlb.scene, opacity: props?.opacity });
       dispatch(actionDeposited(true));
     }
   }, [watchGlb]);

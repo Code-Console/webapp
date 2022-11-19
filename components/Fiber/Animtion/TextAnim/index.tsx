@@ -3,7 +3,8 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { dealWithKeyboard } from "../../../util/Keyboard";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
-import { basePath } from "../../../Assets";
+import { Lobster_Regular } from "../../../Assets";
+import { glitchShader } from "../../../Shaders";
 const TextAnim = (props: any) => {
   const ref: any = React.useRef();
   const loader = new FontLoader();
@@ -11,17 +12,25 @@ const TextAnim = (props: any) => {
     new THREE.PlaneGeometry(1, 1),
     new THREE.MeshBasicMaterial({ color: "#000000" })
   );
+  const uniforms = {
+    seed: { value: 0.02 },
+    amount: { value: 0.08 },
+  };
   mesh.position.set(0, 0, -200);
   const check = new THREE.BufferGeometry();
   let geometry: THREE.ShapeGeometry | undefined;
-  loader.load(`${basePath}3D/Lobster_Regular.json`, (font) => {
+  loader.load(Lobster_Regular, (font) => {
     const shapes = font?.generateShapes("This is for", 30);
     geometry = new THREE.ShapeGeometry(shapes);
     geometry.computeBoundingBox();
     geometry.center();
     const testMesh = new THREE.Mesh(
       geometry,
-      new THREE.MeshBasicMaterial({ color: "#ff0000" })
+      new THREE.ShaderMaterial({
+        fragmentShader: glitchShader.fragment,
+        vertexShader: glitchShader.vertex,
+        uniforms: uniforms,
+      })
     );
     mesh.add(testMesh);
     check.copy(geometry);
@@ -30,19 +39,49 @@ const TextAnim = (props: any) => {
   let count = 0;
   useFrame((state) => {
     state.clock.getElapsedTime();
-    count += 50;
+    count += 1;
+    uniforms.seed.value = Math.random();
     const copy = check?.attributes.position;
     for (
       let i = 0;
       geometry && check && i < geometry.attributes.position.array.length;
       i++
     ) {
-      if (count < i) {
+      if (copy.getY(i) < 21 - (count % 100) && count % 400 < 100) {
         geometry.attributes.position.setXYZ(
           i,
-          copy.getX(i) - 10,
+          copy.getX(i),
           copy.getY(i) - 300,
-          copy.getZ(i) - 100
+          copy.getZ(i)
+        );
+      } else if (
+        copy.getX(i) > (count % 100) * 2 - 81 &&
+        count % 400 > 100 &&
+        count % 400 < 200
+      ) {
+        geometry.attributes.position.setXYZ(
+          i,
+          copy.getX(i) + 400,
+          copy.getY(i),
+          copy.getZ(i)
+        );
+      } else if (
+        copy.getY(i) > -21 + (count % 100) &&
+        count % 400 > 200 &&
+        count % 400 < 300
+      ) {
+        geometry.attributes.position.setXYZ(
+          i,
+          copy.getX(i),
+          copy.getY(i) + 300,
+          copy.getZ(i)
+        );
+      } else if (copy.getX(i) < -(count % 100) * 2 + 81 && count % 400 > 300) {
+        geometry.attributes.position.setXYZ(
+          i,
+          copy.getX(i) - 400,
+          copy.getY(i) - 100,
+          copy.getZ(i)
         );
       } else {
         geometry.attributes.position.setXYZ(
@@ -52,16 +91,6 @@ const TextAnim = (props: any) => {
           copy.getZ(i)
         );
       }
-      // if (count % geometry.attributes.position.array.length < i) {
-      //   geometry.attributes.position.array[i + 0] = check[i + 0] - 10;
-      //   geometry.attributes.position.array[i + 1] = check[i + 1] - 300;
-      //   geometry.attributes.position.array[i + 2] = check[i + 2] - 100;
-      // } else {
-      //   geometry.attributes.position.array[i + 0] = check[i + 0];
-      //   geometry.attributes.position.array[i + 1] = check[i + 1];
-      //   geometry.attributes.position.array[i + 2] = check[i + 2];
-      // }
-
       geometry.attributes.position.needsUpdate = true;
     }
   });
