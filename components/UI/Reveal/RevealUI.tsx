@@ -67,6 +67,7 @@ const RevealUI = () => {
         .RevealUI {
             max-width:1400px;
             margin:0 auto;
+            opacity : .7;
         }
         .section-container{
           

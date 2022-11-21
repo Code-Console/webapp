@@ -33,50 +33,20 @@ const Reveal = (props: any) => {
   const meshBackref: any = React.useRef();
   const loader = new FontLoader();
   const group = new THREE.Group();
-  group.position.set(0, 0, -200);
+  let add = 0;
+  if (window.innerHeight > window.innerWidth) {
+    add = 400;
+  }
+
+  group.position.set(0, 0, -200 - add);
+  const maxY = 300 + add;
+
   const gsapState = { count: 0 };
   gsap.registerPlugin(ScrollTrigger);
   const uniforms = {
     u_time: { value: 0 },
   };
   const reveal: IReveal = { textObjects: [], disturbGroup: new THREE.Group() };
-  const gsapAnim = ({
-    str,
-    size,
-    inTime,
-    out,
-    pos,
-  }: {
-    str: string;
-    size: number;
-    inTime: number;
-    out: number;
-    pos: number[];
-  }) => {
-    const storiesThatText = createShapeGeometry({
-      str: str,
-      size: size,
-    });
-    group.add(storiesThatText.mesh);
-    storiesThatText.mesh.scale.set(0.001, 0.001, 0.001);
-    gsap.to(storiesThatText.mesh.scale, {
-      x: 1,
-      y: 1,
-      z: 1,
-      duration: 0.3,
-      delay: inTime,
-      ease: "back.out(5)",
-    });
-    gsap.to(storiesThatText.mesh.position, {
-      x: pos[0],
-      y: pos[1],
-      z: pos[2],
-      duration: 0.2,
-      delay: out,
-      ease: "Power1.out",
-    });
-    return storiesThatText;
-  };
   const createShapeGeometry = ({
     str,
     size,
@@ -109,7 +79,6 @@ const Reveal = (props: any) => {
       meshNgeo.mesh.scale.set(0.001, 0.001, 0.001);
       group.add(meshNgeo.mesh);
     });
-    const time = 2;
     const disturb = createShapeGeometry({ str: "DISTURB", size: 35 });
 
     if (disturb.geometry) {
@@ -124,7 +93,7 @@ const Reveal = (props: any) => {
     for (let i = 0; i < 5; i++) {
       reveal.disturbGroup.add(disturb.mesh.clone());
     }
-    reveal.disturbGroup.position.set(0, -350, 0);
+    reveal.disturbGroup.position.set(0, -150 - maxY, 0);
     group.add(reveal.disturbGroup);
     const first = reveal.textObjects[0]; //createShapeGeometry({ str: "This is for", size: 30 });
     const fPositions = new THREE.BufferGeometry();
@@ -166,13 +135,16 @@ const Reveal = (props: any) => {
         duration: 0.5,
         delay: 2.2,
         ease: "Power1.out",
+        onComplete: () => {
+          if (obj1?.mesh) obj1.mesh.position.z = 1000;
+        },
       });
     }
 
     if (first?.mesh)
       gsap.to(first.mesh.position, {
         x: 400,
-        y: 250,
+        y: maxY,
         duration: 0.2,
         delay: 2.0,
         ease: "Power1.out",
@@ -194,11 +166,10 @@ const Reveal = (props: any) => {
         trigger: ".section-second",
         start: "top bottom",
         end: "top top",
-        movePos: new THREE.Vector3(0, 400, 0),
+        movePos: new THREE.Vector3(0, maxY, 0),
         position: madeMesh.position,
       });
     }
-
     ///////----3
 
     const mesh3 = reveal.textObjects?.[3]?.mesh;
@@ -233,11 +204,10 @@ const Reveal = (props: any) => {
         trigger: ".section-third",
         start: "top bottom",
         end: "top top",
-        movePos: new THREE.Vector3(0, 400, 0),
+        movePos: new THREE.Vector3(0, maxY, 0),
         position: mesh3.position,
       });
     }
-
     const diff = 30;
     let pera = -100 + (8 - 5) * diff;
     const mesh4 = reveal.textObjects?.[4]?.mesh;
@@ -275,7 +245,7 @@ const Reveal = (props: any) => {
         trigger: ".section-third",
         start: `top ${pera + diff}%`,
         end: `top ${pera}%`,
-        movePos: new THREE.Vector3(-200, 300, 0),
+        movePos: new THREE.Vector3(-200, maxY, 0),
         position: mesh4.position,
       });
     }
@@ -318,7 +288,7 @@ const Reveal = (props: any) => {
             scrub: true,
             immediateRender: false,
           },
-          y: 300,
+          y: maxY,
         });
       }
     }
@@ -362,7 +332,7 @@ const Reveal = (props: any) => {
             scrub: true,
             immediateRender: false,
           },
-          y: 275 + (11 - i) * 50,
+          y: maxY + (11 - i) * 50,
         });
       }
     }
@@ -405,7 +375,7 @@ const Reveal = (props: any) => {
             scrub: true,
             immediateRender: false,
           },
-          y: 275 + (14 - i) * 50,
+          y: maxY + (14 - i) * 50,
         });
       }
     }
@@ -449,7 +419,7 @@ const Reveal = (props: any) => {
             scrub: true,
             immediateRender: false,
           },
-          y: 275 + (17 - i) * 50,
+          y: maxY + (17 - i) * 50,
         });
       }
     }
@@ -493,7 +463,7 @@ const Reveal = (props: any) => {
             scrub: true,
             immediateRender: false,
           },
-          y: 275 + (19 - i) * 50,
+          y: maxY + (19 - i) * 50,
         });
       }
     }
@@ -512,7 +482,7 @@ const Reveal = (props: any) => {
         y: 0,
         onStart: () => {
           for (let i = 0; i < reveal.disturbGroup.children.length; i++) {
-            reveal.disturbGroup.children[i].position.set(0, -250, 0);
+            reveal.disturbGroup.children[i].position.set(0, -150 - maxY, 0);
           }
         },
         onComplete: () => {
@@ -521,7 +491,8 @@ const Reveal = (props: any) => {
             gsap.to(mesh.position, {
               x: 0,
               y: 120 - 50 * i,
-              duration: 0.3,
+              duration: 0.2,
+              delay: i * 0.1,
               ease: "back.out(2)",
             });
           });
@@ -540,7 +511,7 @@ const Reveal = (props: any) => {
             scrub: true,
             immediateRender: false,
           },
-          y: 400,
+          y: maxY + 100,
           onStart: () => {
             reveal.disturbGroup.position.y = 0;
           },
@@ -586,7 +557,7 @@ const Reveal = (props: any) => {
             scrub: true,
             immediateRender: false,
           },
-          y: 275 + (22 - i) * 50,
+          y: maxY + (22 - i) * 50,
         });
       }
     }
@@ -623,7 +594,6 @@ const Reveal = (props: any) => {
     } else {
       // mesh?.children[0].position.set(0, 100, 0);
     }
-    console.log(reveal.disturbGroup?.position.y);
     if (
       disturbObj?.geometry &&
       disturbObj?.positions &&

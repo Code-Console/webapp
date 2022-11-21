@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { FaBars, FaHome, FaNapster, FaTimes } from "react-icons/fa";
 import { useDispatch } from "react-redux";
@@ -8,6 +9,7 @@ import { mobileBreakPoint } from "../../Assets";
 import { useAnimType } from "../../hooks";
 
 const Menu = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const [show, setShow] = React.useState(false);
   const animationType = useAnimType();
@@ -16,6 +18,12 @@ const Menu = () => {
     dispatch(actionAnimType(animType));
     setTimeout(() => setShow(false), 300);
   };
+  React.useEffect(() => {
+    const animType = router.query.type as AnimType;
+    if (menuItems.includes(animType)) {
+      dispatch(actionAnimType(animType));
+    }
+  }, [router]);
   return (
     <>
       <button className="menu-nav btn" onClick={() => setShow(!show)}>
