@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { dealWithKeyboard } from "../../../util/Keyboard";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
-import { basePath } from "../../../Assets";
+import { Lobster_Regular } from "../../../Assets";
 const TextAnim = (props: any) => {
   const ref: any = React.useRef();
   const loader = new FontLoader();
@@ -14,7 +14,7 @@ const TextAnim = (props: any) => {
   mesh.position.set(0, 0, -200);
   const check = new THREE.BufferGeometry();
   let geometry: THREE.ShapeGeometry | undefined;
-  loader.load(`${basePath}3D/Lobster_Regular.json`, (font) => {
+  loader.load(Lobster_Regular, (font) => {
     const shapes = font?.generateShapes("This is for", 30);
     geometry = new THREE.ShapeGeometry(shapes);
     geometry.computeBoundingBox();
@@ -52,16 +52,6 @@ const TextAnim = (props: any) => {
           copy.getZ(i)
         );
       }
-      // if (count % geometry.attributes.position.array.length < i) {
-      //   geometry.attributes.position.array[i + 0] = check[i + 0] - 10;
-      //   geometry.attributes.position.array[i + 1] = check[i + 1] - 300;
-      //   geometry.attributes.position.array[i + 2] = check[i + 2] - 100;
-      // } else {
-      //   geometry.attributes.position.array[i + 0] = check[i + 0];
-      //   geometry.attributes.position.array[i + 1] = check[i + 1];
-      //   geometry.attributes.position.array[i + 2] = check[i + 2];
-      // }
-
       geometry.attributes.position.needsUpdate = true;
     }
   });
