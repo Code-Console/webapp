@@ -22,11 +22,11 @@ interface IObject {
 }
 interface IReveal {
   font?: Font;
-  disturbObj?: IObject;
+  disturbGroup: THREE.Group;
 
   textObjects: IObject[];
 }
-
+const disturbObj: IObject = {};
 const Reveal = (props: any) => {
   const dispatch = useDispatch();
   const ref: any = React.useRef();
@@ -39,7 +39,7 @@ const Reveal = (props: any) => {
   const uniforms = {
     u_time: { value: 0 },
   };
-  const reveal: IReveal = { textObjects: [] };
+  const reveal: IReveal = { textObjects: [], disturbGroup: new THREE.Group() };
   const gsapAnim = ({
     str,
     size,
@@ -92,7 +92,7 @@ const Reveal = (props: any) => {
       geometry: geometry,
       mesh: new THREE.Mesh(
         geometry,
-        new THREE.MeshBasicMaterial({ color: "#000000", depthWrite: false })
+        new THREE.MeshBasicMaterial({ color: "#ffffff", wireframe: false })
       ),
     };
   };
@@ -105,7 +105,23 @@ const Reveal = (props: any) => {
       meshNgeo.mesh.scale.set(0.001, 0.001, 0.001);
       group.add(meshNgeo.mesh);
     });
+    const time = 2;
+    const disturb = createShapeGeometry({ str: "DISTURB", size: 35 });
 
+    if (disturb.geometry) {
+      const dPositions = new THREE.BufferGeometry();
+      dPositions.copy(disturb.geometry);
+      disturbObj.geometry = disturb.geometry;
+      disturbObj.mesh = disturb.mesh;
+      disturbObj.positions = dPositions;
+    }
+
+    reveal.disturbGroup.add(disturb.mesh);
+    for (let i = 0; i < 5; i++) {
+      reveal.disturbGroup.add(disturb.mesh.clone());
+    }
+    reveal.disturbGroup.position.set(0, -350, 0);
+    group.add(reveal.disturbGroup);
     const first = reveal.textObjects[0]; //createShapeGeometry({ str: "This is for", size: 30 });
     const fPositions = new THREE.BufferGeometry();
     if (first.geometry) fPositions.copy(first.geometry);
@@ -115,6 +131,7 @@ const Reveal = (props: any) => {
       mesh: first.mesh,
     };
     reveal.textObjects[0] = firstObj;
+
     gsap.to(gsapState, {
       count: first?.geometry?.attributes.position.count || 0,
       duration: 1,
@@ -147,6 +164,7 @@ const Reveal = (props: any) => {
         ease: "Power1.out",
       });
     }
+
     if (first?.mesh)
       gsap.to(first.mesh.position, {
         x: 400,
@@ -204,14 +222,16 @@ const Reveal = (props: any) => {
       });
     }
 
+    const diff = 30;
+    let pera = -100 + (8 - 5) * diff;
     const mesh4 = reveal.textObjects?.[4]?.mesh;
     if (mesh4) {
       mesh4.scale.set(0.001, 0.001, 0.001);
       gsap.to(mesh4.scale, {
         scrollTrigger: {
           trigger: ".section-third",
-          start: "top 80%",
-          end: "top top",
+          start: `top ${pera + diff * 2}%`,
+          end: `top ${pera + diff * 1}%`,
           markers: false,
           scrub: true,
           immediateRender: false,
@@ -223,119 +243,337 @@ const Reveal = (props: any) => {
       gsap.to(mesh4.position, {
         scrollTrigger: {
           trigger: ".section-third",
-          start: "top 80%",
-          end: "top top",
+          start: `top ${pera + diff * 2}%`,
+          end: `top ${pera + diff * 1}%`,
           markers: false,
           scrub: true,
           immediateRender: false,
         },
-        x: -60,
-      });
-      // setPositionValue({
-      //   trigger: ".section-fourth",
-      //   start: "top bottom",
-      //   end: "top top",
-      //   movePos: new THREE.Vector3(0, 400, 0),
-      //   position: mesh4.position,
-      // });
-    }
-
-    const mesh5 = reveal.textObjects?.[5]?.mesh;
-    if (mesh5) {
-      mesh5.scale.set(0.001, 0.001, 0.001);
-      gsap.to(mesh5.scale, {
-        scrollTrigger: {
-          trigger: ".section-third",
-          start: "top 80%",
-          end: "top top",
-          markers: false,
-          scrub: true,
-          immediateRender: false,
+        onComplete: () => {
+          mesh4.position.x = -81;
         },
-        x: 1,
-        y: 1,
-        z: 1,
+        x: -80,
       });
-      gsap.to(mesh5.position, {
-        scrollTrigger: {
-          trigger: ".section-third",
-          start: "top 80%",
-          end: "top top",
-          markers: false,
-          scrub: true,
-          immediateRender: false,
-        },
-        x: 60,
-      });
+      pera = -100 + (8 - 7) * diff;
       setPositionValue({
-        trigger: ".section-fourth",
-        start: "top bottom",
-        end: "top top",
-        movePos: new THREE.Vector3(0, 400, 0),
-        position: mesh5.position,
+        trigger: ".section-third",
+        start: `top ${pera + diff}%`,
+        end: `top ${pera}%`,
+        movePos: new THREE.Vector3(-200, 300, 0),
+        position: mesh4.position,
       });
     }
+    const xArr = [60, 70, 110];
+    for (let i = 5; i < 8; i++) {
+      pera = -100 + (8 - i) * diff;
+      const mesh5 = reveal.textObjects?.[i]?.mesh;
+      if (mesh5) {
+        mesh5.scale.set(0.001, 0.001, 0.001);
+        gsap.to(mesh5.scale, {
+          scrollTrigger: {
+            trigger: ".section-third",
+            start: `top ${pera + diff * 2}%`,
+            end: `top ${pera + diff * 1}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          x: 1,
+          y: 1,
+          z: 1,
+        });
+        gsap.to(mesh5.position, {
+          scrollTrigger: {
+            trigger: ".section-third",
+            start: `top ${pera + diff * 2}%`,
+            end: `top ${pera + diff * 1}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          x: xArr[i - 5],
+        });
+        gsap.to(mesh5.position, {
+          scrollTrigger: {
+            trigger: ".section-third",
+            start: `top ${pera + diff}%`,
+            end: `top ${pera}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          y: 300,
+        });
+      }
+    }
 
-    const mesh6 = reveal.textObjects?.[6]?.mesh;
-    if (mesh6) {
-      mesh6.scale.set(0.001, 0.001, 0.001);
-      gsap.to(mesh6.scale, {
+    for (let i = 8; i < 11; i++) {
+      pera = -90 + (11 - i) * diff;
+      const mesh8 = reveal.textObjects?.[i]?.mesh;
+      if (mesh8) {
+        mesh8.scale.set(0.001, 0.001, 0.001);
+        gsap.to(mesh8.scale, {
+          scrollTrigger: {
+            trigger: ".section-fourth",
+            start: `top ${pera + diff * 2}%`,
+            end: `top ${pera + diff * 1}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          x: 1,
+          y: 1,
+          z: 1,
+        });
+        gsap.to(mesh8.position, {
+          scrollTrigger: {
+            trigger: ".section-fourth",
+            start: `top ${pera + diff}%`,
+            end: `top ${pera}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          y: -75 + (11 - i) * 50,
+        });
+        pera = -90;
+        gsap.to(mesh8.position, {
+          scrollTrigger: {
+            trigger: ".section-fourth",
+            start: `top ${pera + diff}%`,
+            end: `top ${pera}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          y: 275 + (11 - i) * 50,
+        });
+      }
+    }
+    for (let i = 11; i < 14; i++) {
+      pera = -90 + (14 - i) * diff;
+      const mesh11 = reveal.textObjects?.[i]?.mesh;
+      if (mesh11) {
+        mesh11.scale.set(0.001, 0.001, 0.001);
+        gsap.to(mesh11.scale, {
+          scrollTrigger: {
+            trigger: ".section-fifth",
+            start: `top ${pera + diff * 2}%`,
+            end: `top ${pera + diff * 1}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          x: 1,
+          y: 1,
+          z: 1,
+        });
+        gsap.to(mesh11.position, {
+          scrollTrigger: {
+            trigger: ".section-fifth",
+            start: `top ${pera + diff}%`,
+            end: `top ${pera}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          y: -75 + (14 - i) * 50,
+        });
+        pera = -90;
+        gsap.to(mesh11.position, {
+          scrollTrigger: {
+            trigger: ".section-fifth",
+            start: `top ${pera + diff}%`,
+            end: `top ${pera}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          y: 275 + (14 - i) * 50,
+        });
+      }
+    }
+
+    for (let i = 14; i < 17; i++) {
+      pera = -90 + (17 - i) * diff;
+      const mesh11 = reveal.textObjects?.[i]?.mesh;
+      if (mesh11) {
+        mesh11.scale.set(0.001, 0.001, 0.001);
+        gsap.to(mesh11.scale, {
+          scrollTrigger: {
+            trigger: ".section-six",
+            start: `top ${pera + diff * 2}%`,
+            end: `top ${pera + diff * 1}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          x: 1,
+          y: 1,
+          z: 1,
+        });
+        gsap.to(mesh11.position, {
+          scrollTrigger: {
+            trigger: ".section-six",
+            start: `top ${pera + diff}%`,
+            end: `top ${pera}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          y: -75 + (17 - i) * 50,
+        });
+        pera = -90;
+        gsap.to(mesh11.position, {
+          scrollTrigger: {
+            trigger: ".section-six",
+            start: `top ${pera + diff}%`,
+            end: `top ${pera}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          y: 275 + (17 - i) * 50,
+        });
+      }
+    }
+
+    for (let i = 17; i < 19; i++) {
+      pera = -90 + (19 - i) * diff;
+      const mesh11 = reveal.textObjects?.[i]?.mesh;
+      if (mesh11) {
+        mesh11.scale.set(0.001, 0.001, 0.001);
+        gsap.to(mesh11.scale, {
+          scrollTrigger: {
+            trigger: ".section-seven",
+            start: `top ${pera + diff * 2}%`,
+            end: `top ${pera + diff * 1}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          x: 1,
+          y: 1,
+          z: 1,
+        });
+        gsap.to(mesh11.position, {
+          scrollTrigger: {
+            trigger: ".section-seven",
+            start: `top ${pera + diff}%`,
+            end: `top ${pera}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          y: -75 + (19 - i) * 50,
+        });
+        pera = -90;
+        gsap.to(mesh11.position, {
+          scrollTrigger: {
+            trigger: ".section-seven",
+            start: `top ${pera + diff}%`,
+            end: `top ${pera}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          y: 275 + (19 - i) * 50,
+        });
+      }
+    }
+
+    {
+      pera = -0;
+      gsap.to(reveal.disturbGroup.position, {
         scrollTrigger: {
-          trigger: ".section-third",
-          start: "top 50%",
-          end: "top 120%",
+          trigger: ".section-eight",
+          start: `top ${pera + diff * 1.1}%`,
+          end: `top ${pera + diff * 1}%`,
           markers: false,
           scrub: true,
           immediateRender: false,
         },
-        x: 1,
-        y: 1,
-        z: 1,
+        y: 0,
+        onStart: () => {
+          for (let i = 0; i < reveal.disturbGroup.children.length; i++) {
+            reveal.disturbGroup.children[i].position.set(0, -250, 0);
+          }
+        },
+        onComplete: () => {
+          reveal.disturbGroup.children.forEach((mesh, i) => {
+            if (!mesh) return;
+            gsap.to(mesh.position, {
+              x: 0,
+              y: 120 - 50 * i,
+              duration: 0.3,
+              ease: "back.out(2)",
+            });
+          });
+        },
       });
-      // gsap.to(mesh6.position, {
-      //   scrollTrigger: {
-      //     trigger: ".section-third",
-      //     start: "top 90%",
-      //     end: "top top",
-      //     markers: false,
-      //     scrub: true,
-      //     immediateRender: false,
-      //   },
-      //   x: 50,
-      // });
-      // setPositionValue({
-      //   trigger: ".section-fourth",
-      //   start: "top bottom",
-      //   end: "top top",
-      //   movePos: new THREE.Vector3(0, 400, 0),
-      //   position: mesh6.position,
-      // });
+      pera = -120;
+      gsap.fromTo(
+        reveal.disturbGroup.position,
+        { x: 0 },
+        {
+          scrollTrigger: {
+            trigger: ".section-eight",
+            start: `top ${pera + diff}%`,
+            end: `top ${pera}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          y: 400,
+          onStart: () => {
+            reveal.disturbGroup.position.y = 0;
+          },
+        }
+      );
     }
-
-    return;
-    let time = 10;
-    const delTime = 1;
-    time += delTime;
-    time += delTime;
-    const disturb = createShapeGeometry({ str: "DISTURB", size: 35 });
-    reveal.disturbObj = disturb;
-    const disturbMesh = [disturb.mesh];
-
-    for (let i = 0; i < 5; i++) {
-      disturbMesh.push(disturb.mesh.clone());
+    for (let i = 19; i < 22; i++) {
+      pera = -90 + (23.5 - i) * diff;
+      const mesh11 = reveal.textObjects?.[i]?.mesh;
+      if (mesh11) {
+        mesh11.scale.set(0.001, 0.001, 0.001);
+        gsap.to(mesh11.scale, {
+          scrollTrigger: {
+            trigger: ".section-ten",
+            start: `top ${pera + diff * 2}%`,
+            end: `top ${pera + diff * 1}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          x: 1,
+          y: 1,
+          z: 1,
+        });
+        gsap.to(mesh11.position, {
+          scrollTrigger: {
+            trigger: ".section-ten",
+            start: `top ${pera + diff}%`,
+            end: `top ${pera}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          y: -75 + (22 - i) * 50,
+        });
+        pera = -90;
+        gsap.to(mesh11.position, {
+          scrollTrigger: {
+            trigger: ".section-ten",
+            start: `top ${pera + diff}%`,
+            end: `top ${pera}%`,
+            markers: false,
+            scrub: true,
+            immediateRender: false,
+          },
+          y: 275 + (22 - i) * 50,
+        });
+      }
     }
-
-    disturbMesh.forEach((mesh, i) => {
-      group.add(mesh);
-      mesh.position.set(0, -250, 0);
-      gsap.to(mesh.position, {
-        x: 0,
-        y: 120 - 50 * i,
-        duration: 0.3,
-        delay: time + i * 0.1,
-        ease: "back.out(2)",
-      });
-    });
   });
 
   useFrame((state) => {
@@ -369,7 +607,20 @@ const Reveal = (props: any) => {
     } else {
       // mesh?.children[0].position.set(0, 100, 0);
     }
-    const val = reveal?.disturbObj?.mesh?.position?.y;
+    console.log(reveal.disturbGroup?.position.y)
+    if (disturbObj?.geometry && disturbObj?.positions && reveal.disturbGroup?.position.y > -150 && reveal.disturbGroup?.position.y < 250) {
+      const copy = disturbObj?.positions.attributes.position;
+      for (let i = 0; i < disturbObj?.geometry.attributes.position.count; i++) {
+        disturbObj.geometry.attributes.position.setXYZ(
+          i,
+          copy.getX(i) - Math.random()*2,
+          copy.getY(i) - Math.random()*1,
+          copy.getZ(i) - Math.random()*2
+        );
+        disturbObj.geometry.attributes.position.needsUpdate = true;
+      }
+    }
+    const val = reveal?.disturbGroup?.mesh?.position?.y;
     if (val && val > -250 && val < 100) {
       meshBackref?.current?.position.set(0, 0, -210);
     } else {

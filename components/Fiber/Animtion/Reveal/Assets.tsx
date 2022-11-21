@@ -18,24 +18,29 @@ export const pathSVG = () => (
 export const revealStr = [
   { text: "This is for" },
   { text: "reveal" },
-  { text: "WE’RE MADE OF\n       STORIES" },
-  { text: "STORIES THAT \n         LIVE\n LAST REVEAL" },
+  { text: "WE’RE MADE OF\n          STORIES" },
+  { text: "STORIES THAT \n             LIVE\n  LAST REVEAL" },
   { text: "THAT" },
   { text: "LIVE" },
   { text: "LAST" },
   { text: "REVEAL" },
+  
   { text: "REVEAL" },
   { text: "THE" },
   { text: "IMPOSSIBLE" },
+
   { text: "IMPOSSIBLE" },
   { text: "TO" },
   { text: "FORGET" },
+
   { text: "360" },
   { text: "Strategical" },
   { text: "Branding" },
+  
   { text: "Branding That" },
   { text: "DISRUPTS" },
-  { text: "disrupts" },
+  
+  { text: "Disrupts" },
   { text: "to" },
   { text: "innovate" },
 ];

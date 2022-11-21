@@ -32,6 +32,11 @@ const RevealUI = () => {
         <section className="section-container section-third"></section>
         <section className="section-container section-fourth"></section>
         <section className="section-container section-fifth"></section>
+        <section className="section-container section-six"></section>
+        <section className="section-container section-seven"></section>
+        <section className="section-container section-eight"></section>
+        <section className="section-container section-nine"></section>
+        <section className="section-container section-ten"></section>
         {!state.hide && (
           <div className="main-overlay">
             <div className="loading">
@@ -64,29 +69,30 @@ const RevealUI = () => {
             margin:0 auto;
         }
         .section-container{
+          
             min-height: 100vh;
             margin:20px;
             display:flex;
             flex-direction: column;
         }
         .section-first{
-          background-color:#ff000031;
+          
         }
-        .section-second{
-          background-color:#ffff0031;
+        .section-seven{
+          
             padding-top:500px;
             align-items: flex-end;
         }
-        .section-third{
-          background-color:#ff00ff31;
+        .section-eight{
+          
         }
         .section-fourth{
-          background-color:#ffa00031;
+          
             padding-top:500px;
             align-items: center;
         }
         .section-fifth{
-          background-color:#ff00b031;
+          
             padding-top:500px;
             align-items: center;
             text-align:center;

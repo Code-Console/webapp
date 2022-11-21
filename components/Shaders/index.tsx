@@ -494,7 +494,7 @@ export const pointShaderAnim: IShader = {
     vUv = uv;
     vOpacity = opacity;
     vec4 mvPosition = modelViewMatrix * vec4(position, 1.);
-    gl_PointSize = 200. * (1. / -mvPosition.z);
+    gl_PointSize = 100. * (1. / -mvPosition.z);
     gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
   }`,
   fragment: `
@@ -542,6 +542,29 @@ export const moveTexShader: IShader = {
   fragment: `
     varying vec2 vUv;
     void main( void ) {
-      gl_FragColor = vec4(vUv.rg,1.,1.);
+      gl_FragColor = vec4(vUv.rg,1.,.4);
+    }`,
+};
+
+export const glowShader: IShader = {
+  vertex: `
+  varying vec3 vNormal;
+    varying vec3 vPositionNormal;
+    void main() 
+    {
+      vNormal = normalize( normalMatrix * normal ); 
+      vPositionNormal = normalize(( modelViewMatrix * vec4(position, 1.0) ).xyz);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+    }`,
+  fragment: `
+    uniform vec3 glowColor;
+    uniform float b;
+    uniform float p;
+    uniform float s;
+    varying vec3 vNormal;
+    varying vec3 vPositionNormal;
+    void main(){
+      float a = pow( b + s * abs(dot(vNormal, vPositionNormal)), p );
+      gl_FragColor = vec4( glowColor, a );
     }`,
 };

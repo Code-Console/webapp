@@ -27,8 +27,8 @@ const BlockXYZ = (props: any) => {
     for (let j = 0; j < numberOfPoints; j++) {
       const pointAt = (len * j) / numberOfPoints;
       const p = path[i].getPointAtLength(pointAt);
-      const ranX = (Math.random() - 0.5) * 10,
-        ranY = (Math.random() - 0.5) * 10;
+      const ranX = (Math.random() - 0.5) * 5,
+        ranY = (Math.random() - 0.5) * 5;
       points.push(
         new THREE.Vector3(
           (ranX + p.x - 1024) * 0.008,
