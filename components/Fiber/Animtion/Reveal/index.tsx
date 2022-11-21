@@ -92,7 +92,11 @@ const Reveal = (props: any) => {
       geometry: geometry,
       mesh: new THREE.Mesh(
         geometry,
-        new THREE.MeshBasicMaterial({ color: "#ffffff", wireframe: false })
+        new THREE.MeshBasicMaterial({
+          color: "#ffffff",
+          wireframe: false,
+          side: THREE.DoubleSide,
+        })
       ),
     };
   };
@@ -212,6 +216,18 @@ const Reveal = (props: any) => {
         x: 1,
         y: 1,
         z: 1,
+        ease: "back.out(2)",
+      });
+      gsap.to(mesh3.rotation, {
+        scrollTrigger: {
+          trigger: ".section-second",
+          start: "top 80%",
+          end: "top top",
+          markers: false,
+          scrub: true,
+          immediateRender: false,
+        },
+        z: Math.PI * 2,
       });
       setPositionValue({
         trigger: ".section-third",
@@ -306,17 +322,17 @@ const Reveal = (props: any) => {
         });
       }
     }
-
+    const diff2 = 10;
     for (let i = 8; i < 11; i++) {
-      pera = -90 + (11 - i) * diff;
+      pera = -0 + (11 - i) * diff2;
       const mesh8 = reveal.textObjects?.[i]?.mesh;
       if (mesh8) {
         mesh8.scale.set(0.001, 0.001, 0.001);
         gsap.to(mesh8.scale, {
           scrollTrigger: {
             trigger: ".section-fourth",
-            start: `top ${pera + diff * 2}%`,
-            end: `top ${pera + diff * 1}%`,
+            start: `top ${pera + diff2 * 2}%`,
+            end: `top ${pera + diff2 * 1}%`,
             markers: false,
             scrub: true,
             immediateRender: false,
@@ -328,7 +344,7 @@ const Reveal = (props: any) => {
         gsap.to(mesh8.position, {
           scrollTrigger: {
             trigger: ".section-fourth",
-            start: `top ${pera + diff}%`,
+            start: `top ${pera + diff2}%`,
             end: `top ${pera}%`,
             markers: false,
             scrub: true,
@@ -336,11 +352,11 @@ const Reveal = (props: any) => {
           },
           y: -75 + (11 - i) * 50,
         });
-        pera = -90;
+        pera = -50;
         gsap.to(mesh8.position, {
           scrollTrigger: {
             trigger: ".section-fourth",
-            start: `top ${pera + diff}%`,
+            start: `top ${pera + diff2}%`,
             end: `top ${pera}%`,
             markers: false,
             scrub: true,
@@ -351,15 +367,15 @@ const Reveal = (props: any) => {
       }
     }
     for (let i = 11; i < 14; i++) {
-      pera = -90 + (14 - i) * diff;
+      pera = -0 + (14 - i) * diff2;
       const mesh11 = reveal.textObjects?.[i]?.mesh;
       if (mesh11) {
         mesh11.scale.set(0.001, 0.001, 0.001);
         gsap.to(mesh11.scale, {
           scrollTrigger: {
             trigger: ".section-fifth",
-            start: `top ${pera + diff * 2}%`,
-            end: `top ${pera + diff * 1}%`,
+            start: `top ${pera + diff2 * 2}%`,
+            end: `top ${pera + diff2 * 1}%`,
             markers: false,
             scrub: true,
             immediateRender: false,
@@ -371,7 +387,7 @@ const Reveal = (props: any) => {
         gsap.to(mesh11.position, {
           scrollTrigger: {
             trigger: ".section-fifth",
-            start: `top ${pera + diff}%`,
+            start: `top ${pera + diff2}%`,
             end: `top ${pera}%`,
             markers: false,
             scrub: true,
@@ -379,11 +395,11 @@ const Reveal = (props: any) => {
           },
           y: -75 + (14 - i) * 50,
         });
-        pera = -90;
+        pera = -50;
         gsap.to(mesh11.position, {
           scrollTrigger: {
             trigger: ".section-fifth",
-            start: `top ${pera + diff}%`,
+            start: `top ${pera + diff2}%`,
             end: `top ${pera}%`,
             markers: false,
             scrub: true,
@@ -607,24 +623,23 @@ const Reveal = (props: any) => {
     } else {
       // mesh?.children[0].position.set(0, 100, 0);
     }
-    console.log(reveal.disturbGroup?.position.y)
-    if (disturbObj?.geometry && disturbObj?.positions && reveal.disturbGroup?.position.y > -150 && reveal.disturbGroup?.position.y < 250) {
+    console.log(reveal.disturbGroup?.position.y);
+    if (
+      disturbObj?.geometry &&
+      disturbObj?.positions &&
+      reveal.disturbGroup?.position.y > -150 &&
+      reveal.disturbGroup?.position.y < 250
+    ) {
       const copy = disturbObj?.positions.attributes.position;
       for (let i = 0; i < disturbObj?.geometry.attributes.position.count; i++) {
         disturbObj.geometry.attributes.position.setXYZ(
           i,
-          copy.getX(i) - Math.random()*2,
-          copy.getY(i) - Math.random()*1,
-          copy.getZ(i) - Math.random()*2
+          copy.getX(i) - Math.random() * 2,
+          copy.getY(i) - Math.random() * 1,
+          copy.getZ(i) - Math.random() * 2
         );
         disturbObj.geometry.attributes.position.needsUpdate = true;
       }
-    }
-    const val = reveal?.disturbGroup?.mesh?.position?.y;
-    if (val && val > -250 && val < 100) {
-      meshBackref?.current?.position.set(0, 0, -210);
-    } else {
-      meshBackref?.current?.position.set(0, 5000, 0);
     }
   });
   React.useEffect(() => {
