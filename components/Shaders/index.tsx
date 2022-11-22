@@ -548,23 +548,52 @@ export const moveTexShader: IShader = {
 
 export const glowShader: IShader = {
   vertex: `
-  varying vec3 vNormal;
-    varying vec3 vPositionNormal;
-    void main() 
-    {
-      vNormal = normalize( normalMatrix * normal ); 
-      vPositionNormal = normalize(( modelViewMatrix * vec4(position, 1.0) ).xyz);
-      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+    varying vec2 vUv;
+    void main()  {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
     }`,
   fragment: `
-    uniform vec3 glowColor;
-    uniform float b;
-    uniform float p;
-    uniform float s;
-    varying vec3 vNormal;
-    varying vec3 vPositionNormal;
+  varying vec2 vUv;
+  uniform sampler2D colorTexture;
+  uniform float noise;
     void main(){
-      float a = pow( b + s * abs(dot(vNormal, vPositionNormal)), p );
-      gl_FragColor = vec4( glowColor, a );
+      vec2 uv = vUv;
+      uv.y = 1.0 - uv.y;
+      vec2 offset = vec2(sin(noise*.01)*00.05, 0.0);
+      vec3 col;
+      col.r = texture2D(colorTexture, vUv + offset).r;
+      col.g = texture2D(colorTexture, vUv).g;
+      col.b = texture2D(colorTexture, vUv - offset).b;
+      vec2 cUv = 2.*uv - 1.;
+      vec3 tx = vec3(cUv,1.);
+      vec3 coll = vec3(vUv,1.);
+      vec3 smth = vec3(uv,0.5);
+
+      vec3 final = smoothstep(tx, coll, smth);
+      gl_FragColor = vec4(final,1.);
     }`,
+};
+export const glitchShader: IShader = {
+  vertex: `
+		varying vec2 vUv;
+		void main() {
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+		}`,
+  fragment: `
+		uniform float seed;
+    uniform float amount;
+		varying vec2 vUv;
+		float rand(vec2 co){
+			return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+		}
+		void main() {
+				vec2 p = vUv;
+				float xs = floor(gl_FragCoord.x / 0.5);
+				float ys = floor(gl_FragCoord.y / 0.5);
+				vec4 snow = 200.*amount*vec4(rand(vec2(xs * seed,ys * seed*50.))*0.2);
+				gl_FragColor = snow;
+		
+		}`,
 };

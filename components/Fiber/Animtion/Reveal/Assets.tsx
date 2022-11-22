@@ -14,7 +14,22 @@ export const pathSVG = () => (
     />
   </svg>
 );
-
+export const TriangleSVG = () => (
+  <svg
+    id="triangle"
+    width="100px"
+    height="100px"
+    viewBox="-3 -4 39 39"
+    style={{ transform: `rotate(-90deg)` }}
+  >
+    <polygon
+      fill="#EFEFEF"
+      stroke="#333333"
+      stroke-width="1"
+      points="16,0 32,32 0,32"
+    ></polygon>
+  </svg>
+);
 export const revealStr = [
   { text: "This is for" },
   { text: "reveal" },
@@ -24,7 +39,7 @@ export const revealStr = [
   { text: "LIVE" },
   { text: "LAST" },
   { text: "REVEAL" },
-  
+
   { text: "REVEAL" },
   { text: "THE" },
   { text: "IMPOSSIBLE" },
@@ -36,10 +51,10 @@ export const revealStr = [
   { text: "360" },
   { text: "Strategical" },
   { text: "Branding" },
-  
+
   { text: "Branding That" },
   { text: "DISRUPTS" },
-  
+
   { text: "Disrupts" },
   { text: "to" },
   { text: "innovate" },

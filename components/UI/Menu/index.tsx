@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { AnimType } from "../../../interfaces";
 import { actionAnimType } from "../../../redux/action";
 import { mobileBreakPoint } from "../../Assets";
+import { TriangleSVG } from "../../Fiber/Animtion/Reveal/Assets";
 import { useAnimType } from "../../hooks";
 
 const Menu = () => {
@@ -32,7 +33,7 @@ const Menu = () => {
       <div className={`nav-container ${show ? "show" : ""}`}>
         <div className="nav-btn btn btn-visit-loft">
           <Link href="/" style={{ width: "100%" }}>
-            <div>
+            <div style={{ color: "orange" }}>
               <FaHome />
               <span className="nav-text">Home</span>
             </div>
@@ -46,7 +47,7 @@ const Menu = () => {
           >
             <div className={`${item === animationType ? "menu-select" : ""}`}>
               <FaNapster />
-              <span className="nav-text">{item} </span>
+              <span className="nav-text">{item} </span><TriangleSVG />
             </div>
           </div>
         ))}

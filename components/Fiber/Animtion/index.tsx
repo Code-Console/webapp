@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { AnimType } from "../../../interfaces";
@@ -14,12 +15,16 @@ import BlockXYZ from "./BlockXYZ";
 import AnimationModel from "../AnimationModel";
 import TextAnim from "./TextAnim";
 import Reveal from "./Reveal";
+import Model from "../Model";
 const AnimationFiberCanvas = () => {
   const animationType = useAnimType();
   const getAnim = () => {
     switch (animationType) {
       case AnimType.BIRD:
         return <AnimationModel />;
+      case AnimType.WATCH:
+        return <Model opacity={0.51} />;
+        return;
       case AnimType.DISPLACEMENT_SHADER:
         return <DisplacementShader />;
       case AnimType.SPACE_DUST:
@@ -40,7 +45,12 @@ const AnimationFiberCanvas = () => {
       case AnimType.TEXT_STRACE:
         return <TextAnim />;
       case AnimType.REVEAL:
-        return <><BlockXYZ/><Reveal /></>;
+        return (
+          <>
+            <BlockXYZ />
+            <Reveal />
+          </>
+        );
       default:
         return <RandomShader />;
     }
@@ -50,7 +60,7 @@ const AnimationFiberCanvas = () => {
       <React.Suspense fallback={null}>
         <Canvas
           style={{ position: "fixed", zIndex: "-1", top: "0" }}
-          gl={{ antialias: true }}
+          gl={{ antialias: true, outputEncoding: THREE.sRGBEncoding }}
         >
           <ambientLight intensity={0.5} />
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
