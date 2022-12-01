@@ -16,6 +16,7 @@ import AnimationModel from "../AnimationModel";
 import TextAnim from "./TextAnim";
 import Reveal from "./Reveal";
 import Model from "../Model";
+import Gradient from "./Gradient";
 const AnimationFiberCanvas = () => {
   const animationType = useAnimType();
   const getAnim = () => {
@@ -51,6 +52,8 @@ const AnimationFiberCanvas = () => {
             <Reveal />
           </>
         );
+      case AnimType.YogForm:
+        return <Gradient />;
       default:
         return <RandomShader />;
     }

@@ -28,6 +28,7 @@ export enum AnimType {
   SPACE_DUST = "Space Dust",
   TEXT_DUST_ANIM = "Text Dust Anim",
   BlockXYZ = "Block XYZ",
+  YogForm = "Yog Form",
   TEXT_STRACE = "Text Strace",
 }
 export interface IUser {

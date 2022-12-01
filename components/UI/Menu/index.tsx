@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { FaBars, FaHome, FaNapster, FaTimes } from "react-icons/fa";
+import { FaBars, FaHome, FaNapster, FaRegHandPointRight, FaTimes } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { AnimType } from "../../../interfaces";
 import { actionAnimType } from "../../../redux/action";
 import { mobileBreakPoint } from "../../Assets";
-import { TriangleSVG } from "../../Fiber/Animtion/Reveal/Assets";
 import { useAnimType } from "../../hooks";
 
 const Menu = () => {
@@ -46,8 +45,8 @@ const Menu = () => {
             key={item}
           >
             <div className={`${item === animationType ? "menu-select" : ""}`}>
-              <FaNapster />
-              <span className="nav-text">{item} </span><TriangleSVG />
+              {item === animationType ? <FaRegHandPointRight /> : <FaNapster />}
+              <span className="nav-text">{item} </span>
             </div>
           </div>
         ))}

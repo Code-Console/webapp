@@ -23,6 +23,7 @@ const RevealUI = () => {
         200
       );
     }
+    window.scrollTo(0, 0);
   }, [isAllModelLoaded]);
   return (
     <>

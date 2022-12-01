@@ -8,7 +8,7 @@ void flitch() {
     vec2 p = vUv;
     float xs = floor(gl_FragCoord.x / 0.5);
     float ys = floor(gl_FragCoord.y / 0.5);
-s    float disp = texture2D(tDisp, p * seed * seed).r;
+    float disp = texture2D(tDisp, p * seed * seed).r;
     if(p.y < distortion_x + col_s && p.y > distortion_x - col_s * seed) {
         if(seed_x > 0.) {
             p.y = 1. - (p.y + distortion_y);

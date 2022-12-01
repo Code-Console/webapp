@@ -25,7 +25,7 @@ export const TriangleSVG = () => (
     <polygon
       fill="#EFEFEF"
       stroke="#333333"
-      stroke-width="1"
+      strokeWidth="1"
       points="16,0 32,32 0,32"
     ></polygon>
   </svg>
