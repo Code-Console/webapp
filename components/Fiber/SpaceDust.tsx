@@ -21,22 +21,22 @@ export function SpaceDust({ count }: { count: number }) {
     return temp;
   }, [count]);
 
-  const dummy = useMemo(() => new THREE.Object3D(), []);
+  const dummyObj = useMemo(() => new THREE.Object3D(), []);
 
   useFrame(() => {
     particles.forEach((particle, index) => {
       const { factor, speed, x, y, z } = particle;
       const t = (particle.time += speed);
-      dummy.position.set(
+      dummyObj.position.set(
         x + Math.cos((t / 10) * factor) + (Math.sin(t * 1) * factor) / 10,
         y + Math.sin((t / 10) * factor) + (Math.cos(t * 2) * factor) / 10,
         -10 + z + Math.cos((t / 10) * factor) + (Math.sin(t * 3) * factor) / 10
       );
       const s = Math.cos(t);
-      dummy.scale.set(s, s, s);
-      dummy.rotation.set(s * 5, s * 5, s * 5);
-      dummy.updateMatrix();
-      mesh.current.setMatrixAt(index, dummy.matrix);
+      dummyObj.scale.set(s, s, s);
+      dummyObj.rotation.set(s * 5, s * 5, s * 5);
+      dummyObj.updateMatrix();
+      mesh.current.setMatrixAt(index, dummyObj.matrix);
     });
     mesh.current.instanceMatrix.needsUpdate = true;
   });
