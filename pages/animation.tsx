@@ -7,6 +7,7 @@ import MakersFundUI from "../components/UI/MakersFund/MakersFundUI";
 import { AnimType } from "../interfaces";
 import { useAnimType } from "../components/hooks";
 import RevealUI from "../components/UI/Reveal/RevealUI";
+import BlockXyzUI from "../components/UI/BlockXYZ/BlockXyzUI";
 
 const GamesWrapper = () => {
   const animationType = useAnimType();
@@ -16,6 +17,8 @@ const GamesWrapper = () => {
         return <MakersFundUI />;
       case AnimType.REVEAL:
         return <RevealUI />;
+        case AnimType.BlockXYZ:
+          return <BlockXyzUI/>
     }
     return null;
   };

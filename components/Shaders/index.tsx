@@ -577,14 +577,19 @@ export const glowShader: IShader = {
 export const glitchShader: IShader = {
   vertex: `
 		varying vec2 vUv;
+		varying vec3 vNormal;
 		void main() {
 			vUv = uv;
+      vNormal = normal;
 			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
 		}`,
   fragment: `
 		uniform float seed;
     uniform float amount;
 		varying vec2 vUv;
+    varying vec3 vNormal;
+    uniform float u_time;
+    #define PI 3.14159265358979323846
 		float rand(vec2 co){
 			return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
 		}
@@ -593,7 +598,14 @@ export const glitchShader: IShader = {
 				float xs = floor(gl_FragCoord.x / 0.5);
 				float ys = floor(gl_FragCoord.y / 0.5);
 				vec4 snow = 200.*amount*vec4(rand(vec2(xs * seed,ys * seed*50.))*0.2);
+        
+        float phi = acos(vNormal.x);
+        float angle = atan(vNormal.x, vNormal.y);
+        vec2 newFakeUV = vec2((angle + PI) / (2. * PI), phi / PI);
+        vec2 fakeUV = vec2(dot(vec3(1), vNormal), dot(vec3(-1., 0., 1.), vNormal));
+        fakeUV = fract(fakeUV + vec2(u_time / 40., u_time / 20.));
 				gl_FragColor = snow;
+        gl_FragColor = vec4(fakeUV,1.,1.); 
 		
 		}`,
 };
@@ -762,6 +774,8 @@ export const gradientShader: IShader = {
         fakeUV = fract(fakeUV + vec2(u_time / 40., u_time / 20.));
         vec4 txt = texture2D(sky, newFakeUV + 0.1 * cnoise(vec4(fakeUV * 5., u_time / 10., 0.), vec4(5.)));
         vec4 tcolor = texture2D( sky, fakeUV   );
-        gl_FragColor = vec4(mix(vec3(1.), txt.rgb, fresnel), 1.);
+        gl_FragColor = vec4(mix(vec3(1.), txt.rgb, 2.), 1.);
+
+        
     }`,
 };

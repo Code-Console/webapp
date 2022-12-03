@@ -17,6 +17,7 @@ import TextAnim from "./TextAnim";
 import Reveal from "./Reveal";
 import Model from "../Model";
 import Gradient from "./Gradient";
+import NoiseSphere from "./NoiseSphere";
 const AnimationFiberCanvas = () => {
   const animationType = useAnimType();
   const getAnim = () => {
@@ -42,7 +43,12 @@ const AnimationFiberCanvas = () => {
           </>
         );
       case AnimType.BlockXYZ:
-        return <BlockXYZ />;
+        return (
+          <>
+            <NoiseSphere />
+            <BlockXYZ />
+          </>
+        );
       case AnimType.TEXT_STRACE:
         return <TextAnim />;
       case AnimType.REVEAL:

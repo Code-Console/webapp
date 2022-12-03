@@ -60,6 +60,7 @@ const Menu = () => {
           margin: 5px 5px 0 0;
           position: fixed;
           padding-top: 6px;
+          z-index: 100;
         }
         .nav-btn .menu-select {
           color: GREEN;

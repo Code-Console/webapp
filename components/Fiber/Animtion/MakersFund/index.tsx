@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber";
 import React from "react";
 import { createCube, hitAnimation, zoomAnimation } from "./PipeMesh";
-import gsap from "gsap";
+import gsap from "gsap/dist/gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { actionDeposited } from "../../../../redux/action";
 import { useDispatch } from "react-redux";

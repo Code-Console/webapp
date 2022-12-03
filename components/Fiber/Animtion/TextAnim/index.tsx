@@ -15,12 +15,14 @@ const TextAnim = (props: any) => {
   const uniforms = {
     seed: { value: 0.02 },
     amount: { value: 0.08 },
+    u_time: { value: 0 },
+
   };
   mesh.position.set(0, 0, -200);
   const check = new THREE.BufferGeometry();
   let geometry: THREE.ShapeGeometry | undefined;
   loader.load(Lobster_Regular, (font) => {
-    const shapes = font?.generateShapes("This is for", 30);
+    const shapes = font?.generateShapes("Choose to shine", 30);
     geometry = new THREE.ShapeGeometry(shapes);
     geometry.computeBoundingBox();
     geometry.center();
@@ -41,13 +43,15 @@ const TextAnim = (props: any) => {
     state.clock.getElapsedTime();
     count += 1;
     uniforms.seed.value = Math.random();
+    uniforms.u_time.value=1;
     const copy = check?.attributes.position;
+    const max = 500;
     for (
       let i = 0;
       geometry && check && i < geometry.attributes.position.array.length;
       i++
     ) {
-      if (copy.getY(i) < 21 - (count % 100) && count % 400 < 100) {
+      if (copy.getY(i) < 21 - (count % 100) && count % max < 100) {
         geometry.attributes.position.setXYZ(
           i,
           copy.getX(i),
@@ -56,8 +60,8 @@ const TextAnim = (props: any) => {
         );
       } else if (
         copy.getX(i) > (count % 100) * 2 - 81 &&
-        count % 400 > 100 &&
-        count % 400 < 200
+        count % max > 100 &&
+        count % max < 200
       ) {
         geometry.attributes.position.setXYZ(
           i,
@@ -67,8 +71,8 @@ const TextAnim = (props: any) => {
         );
       } else if (
         copy.getY(i) > -21 + (count % 100) &&
-        count % 400 > 200 &&
-        count % 400 < 300
+        count % max > 200 &&
+        count % max < 300
       ) {
         geometry.attributes.position.setXYZ(
           i,
@@ -76,7 +80,11 @@ const TextAnim = (props: any) => {
           copy.getY(i) + 300,
           copy.getZ(i)
         );
-      } else if (copy.getX(i) < -(count % 100) * 2 + 81 && count % 400 > 300) {
+      } else if (
+        copy.getX(i) < -(count % 100) * 2 + 81 &&
+        count % max > 300 &&
+        count % max < 400
+      ) {
         geometry.attributes.position.setXYZ(
           i,
           copy.getX(i) - 400,

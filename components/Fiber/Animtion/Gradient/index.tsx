@@ -12,7 +12,7 @@ const Gradient = (props: any) => {
   const watchGlb = useGLTF(skullGLBPath);
   const uniforms = {
     u_time: { value: 0 },
-    sky: { value: new THREE.TextureLoader().load(distinctiveImg) },
+    sky: { value: new THREE.TextureLoader().load('https://hututusoftwares.com/3D/multi.jpg') },
   };
   const gradientMet = new THREE.ShaderMaterial({
     uniforms: uniforms,
