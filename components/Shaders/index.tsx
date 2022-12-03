@@ -578,10 +578,19 @@ export const glitchShader: IShader = {
   vertex: `
 		varying vec2 vUv;
 		varying vec3 vNormal;
+    varying vec3 vPosition;
+    float amplitude = 5.;
+    float rand(vec2 co){
+			return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+		}
 		void main() {
 			vUv = uv;
       vNormal = normal;
-			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+      vPosition = position;
+			// gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+      vUv = ( 0.5 + amplitude ) * uv + vec2( amplitude );
+      vec3 newPosition = position + amplitude * normal * vec3( 1. );
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
 		}`,
   fragment: `
 		uniform float seed;
@@ -589,24 +598,34 @@ export const glitchShader: IShader = {
 		varying vec2 vUv;
     varying vec3 vNormal;
     uniform float u_time;
+    varying vec3 vPosition;
     #define PI 3.14159265358979323846
 		float rand(vec2 co){
 			return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
 		}
+    float noise(vec2 p){
+      vec2 ip = floor(p);
+      vec2 u = fract(p);
+      u = u*u*(3.0-2.0*u);
+      
+      float res = mix(
+        mix(rand(ip),rand(ip+vec2(1.0,0.0)),u.x),
+        mix(rand(ip+vec2(0.0,1.0)),rand(ip+vec2(1.0,1.0)),u.x),u.y);
+      return res*res;
+    }
 		void main() {
-				vec2 p = vUv;
+        vec2 st = gl_FragCoord.xy/vec2(1024.,800.);
+        float randVal = rand(vec2(cos(seed),seed));
 				float xs = floor(gl_FragCoord.x / 0.5);
 				float ys = floor(gl_FragCoord.y / 0.5);
-				vec4 snow = 200.*amount*vec4(rand(vec2(xs * seed,ys * seed*50.))*0.2);
-        
-        float phi = acos(vNormal.x);
-        float angle = atan(vNormal.x, vNormal.y);
+				vec4 snow = 200.*amount*vec4(noise(vec2(xs * seed,ys * seed*50.))*0.2);
+        float phi = acos(st.x);
+        float angle = atan(st.x, st.y);
         vec2 newFakeUV = vec2((angle + PI) / (2. * PI), phi / PI);
-        vec2 fakeUV = vec2(dot(vec3(1), vNormal), dot(vec3(-1., 0., 1.), vNormal));
+        vec2 fakeUV = vec2(dot(vec3(sin(seed)), vec3(1.,st)), dot(vec3(-1., randVal, randVal), vec3(0.5,st)));
         fakeUV = fract(fakeUV + vec2(u_time / 40., u_time / 20.));
-				gl_FragColor = snow;
-        gl_FragColor = vec4(fakeUV,1.,1.); 
-		
+        fakeUV*=newFakeUV;
+        gl_FragColor = vec4(mix(snow.xyz, vec3(1.0,fakeUV), 5.),1.); 
 		}`,
 };
 

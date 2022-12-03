@@ -20,6 +20,8 @@ export enum MenuItem {
 }
 export enum AnimType {
   MAKERS_FUND = "Makers Fund",
+  BlockXYZ = "Block XYZ",
+  
   REVEAL = "Reveal",
   BIRD = "Bird",
   WATCH = "Watch",
@@ -27,7 +29,6 @@ export enum AnimType {
   DISPLACEMENT_SHADER = "Displacement Shader",
   SPACE_DUST = "Space Dust",
   TEXT_DUST_ANIM = "Text Dust Anim",
-  BlockXYZ = "Block XYZ",
   YogForm = "Yog Form",
   TEXT_STRACE = "Text Strace",
 }

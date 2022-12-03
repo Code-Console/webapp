@@ -17,11 +17,14 @@ const GamesWrapper = () => {
         return <MakersFundUI />;
       case AnimType.REVEAL:
         return <RevealUI />;
-        case AnimType.BlockXYZ:
-          return <BlockXyzUI/>
+      case AnimType.BlockXYZ:
+        return <BlockXyzUI />;
     }
     return null;
   };
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [animationType]);
   return (
     <>
       <HTMLHeader />
