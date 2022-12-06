@@ -18,6 +18,7 @@ import Reveal from "./Reveal";
 import Model from "../Model";
 import Gradient from "./Gradient";
 import NoiseSphere from "./NoiseSphere";
+import PostEffects from "./Outline";
 
 const CanvasDefaultValues = ({
   animationType,
@@ -35,13 +36,23 @@ const CanvasDefaultValues = ({
     case AnimType.WATCH:
       return <Model opacity={0.51} />;
     case AnimType.DISPLACEMENT_SHADER:
-      return <DisplacementShader />;
+      return (
+        <>
+          <PostEffects isGlitch={true} />
+          <DisplacementShader />
+        </>
+      );
     case AnimType.SPACE_DUST:
       return <SpaceDust count={1000} />;
     case AnimType.TEXT_DUST_ANIM:
       return <TextParticle />;
     case AnimType.TOY_SHADER:
-      return <ToyShader />;
+      return (
+        <>
+          <PostEffects />
+          <ToyShader />
+        </>
+      );
     case AnimType.MAKERS_FUND:
       return (
         <>
@@ -66,7 +77,12 @@ const CanvasDefaultValues = ({
         </>
       );
     case AnimType.YogForm:
-      return <Gradient />;
+      return (
+        <>
+          <PostEffects />
+          <Gradient />
+        </>
+      );
     default:
       return <RandomShader />;
   }

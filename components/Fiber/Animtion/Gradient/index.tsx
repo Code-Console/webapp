@@ -1,7 +1,6 @@
 import React from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
-import { dealWithKeyboard } from "../../../util/Keyboard";
 import { gradientShader } from "../../../Shaders";
 import { multiColorImg, skullGLBPath } from "../../../Assets";
 import CameraController from "../../CameraController";
@@ -11,7 +10,7 @@ const Gradient = (props: any) => {
   const ref: any = React.useRef();
   const watchGlb = useGLTF(skullGLBPath);
   const uniforms = {
-    u_time: { value: 0 },
+    u_time: { value: 0 }, 
     sky: { value: new THREE.TextureLoader().load(multiColorImg) },
   };
   const gradientMet = new THREE.ShaderMaterial({
@@ -22,7 +21,7 @@ const Gradient = (props: any) => {
   React.useEffect(() => {
     if (watchGlb) {
       watchGlb.scene.traverse((object: any) => {
-        if (!object["isMesh"]) return;
+        if (!object["isMesh"]) return; 
         if (object["material"].isMaterial) {
           object["material"] = gradientMet;
         }
@@ -37,9 +36,7 @@ const Gradient = (props: any) => {
     state.clock.getElapsedTime();
     uniforms.u_time.value += 0.1;
   });
-  React.useEffect(() => {
-    document.addEventListener("keydown", dealWithKeyboard);
-  }, []);
+  
   return (
     <group ref={ref} {...props} dispose={null}>
       <primitive object={watchGlb.scene} dispose={null} />
