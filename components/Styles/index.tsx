@@ -52,6 +52,15 @@ const Styles = () => {
         -ms-user-select: none; /* IE 10 and IE 11 */
         user-select: none; /* Standard syntax */
       }
+      .main-overlay{
+        position:fixed;
+        width:100%;
+        height:100%;
+        top:0;
+        right:0;
+        left:0;
+        background:linear-gradient(105deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+      }
       @media (min-width: 1200px) {
         .container {
           width: 100%;

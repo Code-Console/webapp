@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-three/drei": "^9.38.0",
     "@react-three/fiber": "^8.8.10",
+    "@react-three/postprocessing": "^2.7.0",
     "@reduxjs/toolkit": "^1.8.6",
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^29.2.0",

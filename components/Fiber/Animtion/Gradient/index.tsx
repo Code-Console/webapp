@@ -32,7 +32,7 @@ const Gradient = (props: any) => {
     }
   }, [watchGlb]);
 
-  // mesh.scale.set(.01,.01,.01);
+  // mesh.scale.set(.01,.01,.01); 
   useFrame((state) => {
     state.clock.getElapsedTime();
     uniforms.u_time.value += 0.1;

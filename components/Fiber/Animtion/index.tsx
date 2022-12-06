@@ -18,6 +18,7 @@ import Reveal from "./Reveal";
 import Model from "../Model";
 import Gradient from "./Gradient";
 import NoiseSphere from "./NoiseSphere";
+
 const CanvasDefaultValues = ({
   animationType,
 }: {
