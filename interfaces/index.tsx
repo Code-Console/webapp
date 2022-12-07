@@ -21,7 +21,7 @@ export enum MenuItem {
 export enum AnimType {
   MAKERS_FUND = "Makers Fund",
   BlockXYZ = "Block XYZ",
-  
+
   REVEAL = "Reveal",
   BIRD = "Bird",
   WATCH = "Watch",
@@ -31,7 +31,10 @@ export enum AnimType {
   TEXT_DUST_ANIM = "Text Dust Anim",
   YogForm = "Yog Form",
   TEXT_STRACE = "Text Strace",
+  FACE_SELECTION = "Face Selection",
+  STRIP_GLOBE = "Strip Globe",
 }
+
 export interface IUser {
   _id: string;
   name?: string;

@@ -16,6 +16,7 @@ export const logoImg = `${basePath}images/apple-touch-icon-72x72.png`;
 export const ogImg = `${basePath}3D/img.jpg`;
 export const distinctiveImg = `${basePath}3D/distinctive.jpg`;
 export const multiColorImg = `${basePath}3D/multi.jpg`;
+export const earthImg = `${basePath}3D/earthspec1k.jpg`;
 export const birdImg = `${basePath}images/team_02.jpg`;
 export const img8ton = `${basePath}3D/8ton.jpg`;
 export const img5ton = `${basePath}3D/fiveTone.jpg`;

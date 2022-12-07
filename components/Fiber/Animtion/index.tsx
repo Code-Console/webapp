@@ -19,6 +19,8 @@ import Model from "../Model";
 import Gradient from "./Gradient";
 import NoiseSphere from "./NoiseSphere";
 import PostEffects from "./Outline";
+import SelectFace from "./SelectFace";
+import Globe from "./Globe";
 
 const CanvasDefaultValues = ({
   animationType,
@@ -83,6 +85,15 @@ const CanvasDefaultValues = ({
           <Gradient />
         </>
       );
+    case AnimType.STRIP_GLOBE:
+      return <Globe />;
+    case AnimType.FACE_SELECTION:
+      return (
+        <>
+          <PostEffects />
+          <SelectFace />
+        </>
+      );
     default:
       return <RandomShader />;
   }
@@ -94,6 +105,8 @@ const AnimationFiberCanvas = () => {
       <Canvas
         style={{ position: "fixed", zIndex: "-1", top: "0" }}
         gl={{ antialias: true, outputEncoding: THREE.sRGBEncoding }}
+        className="canvas-container"
+        id="canvas-container-id"
       >
         <ambientLight intensity={0.5} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />

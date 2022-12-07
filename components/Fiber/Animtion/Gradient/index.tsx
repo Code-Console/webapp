@@ -10,7 +10,7 @@ const Gradient = (props: any) => {
   const ref: any = React.useRef();
   const watchGlb = useGLTF(skullGLBPath);
   const uniforms = {
-    u_time: { value: 0 }, 
+    u_time: { value: 0 },
     sky: { value: new THREE.TextureLoader().load(multiColorImg) },
   };
   const gradientMet = new THREE.ShaderMaterial({
@@ -21,25 +21,25 @@ const Gradient = (props: any) => {
   React.useEffect(() => {
     if (watchGlb) {
       watchGlb.scene.traverse((object: any) => {
-        if (!object["isMesh"]) return; 
+        if (!object["isMesh"]) return;
         if (object["material"].isMaterial) {
           object["material"] = gradientMet;
         }
         object.geometry.center();
       });
-      watchGlb.scene.scale.set(0.1, 0.1, 0.1);
+      watchGlb.scene.scale.set(0.2, 0.2, 0.2);
     }
   }, [watchGlb]);
-
-  // mesh.scale.set(.01,.01,.01); 
   useFrame((state) => {
     state.clock.getElapsedTime();
-    uniforms.u_time.value += 0.1;
+    const mesh = watchGlb?.scene?.children[0] as THREE.Mesh;
+    const material = mesh?.material as THREE.ShaderMaterial;
+    if (material) material.uniforms.u_time.value += 0.1;
   });
-  
+
   return (
-    <group ref={ref} {...props} dispose={null}>
-      <primitive object={watchGlb.scene} dispose={null} />
+    <group {...props} dispose={null}>
+      <primitive ref={ref} object={watchGlb.scene} dispose={null} />
       <CameraController />
     </group>
   );
