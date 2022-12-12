@@ -85,7 +85,7 @@ const Globe = (props: any) => {
       <Position wait={60} />
       <Position wait={90} />
       <Position wait={120} />
-      <CameraController enableZoom={true} />
+      <CameraController enableZoom={false} />
     </group>
   );
 };

@@ -104,7 +104,10 @@ const getPoints = () => {
     lat: geoLocation[rand].latitude || 0,
     lng: geoLocation[rand].longitude || 0,
   });
-  rand = Math.floor(Math.random() * geoLocation.length);
+  const other = Math.floor(Math.random() * geoLocation.length);
+  if (other != rand) rand = other;
+  else rand = (rand + 1) % geoLocation.length;
+
   const b = calcPosFromLatLongRad({
     lat: geoLocation[rand].latitude || 0,
     lng: geoLocation[rand].longitude || 0,
