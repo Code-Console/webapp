@@ -5,22 +5,23 @@ import { Environment } from "@react-three/drei";
 import { AnimType } from "../../../interfaces";
 import { environmentImagePath } from "../../Assets";
 import DisplacementShader from "./DisplacementShader";
-import ToyShader from "./ToyShader";
 import { SpaceDust } from "../SpaceDust";
 import { useAnimType } from "../../hooks";
-import TextParticle from "./TextParticle";
-import RandomShader from "./RandomShader";
-import MakersFund from "./MakersFund";
-import BlockXYZ from "./BlockXYZ";
-import AnimationModel from "../AnimationModel";
-import TextAnim from "./TextAnim";
-import Reveal from "./Reveal";
-import Model from "../Model";
-import Gradient from "./Gradient";
-import NoiseSphere from "./NoiseSphere";
-import PostEffects from "./Outline";
-import SelectFace from "./SelectFace";
-import Globe from "./Globe";
+
+const TextParticle = React.lazy(()=>import ("./TextParticle"));
+const RandomShader = React.lazy(()=>import ("./RandomShader"));
+const ToyShader = React.lazy(()=>import ("./ToyShader"));
+const BlockXYZ = React.lazy(()=>import ("./BlockXYZ"));
+const MakersFund = React.lazy(()=>import ("./MakersFund"));
+const AnimationModel = React.lazy(()=>import ("../AnimationModel"));
+const TextAnim = React.lazy(()=>import ("./TextAnim"));
+const Reveal = React.lazy(()=>import ("./Reveal"));
+const Model = React.lazy(()=>import ("../Model"));
+const Gradient = React.lazy(()=>import ("./Gradient"));
+const NoiseSphere = React.lazy(()=>import ("./NoiseSphere"));
+const PostEffects = React.lazy(()=>import ("./Outline"));
+const SelectFace = React.lazy(()=>import ("./SelectFace"));
+const Globe = React.lazy(()=>import ("./Globe"));
 
 const CanvasDefaultValues = ({
   animationType,

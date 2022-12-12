@@ -34,7 +34,7 @@ const Gradient = (props: any) => {
     state.clock.getElapsedTime();
     const mesh = watchGlb?.scene?.children[0] as THREE.Mesh;
     const material = mesh?.material as THREE.ShaderMaterial;
-    if (material) material.uniforms.u_time.value += 0.1;
+    if (material?.uniforms?.u_time) material.uniforms.u_time.value += 0.1;
   });
 
   return (

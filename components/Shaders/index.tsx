@@ -139,13 +139,13 @@ const noise = `
 
 export const basicShader: IShader = {
   vertex: `
-    void main() {
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
-    }`,
+      void main() {
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+      }`,
   fragment: `
-    void main() {
-        gl_FragColor = vec4(1.0,0.0,1.0,1.0);
-    }`,
+      void main() {
+          gl_FragColor = vec4(1.0,0.0,1.0,1.0);
+      }`,
 };
 export const fakeLightShader: IShader = {
   vertex: `
@@ -818,7 +818,7 @@ export const selectShader: IShader = {
       float no = cnoise(vec4(vUv * 10., u_time * .01, 0.), vec4(10.));
       vec4 color = texture2D(u_texture, u_uv + 1.0 * no)*.9;
       if(u_uv.x > vUv.x-diff && u_uv.x < vUv.x+diff && u_uv.y > vUv.y-diff && u_uv.y < vUv.y+diff){
-        color = vec4(1.,1.,1.,0.);
+        discard;
       }
       gl_FragColor = color;
     }`,
@@ -832,7 +832,7 @@ export const globeShader: IShader = {
       vNormal = normal;
       vUv = uv;
       vec4 mvPosition = modelViewMatrix * vec4(position, 1.);
-      gl_PointSize = 2. * (1. / -mvPosition.z);
+      gl_PointSize = 4. * (1. / -mvPosition.z);
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
     }`,
   fragment: `
@@ -850,8 +850,257 @@ export const globeShader: IShader = {
       if(color.x < .5){
         color = vec4(44./255.,100./255.,155./255.,1);
       }else{
-        color = vec4(0.,0.,0.,0.);
+        discard;
       }
       gl_FragColor = color;
+    }`,
+};
+export const globeCurveShader: IShader = {
+  vertex: `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+    }`,
+  fragment: `
+    varying vec2 vUv;
+    uniform float u_time;
+    uniform vec2 u_clr;
+    void main() {
+      float inc = abs(sin(u_time*.01)); //
+      if(vUv.x > inc && u_time < 150.){
+        discard;
+      }
+      inc = abs(sin((u_time-230.)*.01));
+      if(vUv.x < inc && u_time > 230.){
+        discard;
+      }
+      gl_FragColor = vec4(u_clr.x,vUv.x,u_clr.y,1.0);
+    }`,
+};
+
+export const WaterShader: IShader = {
+  vertex: `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+    }`,
+  fragment: `
+    uniform vec3 iResolution;
+    uniform float iTime;
+    uniform sampler2D iChannel0;
+    uniform sampler2D iChannel1;
+    uniform sampler2D iChannel2;
+    float mat = 0.0;
+    float ss = 0.5;
+    varying vec2 vUv;
+   
+    float bias(float x, float b) {
+      return  x/((1./b-2.)*(1.-x)+1.);
+    }
+
+    float gain(float x, float g) {
+      float t = (1./g-2.)*(1.-(2.*x));	
+      return x<0.5 ? (x/(t+1.)) : (t-x)/(t-1.);
+    }
+
+    vec3 degamma(vec3 c)
+    {
+      return pow(c,vec3(2.2));
+    }
+    vec3 gamma(vec3 c)
+    {
+      return pow(c,vec3(1./1.6));
+    }
+
+    #define pi 3.1415927
+    vec4 rgbaNoise(vec2 fragCoord) {
+	    vec2 uv = fragCoord.xy;
+      uv -= floor(uv / 289.0) * 289.0;
+      uv += vec2(223.35734, 550.56781);
+      uv *= uv;
+      
+      float xy = uv.x * uv.y;
+      
+      return vec4(fract(xy * 0.00000012),
+                      fract(xy * 0.00000543),
+                      fract(xy * 0.00000192),
+                      fract(xy * 0.00000423));
+    }
+    void mainImage( out vec4 fragColor, in vec2 fragCoord )
+    {
+      vec2 uv = fragCoord.xy / iResolution.xy;
+      uv.y=1.-uv.y;
+      uv.x *= iResolution.x / iResolution.y;
+      uv = vUv;
+      float h = 0.;
+
+    #if 1
+      float time = iTime*.01;
+    #else
+      //go forwards and backwards!	
+      float time = mod(iTime,30.);
+      if (time > 15.) time = 30.-time;
+    #endif
+
+    
+    time = iTime*.001;
+      
+
+    #define DIVS	8
+      
+      for (int iy=0; iy<DIVS; iy++)
+      {
+        for (int ix=0; ix<DIVS*2; ix++)
+        {
+          //random variations for droplet
+          vec4 t = texture2D(iChannel1,(4./256.)*vec2(float(ix),float(iy)),-10.);
+          
+          
+          //stratify droplet positions
+          vec2 p = vec2(ix,iy)*(1./float(DIVS-1));
+          p += (0.75/float(DIVS-1))*(t.xy*2.-1.);
+            
+          //radius
+          vec2 v = uv-p;
+          float d = dot(v,v);
+          d = pow(d,.7);
+          float life = 10.;
+          
+          float n = time*5.*(t.w+0.2) - t.z*6.;
+          n *= 0.1+ t.w;
+          n = mod(n,life+t.z*3.+10.);				//repeat, plus a pause
+          float x = d*99.;
+          float T = x<(2.*pi*n) ? 1. : 0.;	//clip to 0 after end
+          float e = max(1. - (n/life),0.);		//entirely fade out by now
+          float F = e*x/(2.*pi*n);				//leading edge stronger and decay
+          
+          float s = sin(x-(2.*pi*n)-pi*0.5);
+                  
+          s = s*0.5+0.5;		//bias needs [0,1]
+          s = bias(s,.6);	//shape the ripple profile
+          
+          
+          s = (F*s)/(x+1.1)*T;			
+
+          h+=s*100.*(0.5+t.w);			
+
+        }
+      }
+
+      
+      vec3 n = vec3(dFdx(h),17.,dFdy(h));		
+      n = normalize(n);
+      
+      vec3 E = normalize(vec3(-uv.y*2.-1.,1.,uv.x*2.-1.));	//fake up an eye vector
+      vec3 rv = reflect(-E,n);
+      
+      vec4 tcolor = texture2D( iChannel2, rv.xy );
+      vec3 reflect_color = degamma(tcolor.xyz);
+
+      vec3 fn = refract(vec3(0,1,0),n,2.5);
+      uv += fn.xz*0.1;
+      
+      float lod = length(fn.xz)*10.;
+      
+      vec3 c = vec3(0.);
+      vec4 tcolor2 = texture2D( iChannel0, uv );
+      c += degamma(tcolor2.xyz);
+      c *= 1.-h*0.0125;
+      c += reflect_color*.3;
+      
+    //	fragColor = vec4(h*0.5+0.5);
+    //	fragColor = vec4(n*0.5+0.5,1.);
+      vec3 L = normalize(vec3(1,1,1));
+      float dl = max(dot(n,L),0.)*.7+.3;
+      c *= dl;
+    //	fragColor = vec4(vec3(dl),1.);
+      
+      c = gamma(c);
+      fragColor = vec4(vec3(c),1.);
+      // fragColor = vec4(vec3(dl),1.);
+    }
+      
+    
+    void main() {
+      mainImage(gl_FragColor, vUv * iResolution.xy);
+      //mainImage(gl_FragColor, vec2(gl_FragCoord.x-512.,gl_FragCoord.y));
+      //gl_FragColor = vec4(1.0,0.0,1.0,1.0);
+    }`,
+};
+export const rippleShader: IShader = {
+  vertex: `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+    }`,
+  fragment: `
+    uniform vec3 iResolution;
+    uniform float iTime;
+    uniform sampler2D iChannel0;
+    uniform sampler2D iChannel1;
+    uniform sampler2D iChannel2;
+    float mat = 0.0;
+    float ss = 0.5;
+    varying vec2 vUv;
+   
+    
+float rotSpeed = 0.05;
+
+void mainImage( out vec4 fragColor, in vec2 fragCoord )
+{
+    vec2 uv = fragCoord.xy / iResolution.xy;
+    
+    vec4 buff = texture2D(iChannel0, uv)*2.0-1.0;
+    float z = sqrt(1.0 - clamp(dot(vec2(buff.x,buff.y), vec2(buff.x,buff.y)),0.0, 1.0));
+    vec3 n = normalize(vec3(buff.x, buff.y, z));
+    
+    vec3 lightDir = vec3(sin(iTime*rotSpeed),cos(iTime*rotSpeed),0.0);
+    
+    float l = max(0.0, dot(n, lightDir));
+    float fresnel = 1.0 - dot(vec3(0.0,0.0,1.0), n);
+    vec4 refl = texture2D(iChannel2, reflect(n, lightDir).xy);
+    
+    vec4 tex = texture2D(iChannel1, vec2(uv.x*(iResolution.x/iResolution.y), uv.y) + n.xy);
+    
+    fragColor = tex*0.5 + vec4((fresnel + l)*5.0)*refl + refl*0.5;
+}
+      
+    
+    void main() {
+      mainImage(gl_FragColor, vUv * iResolution.xy);
+      //mainImage(gl_FragColor, vec2(gl_FragCoord.x-512.,gl_FragCoord.y));
+      //gl_FragColor = vec4(1.0,0.0,1.0,1.0);
+    }`,
+};
+export const mapShader: IShader = {
+  vertex: `
+    varying vec3 vNormal;
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+        vNormal = normal;
+        gl_PointSize = 4.;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+    }`,
+  fragment: `
+    varying vec3 vNormal;
+    uniform sampler2D u_texture;
+    varying vec2 vUv;
+    void main() {
+      vec3 light = vec3(0.5, 0.2, 1.0);
+      light = normalize(light);
+      float dProd = max(0.0,dot(vNormal, light));
+      vec4 color = texture2D( u_texture, vUv );
+      if(color.x < .5){
+        color = vec4(44./255.,100./255.,155./255.,1);
+      }else{
+        discard;
+      }
+      gl_FragColor = color;//vec4(dProd*.5,dProd*.75,dProd*1.0,1.0);
     }`,
 };
