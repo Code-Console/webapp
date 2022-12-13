@@ -19,8 +19,8 @@ const About = ({ onClose, title }: { onClose: () => void; title: string }) => {
                   <div>
                     <span>
                       HI, I AM Yogesh Bangar. I AM A FULL STACK WEB DEVELOPER
-                      BASED IN ESSAOUIRA, MOROCCO. THIS WEBSITE IS A PERSONAL
-                      PROJECT THAT SERVES AS A PORTFOLIO. BUILT USING REACT,
+                      BASED IN INDORE, INDIA. THIS WEBSITE IS A PERSONAL PROJECT
+                      THAT SERVES AS A PORTFOLIO. BUILT USING REACT,
                       THREE.JS/REACT-THREE-FIBER AND BLENDER. FEEL FREE TO
                       CONTACT ME USING THE CONTACT PAGE OR THROUGH ONE OF THE
                       SOCIAL MEDIA PROFILES.
