@@ -5,6 +5,7 @@ import { gradientShader } from "../../Shaders";
 import { gsap } from "gsap/dist/gsap";
 import { multiColorImg } from "../../Assets";
 const NoiseSphere = (props: any) => {
+  const ref: any = React.useRef();
   const uniforms = {
     u_time: { value: 0 },
     sky: { value: new THREE.TextureLoader().load(multiColorImg) },
@@ -44,13 +45,16 @@ const NoiseSphere = (props: any) => {
       },
       y: 2,
       onUpdate: () => {
-        const deg = inc.y * Math.PI;
-        meshObj.rotation.set(deg, deg * 2.25, 0);
-        meshObj.position.set(
-          Math.sin(deg) * 0.25,
-          Math.sin(deg * 2) * 0.25,
-          -2 - inc.y * 2
-        );
+        const mesh = ref.current?.children[0];
+        if (mesh) {
+          const deg = inc.y * Math.PI;
+          mesh.rotation.set(deg, deg * 2.25, 0);
+          mesh.position.set(
+            Math.sin(deg) * 0.25,
+            Math.sin(deg * 2) * 0.25,
+            -2 - inc.y * 2
+          );
+        }
       },
     });
   };
@@ -59,7 +63,7 @@ const NoiseSphere = (props: any) => {
     const deg = uniforms.u_time.value * 0.1;
     meshArray.forEach((element, i) => {
       element.rotation.set(deg - i * 0.5, deg * 0.25, deg * 0.5);
-      const red = (0.5 * i * Math.PI)+deg ;
+      const red = 0.5 * i * Math.PI + deg;
       element.position.set(Math.sin(red) * 1.8, Math.cos(red) * 1.8, 0);
     });
   });
@@ -67,7 +71,7 @@ const NoiseSphere = (props: any) => {
     gsapCall();
   }, []);
   return (
-    <group {...props} dispose={null}>
+    <group {...props} dispose={null} ref={ref}>
       <primitive object={meshObj} dispose={null} />
     </group>
   );

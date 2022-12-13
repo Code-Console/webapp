@@ -1,7 +1,7 @@
 export const basePath = "https://hututusoftwares.com/";
 
 export const skullGLBPath = basePath + "3D/head3.glb";
-export const watchGLBPath = basePath + "3D/watch.glb";
+export const watchGLBPath = basePath + "3D/watch2.glb";
 export const parrotGLBPath = basePath + "3D/watch.glb";
 export const flamingoGLBPath = basePath + "3D/Flamingo.glb";
 export const flowerGLBPath = basePath + "3D/Flower.glb";

@@ -132,7 +132,9 @@ const Position = ({ wait }: { wait: Number }) => {
   mesh.rotation.set(Math.PI * 0.5, 0, 0);
   firstPoint.add(mesh1);
   secondPoint.add(mesh);
-
+  firstPoint.scale.set(0,0,0);
+  secondPoint.scale.set(0,0,0);
+  
   const uniform = {
     u_time: { value: 0 },
     u_clr: {
@@ -165,7 +167,7 @@ const Position = ({ wait }: { wait: Number }) => {
       points.push(p);
     }
     const path = new THREE.CatmullRomCurve3(points);
-    const tubeGeometry = new THREE.TubeGeometry(path, 32, 0.002, 8, false);
+    const tubeGeometry = new THREE.TubeGeometry(path, 32, 0.001, 8, false);
     const tubeGeometryMaterial = new THREE.ShaderMaterial({
       uniforms: uniform,
       vertexShader: globeCurveShader.vertex,

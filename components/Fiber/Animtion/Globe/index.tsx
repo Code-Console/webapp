@@ -6,11 +6,17 @@ import { basePath, earthImg, multiColorImg } from "../../../Assets";
 import { globeShader } from "../../../Shaders";
 import CameraController from "../../CameraController";
 import Position from "./Position";
+import gsap from "gsap";
 const Globe = (props: any) => {
   const [state, setState] = React.useState({ pos: 0 });
   const check = new THREE.BufferGeometry();
   const ref: any = React.useRef();
-
+  const material = new THREE.MeshBasicMaterial({
+    color: 0x081c36,
+    transparent: true,
+    opacity: 0.0,
+  });
+  
   const texture = useTexture({
     transparent: `${earthImg}`,
     iChannel0: `${multiColorImg}`,
@@ -29,12 +35,37 @@ const Globe = (props: any) => {
       uniforms: uniforms,
       fragmentShader: globeShader.fragment,
       vertexShader: globeShader.vertex,
-      transparent: true,
+      side: THREE.DoubleSide,
     })
   );
 
   check.copy(geometry);
+  mesh.position.set(10, 5, 5);
 
+  mesh.scale.set(5, 5, 5);
+  gsap.to(mesh.position, {
+    x: 0,
+    y: 0,
+    z: 0,
+    duration: 1.3,
+    delay: 0.3,
+    ease: "power3.out",
+  });
+  gsap.to(mesh.scale, {
+    x: 1,
+    y: 1,
+    z: 1,
+    duration: 1.3,
+    delay: 0.3,
+    ease: "power3.out",
+  });
+  gsap.to(material, {
+    opacity: .71,
+    duration: 1.3,
+    delay: 1.3,
+    ease: "power3.out",
+  });
+  
   let count = 0;
 
   useFrame(() => {
@@ -72,19 +103,17 @@ const Globe = (props: any) => {
       });
     }
   });
-
   return (
-    <group ref={ref} {...props} dispose={null} scale={[2,2,2]}>
+    <group ref={ref} {...props} dispose={null} scale={[2, 2, 2]}>
       <primitive object={mesh} dispose={null} />
-      <mesh onPointerDown={() => (count = 0)}>
+      <mesh onPointerDown={() => (count = 0)} material={material}>
         <sphereGeometry args={[0.99, 32, 32]} />
-        <meshBasicMaterial color={0x081c36} />
       </mesh>
-      <Position wait={0} />
-      <Position wait={30} />
-      <Position wait={60} />
-      <Position wait={90} />
-      <Position wait={120} />
+      <Position wait={100} />
+      <Position wait={130} />
+      <Position wait={160} />
+      <Position wait={190} />
+      <Position wait={220} />
       <CameraController enableZoom={false} />
     </group>
   );
