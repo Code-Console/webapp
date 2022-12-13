@@ -16,7 +16,6 @@ export const setWireFrameMaterial = ({
   });
   model.traverse((object: any) => {
     if (!object["isMesh"] || skip.includes(object.name)) return;
-    console.log(object.name);
     if (object["material"].isMaterial) {
       object["material"] = material;
     }

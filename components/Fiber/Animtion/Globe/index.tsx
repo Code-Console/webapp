@@ -14,9 +14,9 @@ const Globe = (props: any) => {
   const material = new THREE.MeshBasicMaterial({
     color: 0x081c36,
     transparent: true,
-    opacity: 0.0,
+    opacity: 0.7,
   });
-  
+
   const texture = useTexture({
     transparent: `${earthImg}`,
     iChannel0: `${multiColorImg}`,
@@ -38,35 +38,41 @@ const Globe = (props: any) => {
       side: THREE.DoubleSide,
     })
   );
-
+  mesh.name = "pointsGlobe";
   check.copy(geometry);
-  mesh.position.set(10, 5, 5);
-
-  mesh.scale.set(5, 5, 5);
-  gsap.to(mesh.position, {
-    x: 0,
-    y: 0,
-    z: 0,
-    duration: 1.3,
-    delay: 0.3,
-    ease: "power3.out",
-  });
-  gsap.to(mesh.scale, {
-    x: 1,
-    y: 1,
-    z: 1,
-    duration: 1.3,
-    delay: 0.3,
-    ease: "power3.out",
-  });
-  gsap.to(material, {
-    opacity: .71,
-    duration: 1.3,
-    delay: 1.3,
-    ease: "power3.out",
-  });
-  
   let count = 0;
+
+  React.useEffect(() => {
+    const mesh = ref.current.getObjectByName("pointsGlobe");
+    console.log("ref.current~~~", ref.current);
+    if (!ref.current) return;
+    mesh.position.set(10, 5, 5);
+    mesh.scale.set(5, 5, 5);
+    gsap.to(mesh.position, {
+      x: 0,
+      y: 0,
+      z: 0,
+      duration: 1.3,
+      delay: 0.3,
+      ease: "power3.out",
+    });
+    gsap.to(mesh.scale, {
+      x: 1,
+      y: 1,
+      z: 1,
+      duration: 1.3,
+      delay: 0.3,
+      ease: "power3.out",
+    });
+    const material = ref.current.getObjectByName("meshGlobe").material;
+    material.opacity = .01;
+    gsap.to(material, {
+      opacity: 0.71,
+      duration: 1.3,
+      delay: 1.3,
+      ease: "power3.out",
+    });
+  }, []);
 
   useFrame(() => {
     const copy = check?.attributes.position;
@@ -106,7 +112,11 @@ const Globe = (props: any) => {
   return (
     <group ref={ref} {...props} dispose={null} scale={[2, 2, 2]}>
       <primitive object={mesh} dispose={null} />
-      <mesh onPointerDown={() => (count = 0)} material={material}>
+      <mesh
+        onPointerDown={() => (count = 0)}
+        material={material}
+        name="meshGlobe"
+      >
         <sphereGeometry args={[0.99, 32, 32]} />
       </mesh>
       <Position wait={100} />

@@ -16,10 +16,6 @@ const AnimationModel = (props: any) => {
     if (watchGlb) {
       updateMaterial(watchGlb.scene);
       dispatch(actionDeposited(true));
-      const mesh = watchGlb.scene.children[0];
-      mixer = new THREE.AnimationMixer(mesh);
-      mixer.clipAction(watchGlb.animations[0]).setDuration(1).play();
-      console.log(watchGlb);
     }
   }, [watchGlb]);
   useFrame((state) => {
@@ -28,12 +24,19 @@ const AnimationModel = (props: any) => {
     const delta = clock.getDelta();
     if (refCurrent) {
       refCurrent.rotation.x = 0.3 + Math.cos(t / 4) / 8;
-      refCurrent.rotation.y = Math.sin(t / 4) ;
+      refCurrent.rotation.y = Math.sin(t / 4);
       refCurrent.rotation.z = (1 + Math.sin(t / 1.5)) / 20;
       refCurrent.position.y = (1 + Math.sin(t / 1.5)) / 10;
       refCurrent.position.x = (1 + Math.sin(t / 1.5)) / 10;
       // refCurrent.position.z = -200+(t*10)%250;
     }
+    if (!mixer) {
+      const mesh = refCurrent.getObjectByName("mesh_0");
+      mixer = new THREE.AnimationMixer(mesh);
+      mixer.clipAction(watchGlb.animations[0]).setDuration(1).play();
+      console.log(mesh);
+    }
+
     mixer?.update(delta);
   });
   return (
