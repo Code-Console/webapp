@@ -2,9 +2,11 @@ import * as THREE from "three";
 export const setWireFrameMaterial = ({
   model,
   opacity,
+  skip = [],
 }: {
   model: any;
   opacity?: number;
+  skip?: string[];
 }) => {
   if (!model) return;
   const material = new THREE.MeshNormalMaterial({
@@ -13,7 +15,8 @@ export const setWireFrameMaterial = ({
     transparent: true,
   });
   model.traverse((object: any) => {
-    if (!object["isMesh"]) return;
+    if (!object["isMesh"] || skip.includes(object.name)) return;
+    console.log(object.name);
     if (object["material"].isMaterial) {
       object["material"] = material;
     }

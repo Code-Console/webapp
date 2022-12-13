@@ -7,21 +7,22 @@ import { environmentImagePath } from "../../Assets";
 import DisplacementShader from "./DisplacementShader";
 import { SpaceDust } from "../SpaceDust";
 import { useAnimType } from "../../hooks";
+import CameraController from "../CameraController";
 
-const TextParticle = React.lazy(()=>import ("./TextParticle"));
-const RandomShader = React.lazy(()=>import ("./RandomShader"));
-const ToyShader = React.lazy(()=>import ("./ToyShader"));
-const BlockXYZ = React.lazy(()=>import ("./BlockXYZ"));
-const MakersFund = React.lazy(()=>import ("./MakersFund"));
-const AnimationModel = React.lazy(()=>import ("../AnimationModel"));
-const TextAnim = React.lazy(()=>import ("./TextAnim"));
-const Reveal = React.lazy(()=>import ("./Reveal"));
-const Model = React.lazy(()=>import ("../Model"));
-const Gradient = React.lazy(()=>import ("./Gradient"));
-const NoiseSphere = React.lazy(()=>import ("./NoiseSphere"));
-const PostEffects = React.lazy(()=>import ("./Outline"));
-const SelectFace = React.lazy(()=>import ("./SelectFace"));
-const Globe = React.lazy(()=>import ("./Globe"));
+const TextParticle = React.lazy(() => import("./TextParticle"));
+const RandomShader = React.lazy(() => import("./RandomShader"));
+const ToyShader = React.lazy(() => import("./ToyShader"));
+const BlockXYZ = React.lazy(() => import("./BlockXYZ"));
+const MakersFund = React.lazy(() => import("./MakersFund"));
+const AnimationModel = React.lazy(() => import("../AnimationModel"));
+const TextAnim = React.lazy(() => import("./TextAnim"));
+const Reveal = React.lazy(() => import("./Reveal"));
+const Model = React.lazy(() => import("../Model"));
+const Gradient = React.lazy(() => import("./Gradient"));
+const NoiseSphere = React.lazy(() => import("./NoiseSphere"));
+const PostEffects = React.lazy(() => import("./Outline"));
+const SelectFace = React.lazy(() => import("./SelectFace"));
+const Globe = React.lazy(() => import("./Globe"));
 
 const CanvasDefaultValues = ({
   animationType,
@@ -37,7 +38,12 @@ const CanvasDefaultValues = ({
     case AnimType.BIRD:
       return <AnimationModel />;
     case AnimType.WATCH:
-      return <Model opacity={0.51} />;
+      return (
+        <>
+          <CameraController />
+          <Model opacity={0.11} />
+        </>
+      );
     case AnimType.DISPLACEMENT_SHADER:
       return (
         <>

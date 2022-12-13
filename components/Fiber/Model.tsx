@@ -5,38 +5,26 @@ import { watchGLBPath } from "../Assets";
 import { setWireFrameMaterial } from "../util";
 import { actionDeposited } from "../../redux/action";
 import { useDispatch } from "react-redux";
-import {  Object3D } from "three";
-import gsap from "gsap";
 const Model = (props: any) => {
   const dispatch = useDispatch();
   const watchGlb = useGLTF(watchGLBPath);
   const ref = useRef();
-  const date = new Date();
   const degreesToRadians = (degrees: number) => {
     return degrees * (Math.PI / 180);
   };
-  let meshMinutes: Object3D | undefined;
-  let meshHours: Object3D | undefined;
+  const watchHands = ["Hand-Seconds", "Hand-Minutes", "Hand-Hours"];
   React.useEffect(() => {
     if (watchGlb) {
-      setWireFrameMaterial({ model: watchGlb.scene, opacity: props?.opacity });
+      setWireFrameMaterial({
+        model: watchGlb.scene,
+        opacity: props?.opacity,
+        skip: ["Hand-Seconds"],
+      });
       dispatch(actionDeposited(true));
     }
-    const meshSeconds = watchGlb.scene.getObjectByName("Hand-Seconds");
-    meshMinutes = watchGlb.scene.getObjectByName("Hand-Minutes");
-    meshHours = watchGlb.scene.getObjectByName("Hand-Hours");
-    
-    date.getMinutes();
-    
-    if (meshSeconds)
-      gsap.to(meshSeconds.rotation, {
-        z: Math.PI * 2,
-        duration: 1000,
-        repeat: -1,
-        ease: "none",
-      });
   }, [watchGlb]);
   useFrame((state) => {
+    const date = new Date();
     const refCurrent: any = ref?.current;
     const t = state.clock.getElapsedTime();
     if (refCurrent) {
@@ -45,13 +33,23 @@ const Model = (props: any) => {
       refCurrent.rotation.z = (1 + Math.sin(t / 1.5)) / 20;
       refCurrent.position.y = -1 + (1 + Math.sin(t / 1.5)) / 10;
     }
+    const meshSeconds = refCurrent.getObjectByName(watchHands[0]);
+    const meshMinutes = refCurrent.getObjectByName(watchHands[1]);
+    const meshHours = refCurrent.getObjectByName(watchHands[2]);
     if (meshMinutes) {
       meshMinutes.rotation.z =
         Math.PI * 0.5 + degreesToRadians(date.getMinutes() * 6);
     }
     if (meshHours) {
+      const extra = degreesToRadians(date.getMinutes() * 6) / 12;
       meshHours.rotation.z =
-        Math.PI * 0.5 + degreesToRadians((date.getHours()%12) * 30);
+        Math.PI * 0.5 + degreesToRadians((date.getHours() % 12) * 30) + extra;
+    }
+    if (meshSeconds) {
+      meshSeconds.rotation.z = -(
+        Math.PI * 0.5 +
+        degreesToRadians(date.getSeconds() * 6)
+      );
     }
   });
 
