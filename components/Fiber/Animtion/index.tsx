@@ -8,6 +8,7 @@ import DisplacementShader from "./DisplacementShader";
 import { SpaceDust } from "../SpaceDust";
 import { useAnimType } from "../../hooks";
 import CameraController from "../CameraController";
+import WorldGlobe from "../WorldGlobe";
 
 const TextParticle = React.lazy(() => import("./TextParticle"));
 const RandomShader = React.lazy(() => import("./RandomShader"));
@@ -17,7 +18,7 @@ const MakersFund = React.lazy(() => import("./MakersFund"));
 const AnimationModel = React.lazy(() => import("../AnimationModel"));
 const TextAnim = React.lazy(() => import("./TextAnim"));
 const Reveal = React.lazy(() => import("./Reveal"));
-const Model = React.lazy(() => import("../Model"));
+//const Model = React.lazy(() => import("../Model"));
 const Gradient = React.lazy(() => import("./Gradient"));
 const NoiseSphere = React.lazy(() => import("./NoiseSphere"));
 const PostEffects = React.lazy(() => import("./Outline"));
@@ -41,7 +42,8 @@ const CanvasDefaultValues = ({
       return (
         <>
           <CameraController />
-          <Model opacity={0.11} />
+          {/* <Model opacity={0.11} /> */}
+          <WorldGlobe />
         </>
       );
     case AnimType.DISPLACEMENT_SHADER:
