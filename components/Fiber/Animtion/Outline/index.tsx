@@ -8,7 +8,7 @@ import {
   Glitch,
 } from "@react-three/postprocessing";
 
-const PostEffects = ({ isGlitch }: { isGlitch?: boolean }) => {
+const PostEffects = ({ isGlitch,isBloom }: { isGlitch?: boolean,isBloom?: boolean }) => {
   return (
     <EffectComposer>
       <DepthOfField
@@ -17,9 +17,9 @@ const PostEffects = ({ isGlitch }: { isGlitch?: boolean }) => {
         bokehScale={2}
         height={480}
       />
-      <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} />
+      {isBloom ? <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} /> : <></>}
       <Noise opacity={0.12} />
-      <Vignette eskil={true} offset={0.1} darkness={1.1} />
+      <Vignette eskil={true} offset={0.001} darkness={0.001} />
       {isGlitch ? <Glitch /> : <></>}
     </EffectComposer>
   );

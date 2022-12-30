@@ -1,28 +1,33 @@
 export const basePath = "https://hututusoftwares.com/";
+export const resources3D = `${basePath}3D/`;
 
-export const skullGLBPath = basePath + "3D/head3.glb";
-export const watchGLBPath = basePath + "3D/watch2.glb";
-export const dracoGLBPath = basePath + "3D/draco.glb";
-export const parrotGLBPath = basePath + "3D/watch.glb";
-export const flamingoGLBPath = basePath + "3D/Flamingo.glb";
-export const flowerGLBPath = basePath + "3D/Flower.glb";
+export const skullGLBPath = `${resources3D}head3.glb`;
+export const watchGLBPath = `${resources3D}watch2.glb`;
+export const dracoGLBPath = `${resources3D}draco.glb`;
+export const parrotGLBPath = `${resources3D}watch.glb`;
+export const flamingoGLBPath = `${resources3D}Flamingo.glb`;
+export const flowerGLBPath = `${resources3D}Flower.glb`;
+export const roomGLBPath = `${resources3D}room-1.glb`;
+export const sandImg = `${resources3D}sand-rotate.jpg`;
+export const brashImg = `${resources3D}brash.png`;
 
 export const watchGLBPath_1 =
   "https://static.inspify.io/Chopard/ar/asset/v4/278573-6027/278573-6027.glb";
-export const loadingGif = basePath + "3D/loading.gif";
+export const loadingGif = `${resources3D}loading.gif`;
 export const environmentImagePath =
   "https://static.inspify.io/Chopard/ar/asset/v2/hdr/powerP2Studio_Dim02.hdr";
 
 export const logoImg = `${basePath}images/apple-touch-icon-72x72.png`;
-export const ogImg = `${basePath}3D/img.jpg`;
-export const distinctiveImg = `${basePath}3D/distinctive.jpg`;
-export const multiColorImg = `${basePath}3D/multi.jpg`;
-export const earthImg = `${basePath}3D/earthspec1k.jpg`;
+export const ogImg = `${resources3D}img.jpg`;
+export const distinctiveImg = `${resources3D}distinctive.jpg`;
+export const multiColorImg = `${resources3D}multi.jpg`;
+export const earthImg = `${resources3D}earthspec1k.jpg`;
 export const birdImg = `${basePath}images/team_02.jpg`;
-export const img8ton = `${basePath}3D/8ton.jpg`;
-export const img5ton = `${basePath}3D/fiveTone.jpg`;
-export const MADEOuterSans_Bold = `${basePath}3D/MADEOuterSans_Bold.json`;
-export const Lobster_Regular = `${basePath}3D/Lobster_Regular.json`;
+export const img8ton = `${resources3D}8ton.jpg`;
+export const img5ton = `${resources3D}fiveTone.jpg`;
+export const skyImg = `${resources3D}bg.jpg`;
+export const MADEOuterSans_Bold = `${resources3D}MADEOuterSans_Bold.json`;
+export const Lobster_Regular = `${resources3D}Lobster_Regular.json`;
 export const mobileBreakPoint = 820;
 
 export const specialChar = `$ ¢ Aö 1¾ — ©™ © ® ™ @ ¶ § ℀ ℁ ℂ ℃ ℄ ℅ ℆ ℇ ℈ ℉ ℊ ℋ ℌ ℍ ℎ ℏ ℐ  ℑ ℒ ℓ ℔ ℕ № ℗ ℘ ℙ ℚ ℛ ℜ ℝ

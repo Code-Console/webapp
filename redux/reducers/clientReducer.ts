@@ -1,6 +1,6 @@
 import { AnyAction } from "redux";
 import { ClientState } from "../../interfaces";
-import { DID_LOAD_FIBER, SET_ANIM_TYPE } from "../action";
+import { DID_LOAD_FIBER, SET_ANIM_TYPE, SET_ORBIT_CONTROL } from "../action";
 export const defaultClientState: ClientState = {
   isAllModelLoaded: false,
 };
@@ -19,6 +19,13 @@ const clientReducer = (
       return {
         ...state,
         animType: action.payload,
+      };
+    }
+    case SET_ORBIT_CONTROL: {
+      console.log('action.payload',action.payload);
+      return {
+        ...state,
+        isOrbitControl: action.payload,
       };
     }
     default:

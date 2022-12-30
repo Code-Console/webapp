@@ -10,6 +10,7 @@ export interface IMainState {
 export interface ClientState {
   isAllModelLoaded: boolean;
   animType?: AnimType;
+  isOrbitControl?: boolean;
 }
 export enum MenuItem {
   ABOUT = "About",
@@ -33,6 +34,7 @@ export enum AnimType {
   TEXT_STRACE = "Text Strace",
   FACE_SELECTION = "Face Selection",
   STRIP_GLOBE = "Strip Globe",
+  LEGENDARY = "Legendary",
 }
 
 export interface IUser {
