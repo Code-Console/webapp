@@ -1,7 +1,6 @@
 import React from "react";
 import { jitsiConfig } from "./config";
-import tryConnect from "./connection";
-import { JitsiConnection, JitsiMeetingRoom } from "./MeetingContainer";
+import { MeetingContext } from "./MeetingContext";
 
 const Meeting = () => {
   const conference = "conference";
@@ -17,6 +16,7 @@ const Meeting = () => {
    * Handles local tracks.
    * @param tracks Array with JitsiTrack objects
    */
+  const { setConnection, setRoom } = React.useContext(MeetingContext);
   function onLocalTracks(tracks: any) {
     localTracks = tracks;
     for (let i = 0; i < localTracks.length; i++) {
@@ -59,7 +59,7 @@ const Meeting = () => {
    * @param track JitsiTrack object
    */
   function onRemoteTrack(track: any) {
-    console.log("onRemoteTrack~~~~~", track);
+    console.error("onRemoteTrack~~~~~", track);
     if (track.isLocal()) {
       return;
     }
@@ -136,6 +136,7 @@ const Meeting = () => {
   function onConnectionSuccess() {
     console.error("~~~a~~", conference);
     room = connection.initJitsiConference(conference, confOptions);
+    setRoom(room)
     room.on(JitsiMeetJS.events.conference.TRACK_ADDED, onRemoteTrack);
     room.on(JitsiMeetJS.events.conference.TRACK_REMOVED, (track: any) => {
       delete remoteTracks[track.getParticipantId()];
@@ -244,7 +245,7 @@ const Meeting = () => {
           JitsiMeetJS.events.track.LOCAL_TRACK_STOPPED,
           () => console.log("local track stoped")
         );
-        localTracks[1].attach($("#localVideo1")[0]);
+        // localTracks[1].attach($("#localVideo1")[0]);
         room.addTrack(localTracks[1]);
       })
       .catch((error: any) => console.log(error));
@@ -272,7 +273,7 @@ const Meeting = () => {
 
     connection = new JitsiMeetJS.JitsiConnection(null, null, jitsiConfig);
 
-    console.log("~~~b~~", "yogeshbangar");
+    setConnection(connection);
 
     connection.addEventListener(
       JitsiMeetJS.events.connection.CONNECTION_ESTABLISHED,
