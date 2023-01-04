@@ -1,8 +1,17 @@
+import { IMeetingLocalUser, IMeetingRemoteUsers } from "./meeting";
+
 declare global {
   interface Window {
     geolocation: any;
     setKey: any;
   }
+}
+
+export interface IMeeting {
+  meetingId?: string;
+  localUser?: IMeetingLocalUser;
+  remoteUsers?: IMeetingRemoteUsers;
+  isPresenter?: boolean;
 }
 export interface IMainState {
   clientState: ClientState;
@@ -11,6 +20,8 @@ export interface ClientState {
   isAllModelLoaded: boolean;
   animType?: AnimType;
   isOrbitControl?: boolean;
+  meeting: IMeeting;
+  user?: IUser;
 }
 export enum MenuItem {
   ABOUT = "About",
@@ -38,7 +49,7 @@ export enum AnimType {
 }
 
 export interface IUser {
-  _id: string;
+  id: string;
   name?: string;
   email?: string;
 }

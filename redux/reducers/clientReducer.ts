@@ -3,6 +3,7 @@ import { ClientState } from "../../interfaces";
 import { DID_LOAD_FIBER, SET_ANIM_TYPE, SET_ORBIT_CONTROL } from "../action";
 export const defaultClientState: ClientState = {
   isAllModelLoaded: false,
+  meeting: {},
 };
 const clientReducer = (
   state: ClientState = defaultClientState,
@@ -22,7 +23,7 @@ const clientReducer = (
       };
     }
     case SET_ORBIT_CONTROL: {
-      console.log('action.payload',action.payload);
+      console.log("action.payload", action.payload);
       return {
         ...state,
         isOrbitControl: action.payload,

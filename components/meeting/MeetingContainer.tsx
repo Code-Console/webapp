@@ -1,80 +1,15 @@
 import React from "react";
+import {
+  ConfState,
+  DevicePermissionStatus,
+  IDevicePermission,
+  JitsiConnection,
+  JitsiConnectionStatus,
+  JitsiLocalTrack,
+  JitsiMeetingRoom,
+  JitsiParticipant,
+} from "../../interfaces/meeting";
 import { jitsiConfig } from "./config";
-/* eslint-disable no-var */
-declare global {
-  var JitsiMeetJS: any;
-}
-/* eslint-enable no-var */
-export enum DevicePermissionStatus {
-  GRANTED = "GRANTED",
-  REJECTED = "REJECTED",
-  WAITING = "WAITING",
-}
-export type JitsiConnectionStatus =
-  | "active"
-  | "inactive"
-  | "interrupted"
-  | "restoring";
-export type JitsiConnection = any;
-export type IDevicePermission = Record<
-  "audio" | "video",
-  DevicePermissionStatus
->;
-
-export interface JitsiMeetingRoom {
-  myUserId: () => string | undefined;
-  sendEndpointMessage: (recipient: string, message: any) => void;
-  selectParticipants: (participantIds: string[]) => void;
-  leave: () => Promise<void>;
-  setDisplayName: (displayName: string) => void;
-  addTrack: (track: JitsiLocalTrack) => Promise<void>;
-  on: (event: string, handler: Function) => void;
-  off: (event: string, handler: Function) => void;
-  getLocalTracks: () => JitsiLocalTrack[];
-  setSenderVideoConstraint: (quality: number) => Promise<void>;
-  muteParticipant?: (participantId: string) => void;
-  kickParticipant?: (participantId: string) => void;
-  isModerator?: () => boolean;
-  grantOwner?: (participantId: string) => void;
-  replaceTrack?: (oldTrack: JitsiTrack, newTrack: JitsiTrack) => Promise<void>;
-  setLocalParticipantProperty?: (field: string, value: any) => void;
-  getLocalParticipantProperty?: (field: string) => any;
-}
-export interface JitsiTrack {
-  getId: () => string;
-  getParticipantId: () => string;
-  isMuted: () => boolean;
-  attach: (container: any) => void;
-  detach: (container: any) => void;
-  isActive: () => boolean;
-  getType: () => "video" | "audio";
-  getOriginalStream: () => any;
-  isVideoTrack?: () => boolean;
-  isAudioTrack?: () => boolean;
-  videoType?: "camera" | "desktop";
-  stream?: MediaStream;
-  track?: MediaStreamTrack;
-}
-
-export interface JitsiParticipant {
-  getConnectionStatus?: () => string;
-  _role?: string;
-}
-
-export interface JitsiLocalTrack extends JitsiTrack {
-  mute: () => Promise<void>;
-  unmute: () => Promise<void>;
-  dispose: () => Promise<void>;
-  addEventListener: (event: string, handler: Function) => void;
-  getDeviceId: () => string;
-  on?: (event: string, callback: Function) => void;
-  //apply effect by swapping out the existing MediaStream on jisti track
-  //pass undefined to remove the effect and restore the o.g MediaStream
-  setEffect?: (effect: any | undefined) => any;
-}
-interface ConfState {
-  jitsiLocalTrack: JitsiLocalTrack[];
-}
 
 export const logJitsiEvent = (action: string, additionalInfor: object = {}) => {
   console.log(
@@ -477,17 +412,16 @@ const MeetingContainer = () => {
   };
   React.useEffect(() => {
     joinMeeting(meetingId);
-    
   }, []);
   React.useEffect(() => {
     if (connection) joinRoom();
   }, [connection]);
   React.useEffect(() => {
-    console.log(room,'~~~~~~~~room~~~')
-    if (!room ) return;
-    roomListener('on');
+    console.log(room, "~~~~~~~~room~~~");
+    if (!room) return;
+    roomListener("on");
     return () => {
-      room && roomListener('off');
+      room && roomListener("off");
     };
   }, [room]);
 
