@@ -28,7 +28,7 @@ const Meeting = () => {
    * Handles local tracks.
    * @param tracks Array with JitsiTrack objects
    */
-  const { setConnection, setRoom } = React.useContext(MeetingContext);
+  const {setConnection, setRoom } = React.useContext(MeetingContext);
   function onLocalTracks(tracks: any) {
     localTracks = tracks;
     for (let i = 0; i < localTracks.length; i++) {
@@ -61,7 +61,7 @@ const Meeting = () => {
       //   localTracks[i].attach($(`#localAudio${i}`)[0]);
       // }
       if (isJoined) {
-        room.addTrack(localTracks[i]);
+        room?.addTrack(localTracks[i]);
       }
     }
   }
@@ -122,7 +122,7 @@ const Meeting = () => {
     console.log("conference joined!");
     isJoined = true;
     for (let i = 0; i < localTracks.length; i++) {
-      room.addTrack(localTracks[i]);
+      room?.addTrack(localTracks[i]);
     }
   }
 
@@ -228,7 +228,7 @@ const Meeting = () => {
     for (let i = 0; i < localTracks.length; i++) {
       localTracks[i].dispose();
     }
-    room.leave();
+    room?.leave();
     connection.disconnect();
   }
 
@@ -258,7 +258,7 @@ const Meeting = () => {
           () => console.log("local track stoped")
         );
         // localTracks[1].attach($("#localVideo1")[0]);
-        room.addTrack(localTracks[1]);
+        room?.addTrack(localTracks[1]);
       })
       .catch((error: any) => console.log(error));
   }
@@ -689,12 +689,12 @@ const Meeting = () => {
   const onRestarted = () => logJitsiEvent('CONFERENCE_RESTARTED');
   const onVideoBridgeNotAvailable = () =>
     logJitsiEvent('VIDEOBRIDGE_NOT_AVAILABLE');
-  const onReservationError = () => logJitsiEvent('RESERVATION_ERROR', null);
-  const onGracefulShutdown = () => logJitsiEvent('GRACEFUL_SHUTDOWN', null);
-  const onJingleFatalError = (error) =>
+  const onReservationError = () => logJitsiEvent('RESERVATION_ERROR');
+  const onGracefulShutdown = () => logJitsiEvent('GRACEFUL_SHUTDOWN');
+  const onJingleFatalError = (error:any) =>
     logJitsiEvent('INCOMPATIBLE_SERVER_VERSIONS', { error });
-  const onConferenceDistroyed = () => logJitsiEvent('CONFERENCE_DESTROYED', null);
-  const onConferenceMaxUser = () => logJitsiEvent('CONFERENCE_MAX_USERS', null);
+  const onConferenceDistroyed = () => logJitsiEvent('CONFERENCE_DESTROYED');
+  const onConferenceMaxUser = () => logJitsiEvent('CONFERENCE_MAX_USERS');
   const onDataChannelOpen = () => {
     // dispatch(actionBridgeChannelOpened());
   };
