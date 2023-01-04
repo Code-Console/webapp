@@ -17,7 +17,7 @@ const Users = () => {
       <div className="games prevent-select">
         {users &&
           users.map((user: IUser) => (
-            <div className="flex-row" key={user._id}>
+            <div className="flex-row" key={user.id}>
               <div className="user-image">
                 <img className="member-img rounded-circle" src={logoImg} />
               </div>

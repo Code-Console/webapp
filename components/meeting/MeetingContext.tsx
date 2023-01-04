@@ -1,16 +1,13 @@
-import { useRouter } from "next/router";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IMainState, IUser } from "../../interfaces";
 import {
   createUser,
-  DisconnectReason,
   JitsiConnection,
   JitsiMeetingRoom,
 } from "../../interfaces/meeting";
 import flatMap from "lodash/flatMap";
-import { getMeetingRole } from "./meeting";
-import { logDisconnect, logEvent } from "../analytics";
+import { logEvent } from "../analytics";
 import {
   actionDidLeaveMeeting,
   actionUpdateLocalUser,
@@ -30,10 +27,8 @@ export const MeetingContext = React.createContext<{
 
 const MeetingContextContainer = ({
   children,
-  isPixelStreamingExperience,
 }: {
   children: React.ReactNode;
-  isPixelStreamingExperience?: boolean;
 }) => {
   const dispatch = useDispatch();
   const [connection, setConnection] = React.useState<JitsiConnection>(null);
@@ -43,15 +38,10 @@ const MeetingContextContainer = ({
     offerReload: false,
   });
 
-  const router = useRouter();
-  const meetingId = (router.query.meeting || "") as string;
   const meeting = useSelector(
     (state: IMainState) => state.clientState.meeting || {}
   );
-
-  const role = getMeetingRole((router.query.role || "") as string);
   const user = useSelector((state: IMainState) => state.clientState?.user);
-
   const localTracks = meeting.localUser?.tracks || [];
 
   React.useEffect(() => {
@@ -162,11 +152,6 @@ const MeetingContextContainer = ({
           participantId,
           meetingId,
         });
-        if (isPixelStreamingExperience) {
-          logDisconnect({
-            reason: DisconnectReason.MEETING_END,
-          });
-        }
       })
       .catch((e) => {
         console.log("error when stopping conference");
@@ -175,8 +160,6 @@ const MeetingContextContainer = ({
   };
 
   const setUserName = (name: string) => {
-    const hasInput = name && name.trim().length > 0;
-
     room?.setDisplayName(name);
     const updatedUser: IUser = {
       ...(user || createUser({ identityId: "getIdentityId", name: "name" })),

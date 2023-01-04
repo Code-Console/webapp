@@ -1,4 +1,5 @@
-import { IMeetingLocalUser, IMeetingRemoteUsers } from "./meeting";
+import { AnyAction } from "redux";
+import { IMeetingLocalUser, IMeetingRemoteUsers, IMeetingStats, ParticipantMeetingState } from "./meeting";
 
 declare global {
   interface Window {
@@ -9,9 +10,44 @@ declare global {
 
 export interface IMeeting {
   meetingId?: string;
+  state?: ParticipantMeetingState;
   localUser?: IMeetingLocalUser;
   remoteUsers?: IMeetingRemoteUsers;
+  initialParticipantsInLounge?: string[];
+  showLayoutControlButton?: boolean;
+  remoteSceneId?: string;
+  remoteShowHotSpotName?: string;
+  remoteHideHotSpotName?: string;
+  remoteProductImageSliderIndex?: number;
   isPresenter?: boolean;
+  bridgeChannelOpened?: boolean;
+  remotePopupAction?: AnyAction;
+  clientDetailPanelParticipantId?: string;
+  showClientDetailPanel?: boolean;
+  advisorName?: string;
+  advisorIdentityId?: string;
+  advisorParticipantId?: string;
+  dominantSpeakerParticipantId?: string;
+  raiseHand?: {
+    participantIds?: string[];
+    participantInAlert?: string[];
+    approved?: boolean;
+  };
+  stats?: IMeetingStats;
+  advisorEndsMeeting?: boolean;
+  serverUrl?: string;
+  participantControls?: string;
+  autoAdmit?: boolean;
+  date?: number;
+  languageCode?: string;
+  statsMode?: boolean;
+  joinAt?: number;
+  reconnect?: {
+    isReconnect?: boolean;
+    meetingState?: string;
+    isReconnected?: boolean;
+    oldParticipantId?: string;
+  };
 }
 export interface IMainState {
   clientState: ClientState;

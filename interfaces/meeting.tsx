@@ -207,3 +207,23 @@ export const createUser = ({
   name: name,
   email: email,
 });
+export enum ParticipantMeetingState {
+  IN_THE_LOUNGE = 'IN_THE_LOUNGE',
+  SHOW_WELCOME_VIDEO = 'SHOW_WELCOME_VIDEO',
+  ENTERED_FROM_LOUNGE = 'ENTERED_FROM_LOUNGE',
+  LEFT_MEETING = 'LEFT_MEETING'
+}
+export enum MeetingLayoutMode {
+  NORMAL = 'NORMAL',
+  TILE = 'TILE',
+  PRESENTATION = 'PRESENTATION'
+}
+export interface MeetingLayout {
+  mode?: MeetingLayoutMode;
+  presenterIds?: string[];
+  enlargedVideoParticipantId?: string;
+  invisibleParticipantIds?: string[];
+  pinnedParticipantIds?: string[];
+  hideControls?: boolean;
+  playerStatusParticipantIds?: string[];
+}

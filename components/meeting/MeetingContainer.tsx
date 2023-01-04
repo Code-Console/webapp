@@ -268,7 +268,7 @@ const MeetingContainer = () => {
       [JitsiConferenceErrors.CONFERENCE_MAX_USERS]: onConferenceMaxUser,
     };
     for (const event in listeners) {
-      room[status](event, listeners[event]);
+      room?.[status](event, listeners[event]);
     }
   };
 
@@ -277,7 +277,7 @@ const MeetingContainer = () => {
       const room = connection.initJitsiConference(meetingId, jitsiConfig);
       room.setLocalParticipantProperty("meetingState", "IN_THE_LOUNGE");
       room.join();
-      window["room"] = room;
+      window["room" as any] = room;
       setRoom(room);
       console.log(room);
     }

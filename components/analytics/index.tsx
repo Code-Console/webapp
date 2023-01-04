@@ -34,3 +34,11 @@ export const logDisconnect = ({
     true
   );
 };
+export const logJitsiEvent = (action: string, additionalInfor: object = {}) => {
+  console.error(
+    `%cJitsiEvent ${action} triggered`,
+    '~~~~~~~~~~~~~~~~~~~~',
+    additionalInfor || {}
+  );
+  logEvent('JITSI_MEET_EVENT', action, { ...(additionalInfor || {}) });
+};

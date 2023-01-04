@@ -9,7 +9,7 @@ import { SpaceDust } from "../SpaceDust";
 import { useAnimType, useIsOrbitControl } from "../../hooks";
 import CameraController from "../CameraController";
 import WorldGlobe from "../WorldGlobe";
-import Legendary from "../Physics/Legendary";
+// import Legendary from "../Physics/Legendary";
 import Unseen from "./Unseen";
 
 const TextParticle = React.lazy(() => import("./TextParticle"));
