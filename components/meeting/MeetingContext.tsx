@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { IMainState, IUser } from "../../interfaces";
 import {
   createUser,
+  IMeetingRemoteUsers,
   JitsiConnection,
+  JitsiLocalTrack,
   JitsiMeetingRoom,
 } from "../../interfaces/meeting";
 import flatMap from "lodash/flatMap";
@@ -19,6 +21,11 @@ export const MeetingContext = React.createContext<{
   setRoom: (room: JitsiMeetingRoom) => void;
   onDisconnect: (eventName: string, meetingId: string) => void;
   setUserName: (name: string) => void;
+  localTracks?: JitsiLocalTrack[];
+  setLocalTracks: (localTracks: JitsiLocalTrack[]) => void;
+  remoteUsers?: IMeetingRemoteUsers;
+  setRemoteUsers: (remoteUsers: IMeetingRemoteUsers) => void;
+  updateRemoteUsers: (track: any) => void;
   networkState: {
     isOnline: boolean;
     offerReload: boolean;
@@ -32,6 +39,8 @@ const MeetingContextContainer = ({
 }) => {
   const dispatch = useDispatch();
   const [connection, setConnection] = React.useState<JitsiConnection>(null);
+  const [localTracks, setLocalTracks] = React.useState<JitsiLocalTrack[]>([]);
+  const [remoteUsers, setRemoteUsers] = React.useState<IMeetingRemoteUsers>({});
   const [room, setRoom] = React.useState<JitsiMeetingRoom>(null as any);
   const [networkState, setNetworkState] = React.useState({
     isOnline: true,
@@ -42,7 +51,20 @@ const MeetingContextContainer = ({
     (state: IMainState) => state.clientState.meeting || {}
   );
   const user = useSelector((state: IMainState) => state.clientState?.user);
-  const localTracks = meeting.localUser?.tracks || [];
+  // const localTracks = meeting.localUser?.tracks || [];
+
+  const updateRemoteUsers = (track: any) => {
+    const participantId = track.getParticipantId();
+    setRemoteUsers((remoteUsers) => {
+      const copy = { ...remoteUsers };
+      const existingTracks = copy[participantId]?.tracks || [];
+      copy[participantId] = {
+        ...(copy[participantId] || {}),
+        tracks: [...existingTracks, track],
+      };
+      return copy;
+    });
+  };
 
   React.useEffect(() => {
     const onlineStatusListener = () => {
@@ -132,8 +154,8 @@ const MeetingContextContainer = ({
         (meeting.remoteUsers || {})[participantId]?.tracks || []
     );
     remoteTracks.forEach((t) => t.detach(null));
-    localTracks.forEach((t) => {
-      t.dispose();
+    localTracks?.forEach((t) => {
+      (t as any).dispose();
     });
   };
 
@@ -192,6 +214,11 @@ const MeetingContextContainer = ({
         onDisconnect,
         setUserName,
         networkState,
+        localTracks,
+        setLocalTracks,
+        remoteUsers,
+        setRemoteUsers,
+        updateRemoteUsers
       }}
     >
       {children}
