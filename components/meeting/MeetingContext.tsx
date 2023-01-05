@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { IMainState, IUser } from "../../interfaces";
 import {
   createUser,
+  IMeetingLocalUser,
   IMeetingRemoteUsers,
   JitsiConnection,
-  JitsiLocalTrack,
   JitsiMeetingRoom,
 } from "../../interfaces/meeting";
 import flatMap from "lodash/flatMap";
@@ -21,8 +21,8 @@ export const MeetingContext = React.createContext<{
   setRoom: (room: JitsiMeetingRoom) => void;
   onDisconnect: (eventName: string, meetingId: string) => void;
   setUserName: (name: string) => void;
-  localTracks?: JitsiLocalTrack[];
-  setLocalTracks: (localTracks: JitsiLocalTrack[]) => void;
+  localUser?: IMeetingLocalUser;
+  setLocalUser: (localTracks: IMeetingLocalUser) => void;
   remoteUsers?: IMeetingRemoteUsers;
   setRemoteUsers: (remoteUsers: IMeetingRemoteUsers) => void;
   updateRemoteUsers: (track: any) => void;
@@ -39,7 +39,7 @@ const MeetingContextContainer = ({
 }) => {
   const dispatch = useDispatch();
   const [connection, setConnection] = React.useState<JitsiConnection>(null);
-  const [localTracks, setLocalTracks] = React.useState<JitsiLocalTrack[]>([]);
+  const [localUser, setLocalUser] = React.useState<IMeetingLocalUser>();
   const [remoteUsers, setRemoteUsers] = React.useState<IMeetingRemoteUsers>({});
   const [room, setRoom] = React.useState<JitsiMeetingRoom>(null as any);
   const [networkState, setNetworkState] = React.useState({
@@ -51,7 +51,7 @@ const MeetingContextContainer = ({
     (state: IMainState) => state.clientState.meeting || {}
   );
   const user = useSelector((state: IMainState) => state.clientState?.user);
-  // const localTracks = meeting.localUser?.tracks || [];
+  const localTracks = localUser?.tracks || [];
 
   const updateRemoteUsers = (track: any) => {
     const participantId = track.getParticipantId();
@@ -60,6 +60,7 @@ const MeetingContextContainer = ({
       const existingTracks = copy[participantId]?.tracks || [];
       copy[participantId] = {
         ...(copy[participantId] || {}),
+        shouldShowVideo: true,
         tracks: [...existingTracks, track],
       };
       return copy;
@@ -149,9 +150,9 @@ const MeetingContextContainer = ({
       onConnectionDisconnected
     );
     const remoteTracks = flatMap(
-      Object.keys(meeting.remoteUsers || {}),
+      Object.keys(remoteUsers || {}),
       (participantId) =>
-        (meeting.remoteUsers || {})[participantId]?.tracks || []
+        (remoteUsers || {})[participantId]?.tracks || []
     );
     remoteTracks.forEach((t) => t.detach(null));
     localTracks?.forEach((t) => {
@@ -214,11 +215,11 @@ const MeetingContextContainer = ({
         onDisconnect,
         setUserName,
         networkState,
-        localTracks,
-        setLocalTracks,
+        localUser,
+        setLocalUser,
         remoteUsers,
         setRemoteUsers,
-        updateRemoteUsers
+        updateRemoteUsers,
       }}
     >
       {children}

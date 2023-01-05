@@ -82,8 +82,7 @@ const VideosContainer = ({
     return Object.keys(remoteUsers)
       .filter(
         (participantId) =>
-          remoteUsers[participantId]?.shouldShowVideo &&
-          remoteUsers[participantId].role !== MeetingRole.STUDIO
+          remoteUsers[participantId]?.shouldShowVideo
       )
       .filter((participantId) =>
         pinned
@@ -96,14 +95,14 @@ const VideosContainer = ({
           : shouldShowRemoteVideo
       )
       .map((participantId) => (
-        <RemoteVideo participantId={participantId} key={participantId} />
+        <RemoteVideo participantId={participantId} key={participantId} remoteUsers={remoteUsers}/>
       ));
   };
   const presenterVideosComponent = (
     <>
       {myId &&
         presenterIds?.includes(myId) &&
-        meetingLayout?.enlargedVideoParticipantId !== myId && <LocalVideo />}
+        meetingLayout?.enlargedVideoParticipantId !== myId && <LocalVideo localUser={localUser}/>}
       {presenterIds
         .filter(
           (participantId) =>
@@ -112,14 +111,14 @@ const VideosContainer = ({
         .filter((participantId) => participantId !== myId)
         .filter(notInvisibleParticipantInPresentation)
         .map((participantId) => (
-          <RemoteVideo participantId={participantId} key={participantId} />
+          <RemoteVideo participantId={participantId} key={participantId} remoteUsers={remoteUsers}/>
         ))}
     </>
   );
 
   const localVideoComponent = shouldShowLocalVideo() && (
     <div id="local-wrapper">
-      <LocalVideo />
+      <LocalVideo localUser={localUser}/>
     </div>
   );
 
@@ -129,18 +128,6 @@ const VideosContainer = ({
       {remoteUsersVideo()}
     </>
   );
-  const totalVideos = React.useMemo(
-    () =>
-      Object.keys(remoteUsers)
-        .filter(
-          (participantId) =>
-            remoteUsers[participantId]?.shouldShowVideo &&
-            remoteUsers[participantId]?.role !== MeetingRole.STUDIO
-        )
-        .filter(shouldShowRemoteVideo).length + 1,
-    [remoteUsers]
-  );
-
   return (
     <>
       {isPresentationLayout && localVideoComponent}

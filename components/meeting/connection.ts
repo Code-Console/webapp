@@ -1,4 +1,4 @@
-import { logJitsiEvent } from "./MeetingContainer";
+import { logJitsiEvent } from "../analytics";
 
 const tryConnect = (connectionConfig: any) => {
   const connection = new JitsiMeetJS.JitsiConnection(

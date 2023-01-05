@@ -1,35 +1,24 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { IMainState } from "../../../interfaces";
-import { JitsiRemoteTrack, MeetingRole } from "../../../interfaces/meeting";
+import {
+  IMeetingRemoteUsers,
+  JitsiRemoteTrack,
+} from "../../../interfaces/meeting";
 import MeetingAudio from "./MeetingAudio";
 import MeetingVideo from "./MeetingVideo";
 
 const RemoteVideo = ({
   participantId,
   showGrid,
+  remoteUsers,
 }: {
   participantId: string;
   showGrid?: boolean;
+  remoteUsers?: IMeetingRemoteUsers;
 }) => {
   const videoRef = React.useRef<HTMLVideoElement>() as any;
   const audioRef = React.useRef<HTMLAudioElement>() as any;
-  const meeting = useSelector(
-    (state: IMainState) => state.clientState.meeting || {}
-  );
-  const participantInfo = (meeting.remoteUsers || {})[participantId] || {};
-  const selected = meeting?.participantControls === participantId;
-  const role = participantInfo.role;
-
+  const participantInfo = (remoteUsers || {})[participantId] || {};
   const isInterrupted = participantInfo.connectionStatus === "interrupted";
-
-  const isDominantSpeaker =
-    meeting?.dominantSpeakerParticipantId === participantId;
-
-  const isRaisingHand = (meeting?.raiseHand?.participantIds || []).includes(
-    participantId
-  );
-
   const displayName = participantInfo.displayName;
 
   const [isGhostUser, setIsGhostUser] = React.useState(false);
@@ -39,18 +28,12 @@ const RemoteVideo = ({
   const videoTrack = tracks.find((track) => track.getType() === "video");
   const audioMuted = participantInfo.audioMuted || !audioTrack;
   const videoMuted = participantInfo.videoMuted || !videoTrack;
-
-  const isAddingTracks = tracks.length === 0;
-
   const getScaleSize = () => {
     return 1;
   };
   const getRotateDeg = () => {
     return 0;
   };
-
-  const isSharingScreen = videoTrack?.videoType === "desktop";
-
   React.useEffect(() => {
     if (videoTrack && videoTrack.getOriginalStream() && videoRef.current) {
       console.group("track and original stream");
@@ -71,12 +54,7 @@ const RemoteVideo = ({
 
   React.useEffect(() => {
     if (audioTrack && audioRef.current) {
-      if (
-        meeting.localUser?.role !== MeetingRole.STUDIO &&
-        participantInfo.role !== MeetingRole.STUDIO
-      ) {
-        audioTrack.attach(audioRef.current);
-      }
+      audioTrack.attach(audioRef.current);
     }
     return () => {
       if (audioRef.current) {
@@ -99,6 +77,7 @@ const RemoteVideo = ({
     };
   }, [isInterrupted]);
 
+  console.error(isGhostUser,'isGhostUser~~~~~~~');
   if (isGhostUser) return null;
 
   return (

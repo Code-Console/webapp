@@ -11,8 +11,6 @@ declare global {
 export interface IMeeting {
   meetingId?: string;
   state?: ParticipantMeetingState;
-  localUser?: IMeetingLocalUser;
-  remoteUsers?: IMeetingRemoteUsers;
   initialParticipantsInLounge?: string[];
   showLayoutControlButton?: boolean;
   remoteSceneId?: string;

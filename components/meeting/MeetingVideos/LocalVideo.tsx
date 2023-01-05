@@ -1,24 +1,25 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { IMainState } from "../../../interfaces";
+import { IMeetingLocalUser } from "../../../interfaces/meeting";
 
-const LocalVideo = ({ showGrid }: { showGrid?: boolean }) => {
+const LocalVideo = ({
+  localUser,
+  showGrid,
+}: {
+  localUser?: IMeetingLocalUser;
+  showGrid?: boolean;
+}) => {
   const localVideoRef = React.useRef() as any;
-  const meeting = useSelector(
-    (state: IMainState) => state.clientState.meeting || {}
-  );
   const displayName = useSelector(
     (state: IMainState) => state.clientState.user?.name
   );
-  const localTracks = meeting.localUser?.tracks || [];
-  const isSharingScreen = meeting.localUser?.isSharingScreen;
-  const videoEffect = meeting.localUser?.videoEffect;
+  const localTracks = localUser?.tracks || [];
+  const isSharingScreen = localUser?.isSharingScreen;
   const localVideoTrack = localTracks.find(
     (track) => track.getType() === "video"
   );
-
-  const audioMuted = meeting?.localUser?.audioMuted;
-  const videoMuted = meeting?.localUser?.videoMuted;
+  const videoMuted = localUser?.videoMuted;
 
   React.useEffect(() => {
     localVideoTrack?.attach(localVideoRef.current);
@@ -30,7 +31,7 @@ const LocalVideo = ({ showGrid }: { showGrid?: boolean }) => {
   return (
     <div
       className={`local-video-container video-thumbnail`}
-      id={`video-${meeting.localUser?.participantId}`}
+      id={`video-${localUser?.participantId}`}
     >
       <video
         autoPlay
@@ -40,9 +41,7 @@ const LocalVideo = ({ showGrid }: { showGrid?: boolean }) => {
         className="local-video"
       ></video>
 
-      <div className="display-name notranslate">
-        {displayName}
-      </div>
+      <div className="display-name notranslate">{displayName}</div>
       <div className="highlight-box" />
       {showGrid && (
         <>

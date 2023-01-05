@@ -1,29 +1,25 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { IMeetingRemoteUsers } from "../../interfaces/meeting";
+import Cockpit from "./Cockpit";
 import { jitsiConfig } from "./config";
 import tryConnect from "./connection";
 import { MeetingContext } from "./MeetingContext";
 
 const MeetingTrack = () => {
-  const dispatch = useDispatch();
-  let isJoined = false;
   const {
     connection,
     room,
     setConnection,
     setRoom,
-    localTracks,
-    setLocalTracks,
+    localUser,
+    setLocalUser,
     remoteUsers,
     setRemoteUsers,
     updateRemoteUsers,
   } = React.useContext(MeetingContext);
   function onConferenceJoined() {
-    console.error("conference joined!", localTracks?.length);
-    isJoined = true;
-    for (let i = 0; localTracks && i < localTracks?.length; i++) {
-      room?.addTrack(localTracks[i]);
+    console.error("conference joined!", localUser?.tracks?.length);
+    for (let i = 0; localUser?.tracks && i < localUser?.tracks?.length; i++) {
+      room?.addTrack(localUser?.tracks[i]);
     }
   }
   function onUserLeft(id: any) {
@@ -44,7 +40,7 @@ const MeetingTrack = () => {
       return;
     }
     updateRemoteUsers(track);
-    
+
     track.addEventListener(
       JitsiMeetJS.events.track.TRACK_AUDIO_LEVEL_CHANGED,
       (audioLevel: any) => console.log(`Audio Level remote: ${audioLevel}`)
@@ -138,27 +134,29 @@ const MeetingTrack = () => {
       facingMode,
       constraints,
     })
-      .catch((e: any) => {
+      .catch(() => {
         return null;
       })
       .then((tracks: any) => {
-        console.error("~~~~~~~~~~~~~~~", tracks);
-        // dispatch(actionDidAddLocalTrack(tracks));
-        setLocalTracks(tracks);
+        const lUser = {
+          ...(localUser || {}),
+          tracks: tracks,
+        };
+        setLocalUser(lUser);
       });
   };
   const initMeeting = () => {
     try {
-      console.log("jitsiConfig~~~~~~~~~~~~", jitsiConfig);
       JitsiMeetJS.init(jitsiConfig);
       JitsiMeetJS.setLogLevel(JitsiMeetJS.logLevels.ERROR);
       const facingMode = "user";
       const constraints = undefined;
       createLocalTracks(facingMode, constraints)
-        .catch((e) => {
+        .catch(() => {
           return createLocalTracks();
         })
         .then(() => {
+          console.error("jitsiConfig~~~~~~~~~~~~", jitsiConfig);
           return tryConnect(jitsiConfig);
         })
         .then((connection) => {
@@ -172,10 +170,7 @@ const MeetingTrack = () => {
     }
   };
   React.useEffect(() => {
-    console.error("loacal?.length~~~~~~~~~~", localTracks?.length);
-  }, [localTracks]);
-  React.useEffect(() => {
-    if (connection) joinRoom();
+    if (connection && !room) joinRoom();
   }, [connection]);
   React.useEffect(() => {
     if (!room) return;
@@ -190,6 +185,7 @@ const MeetingTrack = () => {
       <button onClick={() => console.error("~~~~~~RemoteUsers", remoteUsers)}>
         remoteUsers
       </button>
+      <Cockpit/>
     </div>
   );
 };

@@ -1,27 +1,22 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { IMeeting } from "../../../interfaces";
-
-import { MeetingContext } from "../MeetingContext";
+import {
+  IMeetingLocalUser,
+  IMeetingRemoteUsers,
+} from "../../../interfaces/meeting";
 import VideosContainer from "./VideosContainer";
 const MeetingVideos = ({
-  meeting,
-  showStudioGrid,
+  remoteUsers,
+  localUser,
 }: {
-  meeting: IMeeting;
-  showStudioGrid?: boolean;
+  remoteUsers?: IMeetingRemoteUsers;
+  localUser?: IMeetingLocalUser;
 }) => {
-  const dispatch = useDispatch();
-  const localRole = meeting.localUser?.role;
-
-  const { room } = React.useContext(MeetingContext);
-
   return (
     <>
       <VideosContainer
         meetingLayout={{}}
-        remoteUsers={meeting?.remoteUsers || {}}
-        localUser={meeting?.localUser || {}}
+        remoteUsers={remoteUsers || {}}
+        localUser={localUser || {}}
         canControlMeeting={true}
       />
     </>
