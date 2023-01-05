@@ -2,8 +2,6 @@ import { AnyAction } from "redux";
 import { ClientState } from "../../interfaces";
 import { ParticipantMeetingState } from "../../interfaces/meeting";
 import {
-  DID_ADD_LOCAL_TRACK,
-  DID_ADD_REMOTE_TRACK,
   DID_LEAVE_MEETING,
   DID_UPDATE_LOCAL_USER,
 } from "../action/meeting";

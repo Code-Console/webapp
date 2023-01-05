@@ -119,7 +119,6 @@ const CanvasDefaultValues = ({
 const AnimationFiberCanvas = () => {
   const animationType = useAnimType();
   const isOrbitControl = useIsOrbitControl();
-  console.log("~~~~~~~~~~~isOrbitControl~~~~", isOrbitControl);
   return (
     <React.Suspense fallback={null}>
       <Canvas
