@@ -14,3 +14,9 @@ export const useAnimType = () => {
   );
   return animType;
 };
+export const useIsOrbitControl = () => {
+  const isAllModelLoaded = useSelector(
+    (state: IMainState) => state.clientState.isOrbitControl
+  );
+  return isAllModelLoaded;
+};
