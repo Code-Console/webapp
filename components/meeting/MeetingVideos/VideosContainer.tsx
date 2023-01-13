@@ -80,10 +80,7 @@ const VideosContainer = ({
 
   const remoteUsersVideo = (pinned?: boolean) => {
     return Object.keys(remoteUsers)
-      .filter(
-        (participantId) =>
-          remoteUsers[participantId]?.shouldShowVideo
-      )
+      .filter((participantId) => remoteUsers[participantId]?.shouldShowVideo)
       .filter((participantId) =>
         pinned
           ? pinnedParticipants.includes(participantId)
@@ -95,14 +92,20 @@ const VideosContainer = ({
           : shouldShowRemoteVideo
       )
       .map((participantId) => (
-        <RemoteVideo participantId={participantId} key={participantId} remoteUsers={remoteUsers}/>
+        <RemoteVideo
+          participantId={participantId}
+          key={participantId}
+          remoteUsers={remoteUsers}
+        />
       ));
   };
   const presenterVideosComponent = (
     <>
       {myId &&
         presenterIds?.includes(myId) &&
-        meetingLayout?.enlargedVideoParticipantId !== myId && <LocalVideo localUser={localUser}/>}
+        meetingLayout?.enlargedVideoParticipantId !== myId && (
+          <LocalVideo localUser={localUser} />
+        )}
       {presenterIds
         .filter(
           (participantId) =>
@@ -111,14 +114,18 @@ const VideosContainer = ({
         .filter((participantId) => participantId !== myId)
         .filter(notInvisibleParticipantInPresentation)
         .map((participantId) => (
-          <RemoteVideo participantId={participantId} key={participantId} remoteUsers={remoteUsers}/>
+          <RemoteVideo
+            participantId={participantId}
+            key={participantId}
+            remoteUsers={remoteUsers}
+          />
         ))}
     </>
   );
 
   const localVideoComponent = shouldShowLocalVideo() && (
     <div id="local-wrapper">
-      <LocalVideo localUser={localUser}/>
+      <LocalVideo localUser={localUser} />
     </div>
   );
 
@@ -143,11 +150,10 @@ const VideosContainer = ({
         </div>
       </div>
       <div className="video-wrapper-bg" />
-
       <style jsx>{`
         #videos-wrapper {
           position: fixed;
-          z-index: 10;
+          z-index: -1;
         }
       `}</style>
     </>

@@ -1,3 +1,4 @@
+import * as THREE from "three";
 export const visibleHeightAtZDepth = (
   depth: number,
   camera: THREE.PerspectiveCamera
@@ -36,3 +37,11 @@ export const cirCir = (
   }
   return false;
 };
+export const createColor=()=>{
+  const col= Math.random();
+  const frequency=1;
+  const r = Math.floor(Math.sin(frequency * col + 0) * 127 + 128);
+  const g = Math.floor(Math.sin(frequency * col + 2) * 127 + 128);
+  const b = Math.floor(Math.sin(frequency * col + 4) * 127 + 128);
+  return new THREE.Color('rgb(' + r + ',' + g + ',' + b + ')');
+}

@@ -4,6 +4,7 @@ import { ParticipantMeetingState } from "../../interfaces/meeting";
 import {
   DID_LEAVE_MEETING,
   DID_UPDATE_LOCAL_USER,
+  SET_MEETING_ID,
 } from "../action/meeting";
 import { defaultClientState } from "./clientReducer";
 
@@ -34,7 +35,15 @@ const meetingReducer = (
         },
       };
     }
-
+    case SET_MEETING_ID: {
+      return {
+        ...state,
+        meeting: {
+          ...(state.meeting || {}),
+          meetingId: action.payload,
+        },
+      };
+    }
     default:
       return state;
   }

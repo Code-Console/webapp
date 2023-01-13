@@ -1,4 +1,12 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AnimType, IMainState } from "../../interfaces";
+import {
+  DevicePermissionStatus,
+  IDevicePermission,
+} from "../../interfaces/meeting";
+import { actionSetMeetingId } from "../../redux/action/meeting";
+import AnimationFiberCanvas from "../Fiber/Animtion";
 import Cockpit from "./Cockpit";
 import { jitsiConfig } from "./config";
 import tryConnect from "./connection";
@@ -16,6 +24,11 @@ const MeetingTrack = () => {
     setRemoteUsers,
     updateRemoteUsers,
   } = React.useContext(MeetingContext);
+  const dispatch = useDispatch();
+  const meeting = useSelector(
+    (state: IMainState) => state.clientState.meeting || {}
+  );
+
   function onConferenceJoined() {
     console.error("conference joined!", localUser?.tracks?.length);
     for (let i = 0; localUser?.tracks && i < localUser?.tracks?.length; i++) {
@@ -30,9 +43,6 @@ const MeetingTrack = () => {
     const copy = { ...remoteUsers };
     delete copy[id];
     setRemoteUsers(copy);
-    // for (let i = 0; tracks && i < tracks?.length; i++) {
-    //   // tracks[i].detach($(`#${id}${tracks[i].getType()}`));
-    // }
   }
   function onRemoteTrack(track: any) {
     console.error("onRemoteTrack~~!!~~~", track.getType());
@@ -56,26 +66,10 @@ const MeetingTrack = () => {
       (deviceId: any) =>
         console.log(`track audio output device was changed to ${deviceId}`)
     );
-    // const id = participantId + track.getType() + idx;
-
-    // if (track.getType() === "video") {
-    //   $("#video-ele").append(
-    //     `<video autoplay='1' id='${participant}video${idx}' class='video-back'/>`
-    //   );
-    // } else {
-    //   $("#video-ele").append(
-    //     `<audio autoplay='1' id='${participant}audio${idx}' />`
-    //   );
-    // }
-    console.error("onRemoteTrack~~~~~", remoteUsers);
-    setTimeout(() => {
-      // setVideo();
-    }, 300);
-    // track.attach($(`#${id}`)[0]);
   }
   const joinRoom = () => {
-    console.error("~~~a~~");
-    const room = connection.initJitsiConference("conference", {});
+    console.error("meeting.meetingId~~~~~~~", meeting.meetingId);
+    const room = connection.initJitsiConference(meeting.meetingId, {});
     setRoom(room);
     room.join();
   };
@@ -118,7 +112,9 @@ const MeetingTrack = () => {
     );
     room.on(
       JitsiMeetJS.events.conference.TRACK_AUDIO_LEVEL_CHANGED,
-      (userID: any, audioLevel: any) => console.log(`${userID} - ${audioLevel}`)
+      () => {
+        //(userID: any, audioLevel: any)
+      }
     );
     room.on(JitsiMeetJS.events.conference.PHONE_NUMBER_CHANGED, () =>
       console.log(`~~~~`)
@@ -156,7 +152,6 @@ const MeetingTrack = () => {
           return createLocalTracks();
         })
         .then(() => {
-          console.error("jitsiConfig~~~~~~~~~~~~", jitsiConfig);
           return tryConnect(jitsiConfig);
         })
         .then((connection) => {
@@ -168,6 +163,43 @@ const MeetingTrack = () => {
     } catch (e) {
       console.log(e);
     }
+  };
+  const getUserMedia = (): Promise<IDevicePermission> => {
+    if (navigator?.mediaDevices?.getUserMedia) {
+      return navigator.mediaDevices
+        .getUserMedia({ audio: true, video: true })
+        .then(() => ({
+          audio: DevicePermissionStatus.GRANTED,
+          video: DevicePermissionStatus.GRANTED,
+        }))
+        .catch(() => {
+          //Assuming that can't get video permission, retry with audio only
+          console.log("DEBUG:: Can not get camera permission");
+          return navigator.mediaDevices
+            .getUserMedia({
+              audio: true,
+              video: false,
+            })
+            .then(() => ({
+              audio: DevicePermissionStatus.GRANTED,
+              video: DevicePermissionStatus.REJECTED,
+            }));
+        });
+    }
+    return Promise.reject(
+      new Error("navigator.mediaDevices.getUserMedia is not available")
+    );
+  };
+  const joinMeeting = (meetingId: string) => {
+    getUserMedia()
+      .then((permission) => {
+        dispatch(actionSetMeetingId(meetingId));
+        initMeeting();
+        console.log(permission);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
   React.useEffect(() => {
     if (connection && !room) joinRoom();
@@ -181,11 +213,11 @@ const MeetingTrack = () => {
   }, [room]);
   return (
     <div>
-      <button onClick={() => initMeeting()}>initJitsi</button>
-      <button onClick={() => console.error("~~~~~~RemoteUsers", remoteUsers)}>
-        remoteUsers
-      </button>
-      <Cockpit/>
+      <Cockpit joinMeeting={joinMeeting} meetingId={meeting.meetingId} />
+      <AnimationFiberCanvas
+        animationType={AnimType.AUDITORIUM}
+        isOrbitControl={true}
+      />
     </div>
   );
 };

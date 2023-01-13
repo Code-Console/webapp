@@ -27,6 +27,7 @@ const Menu = () => {
   React.useEffect(() => {
     const animType = router.query.type as AnimType;
     const orbitControl = router.query.orbit as AnimType;
+    console.log(animType,'~~~~~~~~~~~useEffect~~~~',orbitControl);
     if (menuItems.includes(animType)) {
       dispatch(actionAnimType(animType));
       console.log('~~~~~~~~~~~useEffect~~~~',orbitControl !== undefined);

@@ -26,6 +26,12 @@ export const birdImg = `${basePath}images/team_02.jpg`;
 export const img8ton = `${resources3D}8ton.jpg`;
 export const img5ton = `${resources3D}fiveTone.jpg`;
 export const skyImg = `${resources3D}bg.jpg`;
+
+export const envHDRUrl = `${resources3D}Skybox_baseColor_sm.hdr`;
+export const auditoriumGLB = `${resources3D}auditorium_open.glb`;
+export const tileUrl = `${resources3D}tile.jpg`;
+export const tile2Url = `${resources3D}title2.jpg`;
+
 export const MADEOuterSans_Bold = `${resources3D}MADEOuterSans_Bold.json`;
 export const Lobster_Regular = `${resources3D}Lobster_Regular.json`;
 export const mobileBreakPoint = 820;

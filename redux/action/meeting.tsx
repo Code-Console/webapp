@@ -1,6 +1,6 @@
 import { IUser } from "../../interfaces";
 import { JitsiLocalTrack, JitsiRemoteTrack } from "../../interfaces/meeting";
-
+export const SET_MEETING_ID = "MEETING.SET_MEETING_ID";
 export const DID_LEAVE_MEETING = "MEETING.DID_LEAVE_MEETING";
 export const DID_UPDATE_LOCAL_USER = "MEETING.DID_UPDATE_LOCAL_USER";
 export const DID_ADD_LOCAL_TRACK = "MEETING.DID_ADD_LOCAL_TRACK";
@@ -58,4 +58,8 @@ export const actionRemoteTrackVideoMuteDidChange = (
 ) => ({
   type: REMOTE_TRACK_VIDEO_MUTE_DID_CHANGE,
   payload: { participantId, isMuted },
+});
+export const actionSetMeetingId = (meetingId: string) => ({
+  type: SET_MEETING_ID,
+  payload: meetingId
 });

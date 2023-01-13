@@ -1,5 +1,5 @@
 import { AnyAction } from "redux";
-import { IMeetingLocalUser, IMeetingRemoteUsers, IMeetingStats, ParticipantMeetingState } from "./meeting";
+import { IMeetingStats, ParticipantMeetingState } from "./meeting";
 
 declare global {
   interface Window {
@@ -80,6 +80,7 @@ export enum AnimType {
   FACE_SELECTION = "Face Selection",
   STRIP_GLOBE = "Strip Globe",
   LEGENDARY = "Legendary",
+  AUDITORIUM = "Auditorium",
 }
 
 export interface IUser {
@@ -91,4 +92,18 @@ export interface IUser {
 export interface IShader {
   vertex: string;
   fragment: string;
+}
+export enum TouchType {
+  touchDown = "touchDown",
+  touchMove = "touchMove",
+  touchUp = "touchUp",
+  pinchStart = "pinchStart",
+  pinchMove = "pinchMove",
+  wheel = "wheel",
+}
+
+export interface ICanvasTouchState {
+  type?: string;
+  scale?: number;
+  isPointerDown?: boolean;
 }

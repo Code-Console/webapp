@@ -55,6 +55,7 @@ const LocalVideo = ({
             background: ${localVideoTrack ? "transparent" : "#333"};
             object-fit: ${isSharingScreen ? "contain" : "cover"} !important;
             visibility: ${videoMuted ? "hidden" : "visible"};
+            width:128px;
           }
 
           .display-name {

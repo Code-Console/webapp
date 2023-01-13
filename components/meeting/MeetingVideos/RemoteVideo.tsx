@@ -8,22 +8,17 @@ import MeetingVideo from "./MeetingVideo";
 
 const RemoteVideo = ({
   participantId,
-  showGrid,
   remoteUsers,
 }: {
   participantId: string;
-  showGrid?: boolean;
   remoteUsers?: IMeetingRemoteUsers;
 }) => {
   const videoRef = React.useRef<HTMLVideoElement>() as any;
   const audioRef = React.useRef<HTMLAudioElement>() as any;
   const participantInfo = (remoteUsers || {})[participantId] || {};
   const isInterrupted = participantInfo.connectionStatus === "interrupted";
-  const displayName = participantInfo.displayName;
-
   const [isGhostUser, setIsGhostUser] = React.useState(false);
   const tracks: JitsiRemoteTrack[] = participantInfo.tracks || [];
-
   const audioTrack = tracks.find((track) => track.getType() === "audio");
   const videoTrack = tracks.find((track) => track.getType() === "video");
   const audioMuted = participantInfo.audioMuted || !audioTrack;
@@ -77,7 +72,6 @@ const RemoteVideo = ({
     };
   }, [isInterrupted]);
 
-  console.error(isGhostUser,'isGhostUser~~~~~~~');
   if (isGhostUser) return null;
 
   return (
@@ -86,24 +80,12 @@ const RemoteVideo = ({
       id={`video-${participantId}`}
     >
       {!videoMuted ? (
-        <MeetingVideo videoRef={videoRef} />
+        <MeetingVideo videoRef={videoRef} participantId={participantId}/>
       ) : (
         <div className="remote-video place-holder"></div>
       )}
 
       {!audioMuted && <MeetingAudio audioRef={audioRef} />}
-
-      {displayName && (
-        <div className="display-name notranslate">{displayName}</div>
-      )}
-
-      <div className="highlight-box" />
-      {showGrid && (
-        <>
-          <div className="grid-line line-vertical" />
-          <div className="grid-line line-horizontal" />
-        </>
-      )}
 
       <style jsx>
         {`
