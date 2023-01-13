@@ -1,51 +1,8 @@
-import { AnyAction } from "redux";
-import { IMeetingLocalUser, IMeetingRemoteUsers, IMeetingStats, ParticipantMeetingState } from "./meeting";
-
 declare global {
   interface Window {
     geolocation: any;
     setKey: any;
   }
-}
-
-export interface IMeeting {
-  meetingId?: string;
-  state?: ParticipantMeetingState;
-  initialParticipantsInLounge?: string[];
-  showLayoutControlButton?: boolean;
-  remoteSceneId?: string;
-  remoteShowHotSpotName?: string;
-  remoteHideHotSpotName?: string;
-  remoteProductImageSliderIndex?: number;
-  isPresenter?: boolean;
-  bridgeChannelOpened?: boolean;
-  remotePopupAction?: AnyAction;
-  clientDetailPanelParticipantId?: string;
-  showClientDetailPanel?: boolean;
-  advisorName?: string;
-  advisorIdentityId?: string;
-  advisorParticipantId?: string;
-  dominantSpeakerParticipantId?: string;
-  raiseHand?: {
-    participantIds?: string[];
-    participantInAlert?: string[];
-    approved?: boolean;
-  };
-  stats?: IMeetingStats;
-  advisorEndsMeeting?: boolean;
-  serverUrl?: string;
-  participantControls?: string;
-  autoAdmit?: boolean;
-  date?: number;
-  languageCode?: string;
-  statsMode?: boolean;
-  joinAt?: number;
-  reconnect?: {
-    isReconnect?: boolean;
-    meetingState?: string;
-    isReconnected?: boolean;
-    oldParticipantId?: string;
-  };
 }
 export interface IMainState {
   clientState: ClientState;
@@ -53,9 +10,6 @@ export interface IMainState {
 export interface ClientState {
   isAllModelLoaded: boolean;
   animType?: AnimType;
-  isOrbitControl?: boolean;
-  meeting: IMeeting;
-  user?: IUser;
 }
 export enum MenuItem {
   ABOUT = "About",
@@ -79,11 +33,10 @@ export enum AnimType {
   TEXT_STRACE = "Text Strace",
   FACE_SELECTION = "Face Selection",
   STRIP_GLOBE = "Strip Globe",
-  LEGENDARY = "Legendary",
 }
 
 export interface IUser {
-  id: string;
+  _id: string;
   name?: string;
   email?: string;
 }

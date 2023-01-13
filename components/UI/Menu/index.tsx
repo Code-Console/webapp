@@ -1,16 +1,10 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import {
-  FaBars,
-  FaHome,
-  FaNapster,
-  FaRegHandPointRight,
-  FaTimes,
-} from "react-icons/fa";
+import { FaBars, FaHome, FaNapster, FaRegHandPointRight, FaTimes } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { AnimType } from "../../../interfaces";
-import { actionAnimType, actionIsOrbitControl } from "../../../redux/action";
+import { actionAnimType } from "../../../redux/action";
 import { mobileBreakPoint } from "../../Assets";
 import { useAnimType } from "../../hooks";
 
@@ -26,11 +20,8 @@ const Menu = () => {
   };
   React.useEffect(() => {
     const animType = router.query.type as AnimType;
-    const orbitControl = router.query.orbit as AnimType;
     if (menuItems.includes(animType)) {
       dispatch(actionAnimType(animType));
-      console.log('~~~~~~~~~~~useEffect~~~~',orbitControl !== undefined);
-      dispatch(actionIsOrbitControl(orbitControl !== undefined));
     }
   }, [router]);
   return (

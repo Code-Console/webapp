@@ -12,17 +12,8 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-// Read the certificate and the private key for the https server options 
-const https = require("https");
-const fs = require("fs");
-const options = {
-  key: fs.readFileSync("./config/key.pem"),
-  cert: fs.readFileSync("./config/cert.pem"),
-};
-
 app.prepare().then(() => {
   const server = express();
-  const httpsServer = https.createServer(options, server);
   server.get("/drawCanvasImage", function (req, res) {
     return res.end(drawCanvas());
   });
@@ -35,10 +26,7 @@ app.prepare().then(() => {
   server.all("*", (req, res) => {
     return handle(req, res);
   });
-  // server.listen(port, () => {
-  //   console.log(`> Ready on http://localhost:${port}`);
-  // });
-  httpsServer.listen(port, () => {
-    console.log(`> Ready on https://localhost:${port}`);
+  server.listen(port, () => {
+    console.log(`> Ready on http://localhost:${port}`);
   });
 });
