@@ -5,12 +5,14 @@ import HTMLHeader from "../components/UI/HTMLHeader";
 import Menu from "../components/UI/Menu";
 import MakersFundUI from "../components/UI/MakersFund/MakersFundUI";
 import { AnimType } from "../interfaces";
-import { useAnimType } from "../components/hooks";
+import { useAnimType, useIsOrbitControl } from "../components/hooks";
 import RevealUI from "../components/UI/Reveal/RevealUI";
 import BlockXyzUI from "../components/UI/BlockXYZ/BlockXyzUI";
 
 const GamesWrapper = () => {
   const animationType = useAnimType();
+  const isOrbitControl = useIsOrbitControl();
+
   const getUI = () => {
     switch (animationType) {
       case AnimType.MAKERS_FUND:
@@ -30,7 +32,10 @@ const GamesWrapper = () => {
       <HTMLHeader />
       <Menu />
       {getUI()}
-      <AnimationFiberCanvas />
+      <AnimationFiberCanvas
+        animationType={animationType}
+        isOrbitControl={isOrbitControl}
+      />
       <Styles />
     </>
   );

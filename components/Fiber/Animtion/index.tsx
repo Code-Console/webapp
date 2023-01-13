@@ -6,9 +6,11 @@ import { AnimType } from "../../../interfaces";
 import { environmentImagePath } from "../../Assets";
 import DisplacementShader from "./DisplacementShader";
 import { SpaceDust } from "../SpaceDust";
-import { useAnimType } from "../../hooks";
 import CameraController from "../CameraController";
 import WorldGlobe from "../WorldGlobe";
+// import Legendary from "../Physics/Legendary";
+import Unseen from "./Unseen";
+import Auditorium from "../Meet/Auditorium";
 
 const TextParticle = React.lazy(() => import("./TextParticle"));
 const RandomShader = React.lazy(() => import("./RandomShader"));
@@ -103,12 +105,30 @@ const CanvasDefaultValues = ({
           <SelectFace />
         </>
       );
+    case AnimType.LEGENDARY:
+      return (
+        <>
+          <PostEffects />
+          <Unseen />
+        </>
+      );
+    case AnimType.AUDITORIUM:
+      return (
+        <>
+          <Auditorium />
+        </>
+      );
     default:
       return <RandomShader />;
   }
 };
-const AnimationFiberCanvas = () => {
-  const animationType = useAnimType();
+const AnimationFiberCanvas = ({
+  animationType,
+  isOrbitControl = false,
+}: {
+  animationType: AnimType;
+  isOrbitControl: boolean|undefined;
+}) => {
   return (
     <React.Suspense fallback={null}>
       <Canvas
@@ -122,6 +142,7 @@ const AnimationFiberCanvas = () => {
         <pointLight position={[-10, -10, -10]} />
         <Environment files={environmentImagePath} />
         <CanvasDefaultValues animationType={animationType} />
+        {isOrbitControl && <CameraController />}
       </Canvas>
     </React.Suspense>
   );
