@@ -3,6 +3,7 @@ import { MeetingContext } from "./MeetingContext";
 import MeetingLayoutWrapper from "./MeetingLayout";
 import Lounge from "./Lounge";
 import MeetingVideos from "./MeetingVideos";
+import MeetingUI from "./MeetingUI";
 const Cockpit = ({
   joinMeeting,
   meetingId,
@@ -14,7 +15,7 @@ const Cockpit = ({
   return (
     <MeetingLayoutWrapper>
       <MeetingVideos localUser={localUser} remoteUsers={remoteUsers} />
-      {!meetingId && <Lounge joinMeeting={joinMeeting} />}
+      {meetingId ? <MeetingUI /> : <Lounge joinMeeting={joinMeeting} />}
     </MeetingLayoutWrapper>
   );
 };
