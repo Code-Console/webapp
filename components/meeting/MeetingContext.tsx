@@ -87,10 +87,6 @@ const MeetingContextContainer = ({
           const track = tracks?.filter(
             (t: any) => t.getType() === "video"
           )?.[0];
-          console.error(
-            "~~~~~~~~~~~~~tracks~~~~~~~~",
-            tracks.map((t: any) => track.type)
-          );
           if (track) {
             setLocalUser({
               ...localUser,
@@ -108,7 +104,7 @@ const MeetingContextContainer = ({
           }
         }, 100);
       })
-      .catch((error: any) => switchVideo(true));
+      .catch(() => switchVideo(true));
   };
 
   React.useEffect(() => {
@@ -129,37 +125,6 @@ const MeetingContextContainer = ({
       window.removeEventListener("online", onlineStatusListener);
       window.removeEventListener("offline", offlineStatusListener);
     };
-  }, []);
-
-  React.useEffect(() => {
-    // const preState = getReconnectState(meetingId);
-    // if (preState) {
-    //   const {
-    //     layout,
-    //     displayName,
-    //     audioMuted,
-    //     videoMuted,
-    //     vBackground,
-    //     meetingState,
-    //     participantId,
-    //   } = preState;
-    //   if (role === MeetingRole.ADVISOR && layout)
-    //     dispatch(actionSetMeetingLayoutState(layout));
-    //   if (displayName)
-    //     dispatch(actionUpdateLocalUser({ ...user, alias: displayName }));
-    //   if (vBackground?.backgroundEffectEnabled) {
-    //     dispatch(actionToggleVirtualBackground(vBackground));
-    //   }
-    //   dispatch(actionLocalTrackAudioMuteDidChange(!!audioMuted));
-    //   dispatch(actionLocalTrackVideoMuteDidChange(!!videoMuted));
-    //   dispatch(
-    //     actionParticipantIsReconnecting({
-    //       meetingState: meetingState,
-    //       oldParticipantId: participantId,
-    //     })
-    //   );
-    //   localStorage.removeItem(MEETING_RECONNECT_STATE);
-    // }
   }, []);
 
   const onConnectionFailed = () => {

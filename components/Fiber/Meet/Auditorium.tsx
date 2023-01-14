@@ -5,8 +5,11 @@ import { auditoriumGLB, tileUrl } from "../../Assets";
 import Chair from "./Chair";
 import VideoPlan from "./VideoPlan";
 import { useThree } from "@react-three/fiber";
+import { useDispatch } from "react-redux";
+import { actionDeposited } from "../../../redux/action";
 const Auditorium = () => {
   const ref: any = useRef();
+  const dispatch = useDispatch();
   const watchGlb = useGLTF(auditoriumGLB);
   const texture = useTexture({
     tileTex: `${tileUrl}`,
@@ -55,6 +58,7 @@ const Auditorium = () => {
         }
       });
       watchGlb.scene.position.set(0,0,12.5);
+      dispatch(actionDeposited(true));
     }
     if(gl){
       gl.setClearColor(0x000000);

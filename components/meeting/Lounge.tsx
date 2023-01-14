@@ -1,4 +1,6 @@
 import React from "react";
+import { useIsAllModelLoadedState } from "../hooks";
+import Spinner from "../UI/Blockchain/Spinner";
 
 const Lounge = ({
   joinMeeting,
@@ -6,6 +8,7 @@ const Lounge = ({
   joinMeeting: (meetingId: string) => void;
 }) => {
   const [state, setState] = React.useState({ err: false, meetingId: "" });
+  const isAllModelLoaded = useIsAllModelLoadedState();
   return (
     <div className="ui-wrapper">
       <div className="container">
@@ -27,6 +30,7 @@ const Lounge = ({
         <div
           className="btn"
           onClick={() => {
+            if(!isAllModelLoaded)return;
             if (state.meetingId.trim().length === 0) {
               setState((state) => {
                 return { ...state, err: true };
@@ -34,10 +38,13 @@ const Lounge = ({
             } else {
               joinMeeting(state.meetingId);
             }
-            // meetingId
           }}
         >
-          Join Meeting
+          {isAllModelLoaded ? (
+            "Join Meeting"
+          ) : (
+            <Spinner radius="20px" border="2px" />
+          )}
         </div>
       </div>
       <style jsx>{`
@@ -60,13 +67,15 @@ const Lounge = ({
           padding: 10px 8px;
         }
         .btn {
-          background: green;
+          background: ${isAllModelLoaded?"green":"gray"};
           padding: 12px 50px;
           margin: 20px;
           border-radius: 10px;
+          width: 200px;
+          text-align: center;
         }
         .btn:hover {
-          background: #0a570a;
+          background: ${isAllModelLoaded?"#0a570a":"#515151"};
         }
         .title {
           margin-bottom: 50px;
