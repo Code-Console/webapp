@@ -5,23 +5,31 @@ import TagManager from "react-gtm-module";
 import { useAnimType } from "../hooks";
 
 const getFavicon = () => `${basePath}images/favicon.ico`;
-const HTMLHeader = () => {
+const HTMLHeader = ({
+  ogImageUrl,
+  title,
+}: {
+  ogImageUrl?: string;
+  title?: string;
+}) => {
   const animationType = useAnimType();
-  const [state, setState] = React.useState({ title: "Web/App Developer" });
+  const [state, setState] = React.useState({
+    title: title || "Web/App Developer",
+  });
   React.useEffect(() => {
     const pathname = window?.location?.pathname.includes("/animation");
 
     const tagManagerArgs = {
       gtmId: "G-Z41JWLH95L",
       events: {
-        animationType: pathname ? animationType : "Web/App Developer",
+        animationType: pathname ? animationType : title || "Web/App Developer",
       },
     };
     TagManager.initialize(tagManagerArgs);
     setState((state) => {
       return {
         ...state,
-        title: pathname ? animationType : "Web/App Developer",
+        title: pathname ? animationType : title || "Web/App Developer",
       };
     });
   }, [animationType]);
@@ -34,13 +42,16 @@ const HTMLHeader = () => {
       <meta name="description" content={description} />
       <meta property="og:title" content={state.title}></meta>
       <meta property="og:description" content={description}></meta>
-      <meta property="og:image" content={ogImg}></meta>
+      <meta
+        property="og:image"
+        content={ogImageUrl ? ogImageUrl : ogImg}
+      ></meta>
       <meta property="og:site_name" content={"yogesh bangar"}></meta>
       <meta name="viewport" content={`width=device-width,initial-scale=1`} />
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:title" content={state.title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={ogImg} />
+      <meta name="twitter:image" content={ogImageUrl ? ogImageUrl : ogImg} />
       <meta property="twitter:site" content={"yogesh-bangar"}></meta>
       <link rel="shortcut icon" href={getFavicon()} />
       <link rel="apple-touch-icon" href={getFavicon()} />

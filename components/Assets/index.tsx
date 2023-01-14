@@ -19,6 +19,7 @@ export const environmentImagePath =
 
 export const logoImg = `${basePath}images/apple-touch-icon-72x72.png`;
 export const ogImg = `${resources3D}img.jpg`;
+export const ogImgMeet = `${resources3D}meta.jpg`;
 export const distinctiveImg = `${resources3D}distinctive.jpg`;
 export const multiColorImg = `${resources3D}multi.jpg`;
 export const earthImg = `${resources3D}earthspec1k.jpg`;

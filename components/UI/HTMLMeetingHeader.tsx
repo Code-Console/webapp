@@ -1,6 +1,7 @@
 import React from 'react';
 import Script from 'next/script';
 import HTMLHeader from './HTMLHeader';
+import { ogImgMeet } from '../Assets';
 const HTMLMeetingHeader = () => {
   
   return (
@@ -13,7 +14,7 @@ const HTMLMeetingHeader = () => {
         src="./libs/lib-jitsi-meet.min.js"
         strategy="beforeInteractive"
       ></Script>
-      <HTMLHeader />
+      <HTMLHeader ogImageUrl={ogImgMeet} title={"Metaverse Meet"}/>
     </>
   );
 };
