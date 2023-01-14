@@ -23,6 +23,7 @@ const MeetingTrack = () => {
     remoteUsers,
     setRemoteUsers,
     updateRemoteUsers,
+    addChatMsg,
   } = React.useContext(MeetingContext);
   const dispatch = useDispatch();
   const meeting = useSelector(
@@ -55,12 +56,12 @@ const MeetingTrack = () => {
       JitsiMeetJS.events.track.TRACK_AUDIO_LEVEL_CHANGED,
       (audioLevel: any) => console.log(`Audio Level remote: ${audioLevel}`)
     );
-    track.addEventListener(JitsiMeetJS.events.track.TRACK_MUTE_CHANGED, () =>
-      console.log("remote track muted")
-    );
-    track.addEventListener(JitsiMeetJS.events.track.LOCAL_TRACK_STOPPED, () =>
-      console.log("remote track stoped")
-    );
+    // track.addEventListener(JitsiMeetJS.events.track.TRACK_MUTE_CHANGED, () =>
+    //   console.log("remote track muted")
+    // );
+    // track.addEventListener(JitsiMeetJS.events.track.LOCAL_TRACK_STOPPED, () =>
+    //   console.log("remote track stoped")
+    // );
     track.addEventListener(
       JitsiMeetJS.events.track.TRACK_AUDIO_OUTPUT_CHANGED,
       (deviceId: any) =>
@@ -72,6 +73,15 @@ const MeetingTrack = () => {
     const room = connection.initJitsiConference(meeting.meetingId, {});
     setRoom(room);
     room.join();
+    room.setDisplayName("user-" + Math.floor(Math.random() * 1000));
+  };
+  const onEndpointMessage = (sender: any, payload: any) => {
+    console.error("meeting.meetingId~~~~~~~", sender);
+    addChatMsg?.({
+      name: sender?._displayName,
+      msg: payload?.msg,
+      id: sender._id,
+    });
   };
   const roomListener = () => {
     if (!room) return;
@@ -110,11 +120,12 @@ const MeetingTrack = () => {
       (userID: any, displayName: any) =>
         console.log(`${userID} - ${displayName}`)
     );
+    room.on(JitsiMeetJS.events.conference.TRACK_AUDIO_LEVEL_CHANGED, () => {
+      //(userID: any, audioLevel: any)
+    });
     room.on(
-      JitsiMeetJS.events.conference.TRACK_AUDIO_LEVEL_CHANGED,
-      () => {
-        //(userID: any, audioLevel: any)
-      }
+      JitsiMeetJS.events.conference.ENDPOINT_MESSAGE_RECEIVED,
+      onEndpointMessage
     );
     room.on(JitsiMeetJS.events.conference.PHONE_NUMBER_CHANGED, () =>
       console.log(`~~~~`)

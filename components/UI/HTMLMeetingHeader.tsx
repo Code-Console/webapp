@@ -10,7 +10,7 @@ const HTMLMeetingHeader = () => {
         strategy="beforeInteractive"
       ></Script>
       <Script
-        src="https://meet.jit.si/libs/lib-jitsi-meet.min.js"
+        src="./libs/lib-jitsi-meet.min.js"
         strategy="beforeInteractive"
       ></Script>
       <HTMLHeader />

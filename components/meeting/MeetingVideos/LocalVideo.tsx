@@ -20,7 +20,7 @@ const LocalVideo = ({
     (track) => track.getType() === "video"
   );
   const videoMuted = localUser?.videoMuted;
-
+  console.log('localVideoTrack~~~~~~~~~~~',localVideoTrack);
   React.useEffect(() => {
     localVideoTrack?.attach(localVideoRef.current);
     return () => {

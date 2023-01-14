@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IMainState, IUser } from "../../interfaces";
 import {
   createUser,
+  IChat,
   IMeetingLocalUser,
   IMeetingRemoteUsers,
   JitsiConnection,
@@ -10,22 +11,22 @@ import {
 } from "../../interfaces/meeting";
 import flatMap from "lodash/flatMap";
 import { logEvent } from "../analytics";
-import {
-  actionDidLeaveMeeting,
-  actionUpdateLocalUser,
-} from "../../redux/action/meeting";
+import { actionUpdateLocalUser } from "../../redux/action/meeting";
 export const MeetingContext = React.createContext<{
   connection?: JitsiConnection;
   room?: JitsiMeetingRoom;
   setConnection: (connection: JitsiConnection) => void;
   setRoom: (room: JitsiMeetingRoom) => void;
-  onDisconnect: (eventName: string, meetingId: string) => void;
+  onDisconnect: () => void;
   setUserName: (name: string) => void;
   localUser?: IMeetingLocalUser;
   setLocalUser: (localTracks: IMeetingLocalUser) => void;
   remoteUsers?: IMeetingRemoteUsers;
   setRemoteUsers: (remoteUsers: IMeetingRemoteUsers) => void;
   updateRemoteUsers: (track: any) => void;
+  chat?: IChat[];
+  addChatMsg?: (msg: IChat) => void;
+  switchVideo?: (isVideo?: boolean) => void;
   networkState: {
     isOnline: boolean;
     offerReload: boolean;
@@ -46,7 +47,7 @@ const MeetingContextContainer = ({
     isOnline: true,
     offerReload: false,
   });
-
+  const [chat, setChat] = React.useState<IChat[]>([]);
   const meeting = useSelector(
     (state: IMainState) => state.clientState.meeting || {}
   );
@@ -65,6 +66,49 @@ const MeetingContextContainer = ({
       };
       return copy;
     });
+  };
+  const addChatMsg = (msg: IChat) => {
+    setChat([...chat, msg]);
+  };
+  const switchVideo = (isVideo?: boolean) => {
+    // eslint-disable-line no-unused-vars
+    const videoTrack = localUser?.tracks?.find((t) => t.getType() === "video");
+    const audio = localUser?.tracks?.filter((t) => t.getType() === "audio");
+
+    JitsiMeetJS.createLocalTracks({
+      devices: [!isVideo ? "video" : "desktop"],
+    })
+      .then((tracks: any) => {
+        if (videoTrack) {
+          videoTrack.dispose();
+          localTracks.pop();
+        }
+        setTimeout(() => {
+          const track = tracks?.filter(
+            (t: any) => t.getType() === "video"
+          )?.[0];
+          console.error(
+            "~~~~~~~~~~~~~tracks~~~~~~~~",
+            tracks.map((t: any) => track.type)
+          );
+          if (track) {
+            setLocalUser({
+              ...localUser,
+              tracks: [...(audio || []), track],
+            });
+            track.addEventListener(
+              JitsiMeetJS.events.track.TRACK_MUTE_CHANGED,
+              () => console.error("local track muted")
+            );
+            track.addEventListener(
+              JitsiMeetJS.events.track.LOCAL_TRACK_STOPPED,
+              () => switchVideo(false)
+            );
+            room.addTrack(track);
+          }
+        }, 100);
+      })
+      .catch((error: any) => switchVideo(true));
   };
 
   React.useEffect(() => {
@@ -151,8 +195,7 @@ const MeetingContextContainer = ({
     );
     const remoteTracks = flatMap(
       Object.keys(remoteUsers || {}),
-      (participantId) =>
-        (remoteUsers || {})[participantId]?.tracks || []
+      (participantId) => (remoteUsers || {})[participantId]?.tracks || []
     );
     remoteTracks.forEach((t) => t.detach(null));
     localTracks?.forEach((t) => {
@@ -160,21 +203,12 @@ const MeetingContextContainer = ({
     });
   };
 
-  const onDisconnect = (eventName: string, meetingId: string) => {
+  const onDisconnect = () => {
     room
       ?.leave()
       .then(() => disconnectCleanUp())
       .then(() => {
         return connection.disconnect();
-      })
-      .then(() => {
-        const participantId = room?.myUserId();
-
-        dispatch(actionDidLeaveMeeting());
-        logEvent(eventName, eventName, {
-          participantId,
-          meetingId,
-        });
       })
       .catch((e) => {
         console.log("error when stopping conference");
@@ -220,6 +254,9 @@ const MeetingContextContainer = ({
         remoteUsers,
         setRemoteUsers,
         updateRemoteUsers,
+        chat,
+        addChatMsg,
+        switchVideo,
       }}
     >
       {children}
