@@ -5,15 +5,17 @@ import * as THREE from "three";
 import { MeshBasicMaterial } from "three";
 import { sandImg, roomGLBPath, brashImg, skyImg } from "../../../Assets";
 import { rippleShader2 } from "../../../Shaders";
+import gsap from "gsap/dist/gsap";
+import UnseenTextAnim from "./UnseenTextAnim";
 const Unseen = () => {
   const meshRef = React.useRef() as any;
-  const { camera,gl } = useThree();
+  const { camera, gl } = useThree();
   const texture = useTexture({
     chan1: sandImg,
     brashImg: brashImg,
     skyImg: skyImg,
   });
-  
+
   const watchGlb = useGLTF(roomGLBPath);
   const basicTexture = new THREE.WebGLRenderTarget(
     window.innerWidth,
@@ -63,13 +65,6 @@ const Unseen = () => {
   const mesh2 = new THREE.Mesh(new THREE.PlaneGeometry(12, 5), material);
   mesh2.rotation.set(-0.195, -0.325, -0.063);
   const eventMove = (e: any) => {
-    // if((e.clientX / window.innerWidth) * 2 - 1 > iMouse.x){
-    //   camera.rotation.y+=.01;
-    // }else if(camera.rotation.y>-.51){
-    //   camera.rotation.y-=.01;
-    // }
-    console.log(camera.rotation.y);
-    console.log(camera.rotation.y);
     iMouse.set(
       (e.clientX / window.innerWidth) * 2 - 1,
       -(e.clientY / window.innerHeight) * 2 + 1
@@ -92,24 +87,27 @@ const Unseen = () => {
         m.scale.x = m.scale.y = 1;
       }
     }
-
+    const rot = meshRef?.current?.rotation;
+    if (rot) {
+      gsap.to(rot, {
+        x: 0.2 + iMouse.y * 0.1,
+        y: 0.3 + iMouse.x * 0.2,
+        z: 0.0,
+        duration: 0.1,
+        delay: 0,
+      });
+    }
   };
-  camera?.position.set(-1, 0.6, 2.9);
-  camera?.rotation.set(-0.195, -0.325, -0.063);
   texture.chan1.wrapS = THREE.RepeatWrapping;
   texture.chan1.wrapT = THREE.RepeatWrapping;
   texture.chan1.anisotropy = 16;
-  texture.chan1.repeat.set( 4, 4 );
-  React.useEffect(() => {
-    document.addEventListener("mousemove", eventMove);
-    console.log(THREE.REVISION, "~~~~~~~~~~");
-  }, []);
+  texture.chan1.repeat.set(4, 4);
+   
   useFrame(() => {
     gl.setRenderTarget(basicTexture);
     gl.render(sceneWave, camera);
     const uni = meshRef?.current?.material?.uniforms;
     if (uni) uni.iChannel2.value = basicTexture.texture;
-
     gl.setRenderTarget(null);
     gl.clear();
     uniforms.iTime.value += 0.1;
@@ -125,25 +123,34 @@ const Unseen = () => {
   });
   return (
     <>
-      <primitive
-        scale={[70, 70, 70]}
-        position={[-3, 0.0, -3]}
-        rotation={[0, -0.7, 0]}
-        object={watchGlb.scene}
-        dispose={null}
-      />
-
-      <mesh position={[0, 2, -10]}>
-        <planeGeometry args={[30, 15]} />
-        <meshBasicMaterial map={texture.skyImg}/>
-      </mesh>
-      <mesh
-        material={material}
-        rotation={[-Math.PI * 0.5, 0, 0]}
-        position={[-1, -3.0, -4]}
-      >
-        <planeGeometry args={[30, 30]} />
-      </mesh>
+      <group ref={meshRef}>
+        <primitive
+          scale={[70, 70, 70]}
+          position={[-3, 0.0, -3]}
+          rotation={[0, -0.7, 0]}
+          object={watchGlb.scene}
+          dispose={null}
+        />
+        <mesh position={[-7, 2, -10]}>
+          <planeGeometry args={[30, 15]} />
+          <meshBasicMaterial map={texture.skyImg} />
+        </mesh>
+        <mesh
+          position={[1.5, 6.4, 1.8]}
+          rotation={[Math.PI * 0.5, 0, Math.PI * 0.22]}
+        >
+          <planeGeometry args={[15, 15]} />
+          <meshPhongMaterial color={0xaaaaaa} />
+        </mesh>
+        <mesh
+          material={material}
+          rotation={[-Math.PI * 0.5, 0, 0]}
+          position={[-1, -3.0, -4]}
+        >
+          <planeGeometry args={[30, 30]} />
+        </mesh>
+      </group>
+      <UnseenTextAnim eventMove={eventMove}/>
     </>
   );
 };

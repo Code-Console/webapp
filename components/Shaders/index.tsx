@@ -1047,34 +1047,22 @@ export const rippleShader: IShader = {
     float mat = 0.0;
     float ss = 0.5;
     varying vec2 vUv;
-   
-    
-float rotSpeed = 0.05;
+    float rotSpeed = 0.05;
 
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{
-    vec2 uv = fragCoord.xy / iResolution.xy;
-    
-    vec4 buff = texture2D(iChannel0, uv)*2.0-1.0;
-    float z = sqrt(1.0 - clamp(dot(vec2(buff.x,buff.y), vec2(buff.x,buff.y)),0.0, 1.0));
-    vec3 n = normalize(vec3(buff.x, buff.y, z));
-    
-    vec3 lightDir = vec3(sin(iTime*rotSpeed),cos(iTime*rotSpeed),0.0);
-    
-    float l = max(0.0, dot(n, lightDir));
-    float fresnel = 1.0 - dot(vec3(0.0,0.0,1.0), n);
-    vec4 refl = texture2D(iChannel2, reflect(n, lightDir).xy);
-    
-    vec4 tex = texture2D(iChannel1, vec2(uv.x*(iResolution.x/iResolution.y), uv.y) + n.xy);
-    
-    fragColor = tex*0.5 + vec4((fresnel + l)*5.0)*refl + refl*0.5;
-}
+    void mainImage( out vec4 fragColor, in vec2 fragCoord )
+    {
+        vec4 displacement = texture2D( iChannel2, vUv);
+        float theta = displacement.r*2.*3.14;
+        vec2 dir = vec2(sin(theta),cos(theta));
+        vec2 uv = vUv+dir*displacement.r;
+        fragColor = texture( iChannel0, uv ); 
+    }
       
     
     void main() {
       mainImage(gl_FragColor, vUv * iResolution.xy);
       //mainImage(gl_FragColor, vec2(gl_FragCoord.x-512.,gl_FragCoord.y));
-      //gl_FragColor = vec4(1.0,0.0,1.0,1.0);
+      // gl_FragColor = texture2D(iChannel2,vUv);
     }`,
 };
 export const mapShader: IShader = {
