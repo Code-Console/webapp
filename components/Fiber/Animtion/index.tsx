@@ -11,7 +11,6 @@ import WorldGlobe from "../WorldGlobe";
 // import Legendary from "../Physics/Legendary";
 import Unseen from "./Unseen";
 import Auditorium from "../Meet/Auditorium";
-import UnseenTextAnim from "./Unseen/UnseenTextAnim";
 
 const TextParticle = React.lazy(() => import("./TextParticle"));
 const RandomShader = React.lazy(() => import("./RandomShader"));
