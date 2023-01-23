@@ -1,3 +1,5 @@
+import { selfImg } from "../Assets";
+
 const About = ({ onClose, title }: { onClose: () => void; title: string }) => {
   return (
     <>
@@ -46,8 +48,7 @@ const About = ({ onClose, title }: { onClose: () => void; title: string }) => {
           border-style: solid;
           border-color: rgb(179, 179, 179);
           border-image: initial;
-          background: url(https://media-exp1.licdn.com/dms/image/C4D03AQGn6WcQjW1dCw/profile-displayphoto-shrink_800_800/0/1516780518561?e=1671062400&v=beta&t=SAWrjrGnZenKeD9qLpgU-sdz_BrIZzP86v-_PG211a4)
-            0% 0% / cover no-repeat;
+          background: url(${selfImg}) 0% 0% / cover no-repeat;
           animation: 0.4s linear 0.8s 1 normal backwards running blink;
           background-position: center center;
         }

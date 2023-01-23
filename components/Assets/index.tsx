@@ -10,6 +10,7 @@ export const flowerGLBPath = `${resources3D}Flower.glb`;
 export const roomGLBPath = `${resources3D}room-1.glb`;
 export const sandImg = `${resources3D}sand-rotate.jpg`;
 export const brashImg = `${resources3D}brash.png`;
+export const selfImg = `${resources3D}self.jpeg`;
 
 export const watchGLBPath_1 =
   "https://static.inspify.io/Chopard/ar/asset/v4/278573-6027/278573-6027.glb";

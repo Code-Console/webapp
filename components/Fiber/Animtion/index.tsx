@@ -108,7 +108,7 @@ const CanvasDefaultValues = ({
     case AnimType.LEGENDARY:
       return (
         <>
-          {/* <PostEffects /> */}
+          <PostEffects /> 
           <Unseen />
         </>
       );
