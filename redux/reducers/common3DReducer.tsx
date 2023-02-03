@@ -1,6 +1,11 @@
 import { AnyAction } from "redux";
 import { ClientState } from "../../interfaces";
-import { DID_LOAD_FIBER, SET_ANIM_TYPE, SET_ORBIT_CONTROL } from "../action";
+import {
+  DID_LOAD_FIBER,
+  SET_ANIM_TYPE,
+  SET_ORBIT_CONTROL,
+  UPDATE_OBJECT_NAME,
+} from "../action";
 import { defaultClientState } from "./clientReducer";
 
 const common3DReducer = (
@@ -21,10 +26,16 @@ const common3DReducer = (
       };
     }
     case SET_ORBIT_CONTROL: {
-      console.log("action.payload", action.payload);
       return {
         ...state,
         isOrbitControl: action.payload,
+      };
+    }
+    case UPDATE_OBJECT_NAME: {
+      console.log("action.payload", action.payload);
+      return {
+        ...state,
+        objectName: action.payload,
       };
     }
     default:

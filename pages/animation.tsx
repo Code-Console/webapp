@@ -8,6 +8,7 @@ import { AnimType } from "../interfaces";
 import { useAnimType, useIsOrbitControl } from "../components/hooks";
 import RevealUI from "../components/UI/Reveal/RevealUI";
 import BlockXyzUI from "../components/UI/BlockXYZ/BlockXyzUI";
+import PointCloudUI from "../components/UI/PointCloudUI";
 
 const GamesWrapper = () => {
   const animationType = useAnimType();
@@ -21,6 +22,8 @@ const GamesWrapper = () => {
         return <RevealUI />;
       case AnimType.BlockXYZ:
         return <BlockXyzUI />;
+      case AnimType.POINT_CLOUD:
+        return <PointCloudUI />;
     }
     return null;
   };

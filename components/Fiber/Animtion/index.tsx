@@ -7,10 +7,6 @@ import { environmentImagePath } from "../../Assets";
 import DisplacementShader from "./DisplacementShader";
 import { SpaceDust } from "../SpaceDust";
 import CameraController from "../CameraController";
-import WorldGlobe from "../WorldGlobe";
-// import Legendary from "../Physics/Legendary";
-import Unseen from "./Unseen";
-import Auditorium from "../Meet/Auditorium";
 
 const TextParticle = React.lazy(() => import("./TextParticle"));
 const RandomShader = React.lazy(() => import("./RandomShader"));
@@ -20,12 +16,16 @@ const MakersFund = React.lazy(() => import("./MakersFund"));
 const AnimationModel = React.lazy(() => import("../AnimationModel"));
 const TextAnim = React.lazy(() => import("./TextAnim"));
 const Reveal = React.lazy(() => import("./Reveal"));
-//const Model = React.lazy(() => import("../Model"));
+const Unseen = React.lazy(() => import("./Unseen"));
 const Gradient = React.lazy(() => import("./Gradient"));
 const NoiseSphere = React.lazy(() => import("./NoiseSphere"));
 const PostEffects = React.lazy(() => import("./Outline"));
 const SelectFace = React.lazy(() => import("./SelectFace"));
 const Globe = React.lazy(() => import("./Globe"));
+
+const PointCloud = React.lazy(() => import("./PointCloud"));
+const Auditorium = React.lazy(() => import("../Meet/Auditorium"));
+const WorldGlobe = React.lazy(() => import("../WorldGlobe"));
 
 const CanvasDefaultValues = ({
   animationType,
@@ -44,7 +44,6 @@ const CanvasDefaultValues = ({
       return (
         <>
           <CameraController />
-          {/* <Model opacity={0.11} /> */}
           <WorldGlobe />
         </>
       );
@@ -108,16 +107,14 @@ const CanvasDefaultValues = ({
     case AnimType.LEGENDARY:
       return (
         <>
-          <PostEffects /> 
+          <PostEffects />
           <Unseen />
         </>
       );
     case AnimType.AUDITORIUM:
-      return (
-        <>
-          <Auditorium />
-        </>
-      );
+      return <Auditorium />;
+    case AnimType.POINT_CLOUD:
+      return <PointCloud />;
     default:
       return <RandomShader />;
   }
@@ -127,7 +124,7 @@ const AnimationFiberCanvas = ({
   isOrbitControl = false,
 }: {
   animationType: AnimType;
-  isOrbitControl: boolean|undefined;
+  isOrbitControl: boolean | undefined;
 }) => {
   return (
     <React.Suspense fallback={null}>

@@ -56,6 +56,7 @@ export interface ClientState {
   isOrbitControl?: boolean;
   meeting: IMeeting;
   user?: IUser;
+  objectName?: string;
 }
 export enum MenuItem {
   ABOUT = "About",
@@ -81,6 +82,7 @@ export enum AnimType {
   STRIP_GLOBE = "Strip Globe",
   LEGENDARY = "Legendary",
   AUDITORIUM = "Auditorium",
+  POINT_CLOUD = "PointCloud",
 }
 
 export interface IUser {

@@ -7,6 +7,7 @@ import { sandImg, roomGLBPath, brashImg, skyImg } from "../../../Assets";
 import { rippleShader2 } from "../../../Shaders";
 import gsap from "gsap/dist/gsap";
 import UnseenTextAnim from "./UnseenTextAnim";
+import Legendary from "../../Physics/Legendary";
 const Unseen = () => {
   const meshRef = React.useRef() as any;
   const { camera, gl } = useThree();
@@ -102,7 +103,7 @@ const Unseen = () => {
   texture.chan1.wrapT = THREE.RepeatWrapping;
   texture.chan1.anisotropy = 16;
   texture.chan1.repeat.set(4, 4);
-   
+
   useFrame(() => {
     gl.setRenderTarget(basicTexture);
     gl.render(sceneWave, camera);
@@ -150,7 +151,8 @@ const Unseen = () => {
           <planeGeometry args={[30, 30]} />
         </mesh>
       </group>
-      <UnseenTextAnim eventMove={eventMove}/>
+      <UnseenTextAnim eventMove={eventMove} />
+      <Legendary />
     </>
   );
 };

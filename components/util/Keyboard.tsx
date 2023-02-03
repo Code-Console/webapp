@@ -6,7 +6,6 @@ const resetValue = {
   ry: 0,
   rz: 0,
 };
-
 export const dealWithKeyboard = (e: any) => {
   if (!window?.setKey?.sx) {
     window["setKey"] = resetValue;
@@ -35,29 +34,37 @@ export const dealWithKeyboard = (e: any) => {
       keys.sy = keys.sy - vs;
       break;
     case 49:
+    case 97:
       keys.rx = keys.rx - rs;
       break;
     case 50:
+    case 98:
       keys.rx = keys.rx + rs;
       break;
     case 52:
+    case 101:
       keys.ry = keys.ry + rs;
       break;
     case 53:
+    case 99:
       keys.ry = keys.ry - rs;
       break;
     case 55:
+    case 104:
       keys.rz = keys.rz + rs;
       break;
     case 56:
+    case 103:
       keys.rz = keys.rz - rs;
       break;
     case 57:
+    case 105:
       keys.sx = keys.sy = keys.sz = 0;
       break;
     case 54:
+    case 102:
       keys.rx = keys.ry = keys.rz = 0;
       break;
   }
-  console.log(e.keyCode,JSON.stringify( keys));
+  console.log(e.keyCode, JSON.stringify(keys));
 };

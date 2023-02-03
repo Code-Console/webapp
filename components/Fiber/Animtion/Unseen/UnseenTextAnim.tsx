@@ -89,13 +89,14 @@ const UnseenTextAnim = ({ eventMove }: { eventMove?: (e: any) => void }) => {
     currentWave++;
     currentWave = currentWave % groupWave.children.length;
     const m = groupWave?.children[currentWave] as any;
+    if (!m) return;
     m.position.set(x * 1.0, y * 0.8, z);
     m.visible = true;
     m.material.opacity = 0.01;
     m.scale.x = m.scale.y = 1;
   };
   const eventMovePointer = (e: any) => {
-    console.log('eventMovePointer~~~~');
+    if (!meshRef?.current) return;
     eventMove?.(e);
     iMouse.set(
       (e.clientX / window.innerWidth) * 2 - 1,

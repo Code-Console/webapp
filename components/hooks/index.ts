@@ -20,3 +20,6 @@ export const useIsOrbitControl = () => {
   );
   return isAllModelLoaded;
 };
+export const useObjectName = () => {
+  return useSelector((state: IMainState) => state.clientState.objectName);
+};

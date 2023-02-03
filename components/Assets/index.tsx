@@ -8,6 +8,14 @@ export const parrotGLBPath = `${resources3D}watch.glb`;
 export const flamingoGLBPath = `${resources3D}Flamingo.glb`;
 export const flowerGLBPath = `${resources3D}Flower.glb`;
 export const roomGLBPath = `${resources3D}room-1.glb`;
+
+export const jumpManGLBPath = `${resources3D}jumpman-30k.glb`;
+export const beyonceGLBPath = `${resources3D}beyonce-30k.glb`;
+export const u505GLBPath = `${resources3D}u505-30k.glb`;
+export const spacemanGLBPath = `${resources3D}spaceman-30k.glb`;
+export const nikeGLBPath = `${resources3D}nike-30k.glb`;
+export const gogoGLBPath = `${resources3D}gogo-60k.glb`;
+
 export const sandImg = `${resources3D}sand-rotate.jpg`;
 export const brashImg = `${resources3D}brash.png`;
 export const selfImg = `${resources3D}self.jpeg`;
