@@ -16,10 +16,10 @@ import { actionUpdateObjectName } from "../../../../redux/action";
 export enum OBJ3D {
   JUMP_MAN = "JUMP_MAN",
   BEYONCE = "BEYONCE",
-  U505 = "U505",
+  U505 = "U505 Ship",
   SPACEMAN = "SPACEMAN",
   NIKE = "NIKE",
-  GOGO = "GOGO",
+  GOGO = "GOGO AIR",
 }
 const PointCloud = () => {
   const values = { counter: 0, inc: 0.1 };
@@ -77,7 +77,8 @@ const PointCloud = () => {
   };
 
   React.useEffect(() => {
-    const mesh = refMesh.current;
+    const mesh = refMesh?.current;
+    if (!mesh) return;
     refMesh.current.currentName = OBJ3D.JUMP_MAN;
     const isJumpMan = mesh.getObjectByName(OBJ3D.JUMP_MAN);
     if (jumpMan && !isJumpMan) {
@@ -119,6 +120,7 @@ const PointCloud = () => {
     }, 500);
   }, [jumpMan, beyonce, u505, spaceman, nike, gogo]);
   const changeModel = (e: any) => {
+    if (!refMesh?.current) return;
     if (e.clientX < 50 && e.clientY < 50) {
       switch (refMesh.current.currentName) {
         case OBJ3D.JUMP_MAN:
@@ -155,7 +157,8 @@ const PointCloud = () => {
     dispatch(actionUpdateObjectName(refMesh?.current?.nextName || ""));
   };
   useFrame(() => {
-    const mesh = refMesh.current;
+    const mesh = refMesh?.current;
+    if (!mesh) return;
     const currentMesh = mesh?.getObjectByName(mesh?.currentName);
     const nextMesh = mesh?.getObjectByName(mesh?.nextName);
     raycaster.setFromCamera(mouse.current, camera);

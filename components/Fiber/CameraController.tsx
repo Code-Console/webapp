@@ -5,7 +5,7 @@ import React from "react";
 const CameraController = ({ enableZoom = true }: { enableZoom?: boolean }) => {
   const { camera, gl } = useThree();
   React.useEffect(() => {
-    camera.position.z = -300;
+    camera.position.z = 5;
     const controls = new OrbitControls(camera, gl.domElement);
     controls.minDistance = 1;
     controls.maxDistance = 1000;
