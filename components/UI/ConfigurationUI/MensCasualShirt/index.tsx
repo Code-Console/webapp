@@ -1,69 +1,12 @@
 import React from "react";
+import { configType } from "./assets";
+import Detail from "./Detail";
 
 const MensCasualShirtUI = () => {
-  const configType = [
-    {
-      img: "\E900",
-      title: "Fit",
-    },
-    {
-      img: "\E901",
-      title: "Febric",
-    },
-    {
-      img: "\E902",
-      title: "Collar",
-    },
-    {
-      img: "\E903",
-      title: "Cuf",
-    },
-    {
-      img: "\E904",
-      title: "Sleeve",
-    },
-    {
-      img: "\E905",
-      title: "Placeket",
-    },
-    {
-      img: "\E906",
-      title: "Pockets",
-    },
-    {
-      img: "\E907",
-      title: "Bottom Cut",
-    },
-    {
-      img: "\E908",
-      title: "Elbow patch",
-    },
-    {
-      img: '\E90A',
-      title: "Contrast",
-    },
-    {
-      img: "\E90B",
-      title: "Embroidery",
-    },
-    {
-      img: "\E90C",
-      title: "Buttons",
-    },
-    {
-      img: "\E90D",
-      title: "Buttons Thread",
-    },
-    {
-      img: "\E90E",
-      title: "Buttons Stitch",
-    },
-  ];
-  const getChildDiv = (obj: any) => {
+  const getChildDiv = (obj: any, i: number) => {
     return (
-      <>
-        {" "}
-        <div className={`${obj.title} Fit`} key={obj.title}>
+      <div key={i}>
+        <div className={`${obj.title} Fit`} key={i}>
           <span className="title-obj">{obj.title}</span>
         </div>
         <style jsx>{`
@@ -76,7 +19,7 @@ const MensCasualShirtUI = () => {
             margin: 1px 0;
           }
           .Fit:before {
-            font-family: "protexsa"; 
+            font-family: "protexsa";
             content: "\\${obj.img}";
             text-align: center;
             font-size: 2rem;
@@ -86,15 +29,20 @@ const MensCasualShirtUI = () => {
             margin: 10px 0;
           }
         `}</style>
-      </>
+      </div>
     );
   };
   return (
     <>
-      <div className="title-ui">
-        {configType.map((obj) => {
-          return getChildDiv(obj);
-        })}
+      <div>
+        <div className="title-ui">
+          {configType.map((obj, i) => {
+            return getChildDiv(obj, i);
+          })}
+        </div>
+        <div className="detail-ui">
+          <Detail />
+        </div>
       </div>
       <style jsx>{`
         @font-face {
@@ -114,7 +62,17 @@ const MensCasualShirtUI = () => {
           overflow: auto;
           position: fixed;
           overflow-x: hidden;
-          background: rosybrown;
+          background: #888;
+        }
+        .detail-ui {
+          width: 30%;
+          max-width: 400px;
+          height: 100vh;
+          overflow: auto;
+          position: fixed;
+          overflow-x: hidden;
+          left: 100px;
+          box-shadow: 5px 0px 15px 0px rgb(255 255 225 / 25%);
         }
       `}</style>
     </>

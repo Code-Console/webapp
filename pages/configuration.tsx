@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import Configuration3D from "../components/Fiber/Configuration";
 import { useConfigurationType, useIsOrbitControl } from "../components/hooks";
 import Styles from "../components/Styles";
-import MensCasualShirtUI from "../components/UI/ConfigurationUI/MensCasualShirtUI";
+import MensCasualShirtUI from "../components/UI/ConfigurationUI/MensCasualShirt";
 import HTMLHeader from "../components/UI/HTMLHeader";
 import { ConfigurationType } from "../interfaces";
 import { actionConfigurationType, actionIsOrbitControl } from "../redux/action";
