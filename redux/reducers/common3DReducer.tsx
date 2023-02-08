@@ -3,6 +3,7 @@ import { ClientState } from "../../interfaces";
 import {
   DID_LOAD_FIBER,
   SET_ANIM_TYPE,
+  SET_CONFIGURATION_TYPE,
   SET_ORBIT_CONTROL,
   UPDATE_OBJECT_NAME,
 } from "../action";
@@ -23,6 +24,12 @@ const common3DReducer = (
       return {
         ...state,
         animType: action.payload,
+      };
+    }
+    case SET_CONFIGURATION_TYPE: {
+      return {
+        ...state,
+        configurationType: action.payload,
       };
     }
     case SET_ORBIT_CONTROL: {

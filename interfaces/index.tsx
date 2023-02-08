@@ -57,6 +57,7 @@ export interface ClientState {
   meeting: IMeeting;
   user?: IUser;
   objectName?: string;
+  configurationType: ConfigurationType;
 }
 export enum MenuItem {
   ABOUT = "About",
@@ -108,4 +109,7 @@ export interface ICanvasTouchState {
   type?: string;
   scale?: number;
   isPointerDown?: boolean;
+}
+export enum ConfigurationType {
+  MENS_CASUAL_SHIRT = "Mens casual shirt",
 }

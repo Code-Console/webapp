@@ -8,6 +8,7 @@ export const parrotGLBPath = `${resources3D}watch.glb`;
 export const flamingoGLBPath = `${resources3D}Flamingo.glb`;
 export const flowerGLBPath = `${resources3D}Flower.glb`;
 export const roomGLBPath = `${resources3D}room-1.glb`;
+export const mensCasualShirt = `${resources3D}mens_casual_shirt/scene.gltf`;
 
 export const jumpManGLBPath = `${resources3D}jumpman-30k.glb`;
 export const beyonceGLBPath = `${resources3D}beyonce-30k.glb`;
