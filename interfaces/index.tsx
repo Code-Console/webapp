@@ -53,7 +53,14 @@ export interface IMainState {
 export interface IConfiguration {
   model?: ConfigurationModel;
   details?: string;
-  fabricTex?: string;
+  fabricId?: string;
+  fitId?: string;
+  butId?: string;
+  collarId?: string;
+  cufId?: string;
+  frontId?: string;
+  sleeveId?:string;
+  shoulderId?:string;
 }
 export interface ClientState {
   isAllModelLoaded: boolean;

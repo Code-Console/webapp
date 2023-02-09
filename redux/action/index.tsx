@@ -6,7 +6,7 @@ export const SET_CONFIGURATION_MODEL = "SET_CONFIGURATION_MODEL";
 export const SET_CONFIGURATION_DETAIL = "SET_CONFIGURATION_DETAIL";
 export const SET_ORBIT_CONTROL = "SET_ORBIT_CONTROL";
 export const UPDATE_OBJECT_NAME = "UPDATE_OBJECT_NAME";
-export const SET_CONFIGURATION_FABRIC = "SET_CONFIGURATION_FABRIC";
+export const SET_CONFIGURATION = "SET_CONFIGURATION";
 export const actionDeposited = (isLoaded: boolean) => ({
   type: DID_LOAD_FIBER,
   payload: isLoaded,
@@ -27,11 +27,12 @@ export const actionConfigurationDetail = (
   type: SET_CONFIGURATION_DETAIL,
   payload: configurationDetail,
 });
-export const actionConfigurationFabric = (
-  configurationFabric: string | undefined
+export const actionConfiguration = (
+  configuration: string | undefined,
+  details: string | undefined
 ) => ({
-  type: SET_CONFIGURATION_FABRIC,
-  payload: configurationFabric,
+  type: SET_CONFIGURATION,
+  payload: { configuration, details },
 });
 export const actionIsOrbitControl = (isOrbitControl: boolean) => ({
   type: SET_ORBIT_CONTROL,

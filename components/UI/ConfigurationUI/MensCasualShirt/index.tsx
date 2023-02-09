@@ -36,7 +36,7 @@ const MensCasualShirtUI = () => {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            background: ${obj.title === details ? "#333" : "#000"};
+            background: ${obj.title === details ? "#333" : "#222"};
             margin: 1px 0;
           }
           .Fit:before {
@@ -83,7 +83,7 @@ const MensCasualShirtUI = () => {
           overflow: auto;
           position: fixed;
           overflow-x: hidden;
-          background: #888;
+          background: #000;
           z-index: 1;
         }
         .detail-ui {

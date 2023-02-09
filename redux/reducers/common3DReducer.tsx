@@ -1,10 +1,11 @@
 import { AnyAction } from "redux";
-import { ClientState } from "../../interfaces";
+import { MENS_ITEM } from "../../components/UI/ConfigurationUI/MensCasualShirt/assets";
+import { ClientState, IConfiguration } from "../../interfaces";
 import {
   DID_LOAD_FIBER,
   SET_ANIM_TYPE,
   SET_CONFIGURATION_DETAIL,
-  SET_CONFIGURATION_FABRIC,
+  SET_CONFIGURATION,
   SET_CONFIGURATION_MODEL,
   SET_ORBIT_CONTROL,
   UPDATE_OBJECT_NAME,
@@ -46,13 +47,37 @@ const common3DReducer = (
         },
       };
     }
-    case SET_CONFIGURATION_FABRIC: {
+    case SET_CONFIGURATION: {
+      const configurationObj = (
+        payload: any,
+        _configuration: IConfiguration | undefined
+      ): IConfiguration | undefined => {
+        console.log("~payload~~~~~", payload);
+        switch (payload?.details) {
+          case MENS_ITEM.FABRIC:
+            return { ..._configuration, fabricId: payload.configuration };
+          case MENS_ITEM.BUTTONS:
+            return { ..._configuration, butId: payload.configuration };
+          case MENS_ITEM.COLLAR:
+            return { ..._configuration, collarId: payload.configuration };
+          case MENS_ITEM.CUF:
+            return { ..._configuration, cufId: payload.configuration };
+          case MENS_ITEM.FIT:
+            return { ..._configuration, fitId: payload.configuration };
+          case MENS_ITEM.FRONT:
+            return { ..._configuration, frontId: payload.configuration };
+          case MENS_ITEM.SLEEVE:
+            return { ..._configuration, sleeveId: payload.configuration };
+          case MENS_ITEM.SHOULDER:
+            return { ..._configuration, shoulderId: payload.configuration };
+          default:
+            return _configuration;
+        }
+      };
+
       return {
         ...state,
-        configuration: {
-          ...state.configuration,
-          fabricTex: action.payload,
-        },
+        configuration: configurationObj(action.payload, state.configuration),
       };
     }
     case SET_ORBIT_CONTROL: {

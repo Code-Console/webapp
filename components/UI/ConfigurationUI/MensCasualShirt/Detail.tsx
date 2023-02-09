@@ -1,6 +1,6 @@
 import React from "react";
 import Fit from "./Fit";
-import { fabricDetail, fitType, ShirtDetail } from "./assets";
+import { fabricDetail, fitType, MENS_ITEM, ShirtDetail } from "./assets";
 const Detail = ({
   details,
   onCloseDetail,
@@ -10,15 +10,15 @@ const Detail = ({
 }) => {
   const [showDetail, setShowDetail] = React.useState<ShirtDetail[]>([]);
   React.useEffect(() => {
-    switch (details?.toLowerCase()) {
-      case "fit":
+    switch (details) {
+      case MENS_ITEM.FIT:
         setShowDetail(fitType);
         break;
-      case "febric":
+      case MENS_ITEM.FABRIC:
         setShowDetail(fabricDetail);
         break;
       default:
-        setShowDetail([]);
+        setShowDetail(fabricDetail);
         break;
     }
   }, [details]);
