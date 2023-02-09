@@ -3,7 +3,9 @@ import { ClientState } from "../../interfaces";
 import {
   DID_LOAD_FIBER,
   SET_ANIM_TYPE,
-  SET_CONFIGURATION_TYPE,
+  SET_CONFIGURATION_DETAIL,
+  SET_CONFIGURATION_FABRIC,
+  SET_CONFIGURATION_MODEL,
   SET_ORBIT_CONTROL,
   UPDATE_OBJECT_NAME,
 } from "../action";
@@ -26,10 +28,31 @@ const common3DReducer = (
         animType: action.payload,
       };
     }
-    case SET_CONFIGURATION_TYPE: {
+    case SET_CONFIGURATION_MODEL: {
       return {
         ...state,
-        configurationType: action.payload,
+        configuration: {
+          ...state.configuration,
+          model: action.payload,
+        },
+      };
+    }
+    case SET_CONFIGURATION_DETAIL: {
+      return {
+        ...state,
+        configuration: {
+          ...state.configuration,
+          details: action.payload,
+        },
+      };
+    }
+    case SET_CONFIGURATION_FABRIC: {
+      return {
+        ...state,
+        configuration: {
+          ...state.configuration,
+          fabricTex: action.payload,
+        },
       };
     }
     case SET_ORBIT_CONTROL: {

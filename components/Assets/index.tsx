@@ -1,5 +1,6 @@
 export const basePath = "https://hututusoftwares.com/";
 export const resources3D = `${basePath}3D/`;
+export const fabricBaseUrl = `${basePath}3D/feb/men/`;
 
 export const skullGLBPath = `${resources3D}head3.glb`;
 export const watchGLBPath = `${resources3D}watch2.glb`;

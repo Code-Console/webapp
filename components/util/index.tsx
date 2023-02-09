@@ -33,6 +33,17 @@ export const updateMaterial = (model: any) => {
     }
   });
 };
+export const updateMaterialTexture = (model: any, texture: any) => {
+  if (!model) return;
+  model.traverse((object: any) => {
+    if (!object["isMesh"]) return;
+    if (object["material"].isMaterial) {
+      object["material"].map = texture;
+      object["material"].metalness = 1;
+      object["material"].roughness = 1;
+    }
+  });
+};19343
 export const isPortraitViewport = () =>
   Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) <
   Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);

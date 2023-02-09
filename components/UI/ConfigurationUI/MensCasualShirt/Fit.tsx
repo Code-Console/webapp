@@ -1,14 +1,28 @@
 import React from "react";
-import { fitType } from "./assets";
+import { useDispatch } from "react-redux";
+import { actionConfigurationFabric } from "../../../../redux/action";
+import { useConfiguration } from "../../../hooks";
+import { ShirtDetail } from "./assets";
 
-const Fit = () => {
+const Fit = ({ shirtDetail }: { shirtDetail: ShirtDetail[] }) => {
+  const dispatch = useDispatch();
+  const configuration = useConfiguration();
+  const onClick = (obj: ShirtDetail) => {
+    dispatch(actionConfigurationFabric(obj.img));
+    console.log(obj);
+  };
   return (
     <div className="fit-detail">
-      {fitType.map((obj, i) => {
+      {shirtDetail.map((obj, i) => {
         return (
           <div className="fit-detail-child" key={i}>
-            <div className="fit-detail-figure">
-              <img src={obj.img} className="img" />
+            <div className="fit-detail-figure" onClick={() => onClick(obj)}>
+              <img
+                src={obj.img}
+                className={`img ${
+                  configuration?.fabricTex === obj.img ? "border" : ""
+                }`}
+              />
               <div>{obj.type}</div>
               <div>{obj.description}</div>
             </div>
@@ -36,6 +50,9 @@ const Fit = () => {
           display: flex;
           align-items: center;
           justify-content: center;
+        }
+        .border {
+          border: 2px solid;
         }
       `}</style>
     </div>

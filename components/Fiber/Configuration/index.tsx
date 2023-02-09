@@ -4,13 +4,13 @@ import React from "react";
 import { Environment } from "@react-three/drei";
 import CameraController from "../CameraController";
 import { environmentImagePath } from "../../Assets";
-import { ConfigurationType } from "../../../interfaces";
+import { ConfigurationModel } from "../../../interfaces";
 import MensCasualShirt from "./MensCasualShirt";
 
 const Configuration3DChild = ({
   configurationType,
 }: {
-  configurationType: ConfigurationType;
+  configurationType: ConfigurationModel;
 }) => {
   const { camera } = useThree();
   React.useEffect(() => {
@@ -18,7 +18,7 @@ const Configuration3DChild = ({
     camera?.rotation.set(0, 0, 0);
   }, [configurationType]);
   switch (configurationType) {
-    case ConfigurationType.MENS_CASUAL_SHIRT:
+    case ConfigurationModel.MENS_CASUAL_SHIRT:
       return <MensCasualShirt />;
 
     default:
@@ -29,7 +29,7 @@ const Configuration3D = ({
   configurationType,
   isOrbitControl = false,
 }: {
-  configurationType: ConfigurationType;
+  configurationType: ConfigurationModel;
   isOrbitControl: boolean | undefined;
 }) => {
   console.log('isOrbitControl ',isOrbitControl);

@@ -50,6 +50,11 @@ export interface IMeeting {
 export interface IMainState {
   clientState: ClientState;
 }
+export interface IConfiguration {
+  model?: ConfigurationModel;
+  details?: string;
+  fabricTex?: string;
+}
 export interface ClientState {
   isAllModelLoaded: boolean;
   animType?: AnimType;
@@ -57,7 +62,7 @@ export interface ClientState {
   meeting: IMeeting;
   user?: IUser;
   objectName?: string;
-  configurationType: ConfigurationType;
+  configuration?: IConfiguration;
 }
 export enum MenuItem {
   ABOUT = "About",
@@ -110,6 +115,6 @@ export interface ICanvasTouchState {
   scale?: number;
   isPointerDown?: boolean;
 }
-export enum ConfigurationType {
+export enum ConfigurationModel {
   MENS_CASUAL_SHIRT = "Mens casual shirt",
 }

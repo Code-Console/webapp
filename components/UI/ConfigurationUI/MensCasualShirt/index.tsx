@@ -1,11 +1,32 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { actionConfigurationDetail } from "../../../../redux/action";
+import { useConfigurationDetail } from "../../../hooks";
 import { configType } from "./assets";
 import Detail from "./Detail";
 
 const MensCasualShirtUI = () => {
+  const [state, setState] = React.useState({
+    isShowDetail: false,
+  });
+  const details = useConfigurationDetail();
+  const dispatch = useDispatch();
+  const onCloseDetail = () => {
+    setState((state) => {
+      return { ...state, isShowDetail: false };
+    });
+  };
   const getChildDiv = (obj: any, i: number) => {
     return (
-      <div key={i}>
+      <div
+        key={i}
+        onClick={() => {
+          dispatch(actionConfigurationDetail(obj.title));
+          setState((state) => {
+            return { ...state, isShowDetail: true };
+          });
+        }}
+      >
         <div className={`${obj.title} Fit`} key={i}>
           <span className="title-obj">{obj.title}</span>
         </div>
@@ -15,12 +36,12 @@ const MensCasualShirtUI = () => {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            background: #000;
+            background: ${obj.title === details ? "#333" : "#000"};
             margin: 1px 0;
           }
           .Fit:before {
             font-family: "protexsa";
-            content: "\\${obj.img}";
+            content: "${"\\E" + obj.img}";
             text-align: center;
             font-size: 2rem;
           }
@@ -41,7 +62,7 @@ const MensCasualShirtUI = () => {
           })}
         </div>
         <div className="detail-ui">
-          <Detail />
+          <Detail details={details || ""} onCloseDetail={onCloseDetail} />
         </div>
       </div>
       <style jsx>{`
@@ -63,6 +84,7 @@ const MensCasualShirtUI = () => {
           position: fixed;
           overflow-x: hidden;
           background: #888;
+          z-index: 1;
         }
         .detail-ui {
           width: 30%;
@@ -71,8 +93,9 @@ const MensCasualShirtUI = () => {
           overflow: auto;
           position: fixed;
           overflow-x: hidden;
-          left: 100px;
+          left: ${state.isShowDetail ? 100 : -500}px;
           box-shadow: 5px 0px 15px 0px rgb(255 255 225 / 25%);
+          transition: left 0.5s;
         }
       `}</style>
     </>

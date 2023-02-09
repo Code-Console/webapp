@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { AnimType, ConfigurationType, IMainState } from "../../interfaces";
+import { AnimType, ConfigurationModel, IMainState } from "../../interfaces";
 
 export const useIsAllModelLoadedState = () => {
   const isAllModelLoaded = useSelector(
@@ -9,11 +9,24 @@ export const useIsAllModelLoadedState = () => {
   return isAllModelLoaded;
 };
 export const useConfigurationType = () => {
-  const animType = useSelector(
+  const type = useSelector(
     (state: IMainState) =>
-      state.clientState.configurationType || ConfigurationType.MENS_CASUAL_SHIRT
+      state.clientState.configuration?.model ||
+      ConfigurationModel.MENS_CASUAL_SHIRT
   );
-  return animType;
+  return type;
+};
+export const useConfigurationDetail = () => {
+  const detail = useSelector(
+    (state: IMainState) => state.clientState.configuration?.details
+  );
+  return detail;
+};
+export const useConfiguration = () => {
+  const configuration = useSelector(
+    (state: IMainState) => state.clientState.configuration
+  );
+  return configuration;
 };
 
 export const useAnimType = () => {
