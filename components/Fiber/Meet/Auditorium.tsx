@@ -54,7 +54,6 @@ const Auditorium = () => {
           if (object.name === "railing") {
             object.material.color = new THREE.Color(0x009999);
           }
-          console.log(object.name);
         }
       });
       watchGlb.scene.position.set(0,0,12.5);

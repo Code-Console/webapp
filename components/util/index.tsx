@@ -40,7 +40,6 @@ export const updateMaterialTexture = (
 ) => {
   if (!model) return;
   model.traverse((object: any) => {
-    console.log("name : ", object.name, except.includes(object.name));
     if (!object["isMesh"]) return;
     if (object["material"].isMaterial && !except.includes(object["material"].name)) {
       object["material"].map = texture;

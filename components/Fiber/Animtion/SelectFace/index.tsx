@@ -57,7 +57,6 @@ const SelectFace = (props: any) => {
     return raycaster.intersectObjects(objects, false);
   };
   React.useEffect(() => {
-    console.log(container);
     container?.addEventListener("mousemove", onMouseMove);
   }, []);
   return (

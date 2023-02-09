@@ -14,7 +14,8 @@ export enum MENS_ITEM {
   BUTTONS = "Buttons",
   FRONT = "Front",
   SLEEVE = "Sleeve",
-  SHOULDER = "shoulder",
+  SHOULDER = "Shoulder",
+  COLLAR_STAND = "Collar stand",
 }
 export const configType = [
   {
@@ -46,8 +47,12 @@ export const configType = [
     title: MENS_ITEM.FRONT,
   },
   {
-    img: "999907",
+    img: "907",
     title: MENS_ITEM.SHOULDER,
+  },
+  {
+    img: "90A",
+    title: MENS_ITEM.COLLAR_STAND,
   },
   // {
   //   img: "906",

@@ -37,12 +37,10 @@ const RandomShader = (props: any) => {
   mesh.geometry.setAttribute("aPosition", new THREE.BufferAttribute(noise, 1));
   mesh.geometry.setAttribute("aDirection", new THREE.BufferAttribute(noise, 1));
   const eventMove = (e: any) => {
-    // console.log(e.clientX, uniforms.iMouse.value);
     uniforms.iMouse.value.set(e.clientX * 0.01, e.clientY * 0.01, 0, 0);
   };
   React.useEffect(() => {
     document.addEventListener("mousemove", eventMove);
-    console.log(THREE.REVISION, "~~~~~~~~~~");
   }, []);
   useFrame(() => {
     // const time = state.clock.getElapsedTime();

@@ -46,7 +46,6 @@ const MeetingTrack = () => {
     setRemoteUsers(copy);
   }
   function onRemoteTrack(track: any) {
-    console.error("onRemoteTrack~~!!~~~", track.getType());
     if (track.isLocal()) {
       return;
     }

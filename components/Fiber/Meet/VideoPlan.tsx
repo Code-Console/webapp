@@ -47,7 +47,6 @@ const VideoPlan = () => {
             }
           }
         });
-        console.log(remote, "~~~~~~~~~~~remote-video-${participantId}~~");
       }
 
       for (let i = 0; i < ref.current.children.length; i++) {

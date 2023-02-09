@@ -34,7 +34,6 @@ const AnimationModel = (props: any) => {
       const mesh = refCurrent.getObjectByName("mesh_0");
       mixer = new THREE.AnimationMixer(mesh);
       mixer.clipAction(watchGlb.animations[0]).setDuration(1).play();
-      console.log(mesh);
     }
 
     mixer?.update(delta);

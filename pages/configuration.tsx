@@ -24,10 +24,8 @@ const Configuration = () => {
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, [configurationModel]);
-  console.log("isOrbitControl~~~~~~~~~", isOrbitControl);
   React.useEffect(() => {
     if (typeof window !== "undefined") {
-      console.log(router);
       const configurationType = router?.query?.type as ConfigurationModel;
       const orbitControl = router?.query?.orbit;
       if (configurationType)

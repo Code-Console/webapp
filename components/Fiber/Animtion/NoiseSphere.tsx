@@ -26,7 +26,6 @@ const NoiseSphere = (props: any) => {
     meshArray.push(meshObjChild);
     const red = 0.5 * i * Math.PI;
     meshObjChild.position.set(Math.sin(red) * 1.8, Math.cos(red) * 1.8, 0);
-    console.log(meshObjChild.position, red);
   }
   meshArray.forEach((element) => {
     meshObj.add(element);

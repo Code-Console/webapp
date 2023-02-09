@@ -32,7 +32,6 @@ const Configuration3D = ({
   configurationType: ConfigurationModel;
   isOrbitControl: boolean | undefined;
 }) => {
-  console.log('isOrbitControl ',isOrbitControl);
   return (
     <React.Suspense fallback={null}>
       <Canvas

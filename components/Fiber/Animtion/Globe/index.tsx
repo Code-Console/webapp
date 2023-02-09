@@ -44,7 +44,6 @@ const Globe = (props: any) => {
 
   React.useEffect(() => {
     const mesh = ref.current.getObjectByName("pointsGlobe");
-    console.log("ref.current~~~", ref.current);
     if (!ref.current) return;
     mesh.position.set(10, 5, 5);
     mesh.scale.set(5, 5, 5);

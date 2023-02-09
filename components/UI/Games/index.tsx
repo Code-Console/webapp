@@ -14,7 +14,6 @@ const Games = () => {
         for (const index in json) {
           games.push(json[index]);
         }
-        console.log(games);
         setJson(games);
       })
       .catch((e) => console.error(e));

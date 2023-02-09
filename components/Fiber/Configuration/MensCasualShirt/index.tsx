@@ -12,48 +12,26 @@ const MensCasualShirt = () => {
   React.useEffect(() => {
     if (watchGlb) {
       watchGlb.scene.scale.set(1.51, 1.51, 1.51);
-      watchGlb.scene.position.set(0, -1.7, 0);
+      watchGlb.scene.position.set(0, -2.7, 0);
       const frontRight = watchGlb.scene.getObjectByName("frontRight") as any;
       const frontLeft = watchGlb.scene.getObjectByName("frontLeft") as any;
       frontLeft.material = frontRight.material;
 
       const shoulder = watchGlb.scene.getObjectByName("shoulder") as any;
-      shoulder.material = new THREE.MeshStandardMaterial({
-        name: "shoulderMat",
-        map: shoulder.material.map.clone(),
-        metalness: shoulder.material.metalness,
-        roughness: shoulder.material.roughness,
-      });
+      shoulder.material = frontRight.material.clone();
       const sleeveL = watchGlb.scene.getObjectByName("sleeveLeft") as any;
       const sleeveR = watchGlb.scene.getObjectByName("sleeveRight") as any;
-      const sleeves = new THREE.MeshStandardMaterial({
-        name: "sleevesMat",
-        map: shoulder.material.map.clone(),
-        metalness: shoulder.material.metalness,
-        roughness: shoulder.material.roughness,
-      });
-      sleeveL.material = sleeveR.material = sleeves;
+      sleeveL.material = sleeveR.material = frontRight.material.clone();
 
       const cufL = watchGlb.scene.getObjectByName("cufLeft") as any;
       const cufR = watchGlb.scene.getObjectByName("cufRight") as any;
-      const cuf = new THREE.MeshStandardMaterial({
-        name: "cufMat",
-        map: shoulder.material.map.clone(),
-        metalness: shoulder.material.metalness,
-        roughness: shoulder.material.roughness,
-      });
-      cufL.material = cufR.material = cuf;
-
+      cufL.material = cufR.material = frontRight.material.clone();
 
       const collar = watchGlb.scene.getObjectByName("collar") as any;
-      const collarMat = new THREE.MeshStandardMaterial({
-        name: "cufMat",
-        map: shoulder.material.map.clone(),
-        metalness: shoulder.material.metalness,
-        roughness: shoulder.material.roughness,
-      });
-      collar.material = collarMat;
+      collar.material = frontRight.material.clone();
 
+      const stand = watchGlb.scene.getObjectByName("stand") as any;
+      stand.material = frontRight.material.clone();
     }
   }, [watchGlb]);
   const texture = (img: string) => {
@@ -102,7 +80,6 @@ const MensCasualShirt = () => {
     }
   }, [config?.collarId]);
 
-
   React.useEffect(() => {
     const img = fabricDetail.find((obj) => config?.cufId === obj.id)?.img;
     if (img && (ref?.current as any)?.getObjectByName("cufLeft")) {
@@ -113,7 +90,6 @@ const MensCasualShirt = () => {
       );
     }
   }, [config?.cufId]);
-
 
   React.useEffect(() => {
     const img = fabricDetail.find((obj) => config?.sleeveId === obj.id)?.img;
@@ -126,8 +102,18 @@ const MensCasualShirt = () => {
     }
   }, [config?.sleeveId]);
 
-
-
+  React.useEffect(() => {
+    const img = fabricDetail.find(
+      (obj) => config?.collarStandId === obj.id
+    )?.img;
+    if (img && (ref?.current as any)?.getObjectByName("stand")) {
+      updateMaterialTexture(
+        (ref?.current as any).getObjectByName("stand"),
+        texture(img),
+        []
+      );
+    }
+  }, [config?.collarStandId]);
 
   React.useEffect(() => {
     const img = fabricDetail.find((obj) => config?.frontId === obj.id)?.img;
@@ -139,9 +125,6 @@ const MensCasualShirt = () => {
       );
     }
   }, [config?.frontId]);
-
-
-
 
   return (
     <group dispose={null}>

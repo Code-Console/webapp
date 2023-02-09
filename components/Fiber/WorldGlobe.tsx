@@ -13,7 +13,6 @@ const WorldGlobe = () => {
   let isUpdate = 10;
   const { camera } = useThree();
   if (camera?.position.z) camera.position.z = 20;
-  console.log(watchGlb);
   useFrame(({ clock }) => {
     if (!meshRef) return;
     const time = clock.getElapsedTime();
@@ -58,7 +57,6 @@ const WorldGlobe = () => {
           ref={meshRef}
           args={[gm, mat, tAmn]}
           onClick={() => {
-            console.log(meshRef);
             meshRef.isUpdate > 0 ? 0 : 10;
           }}
         ></instancedMesh>

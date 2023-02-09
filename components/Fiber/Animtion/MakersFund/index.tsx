@@ -56,11 +56,9 @@ const MakersFund = (props: any) => {
         },
         x: endX,
         onComplete: () => {
-          console.log("trigger->  ", trigger);
           zoomAnimation(mesh);
         },
         onReverseComplete: () => {
-          console.log("onReverseComplete->  ", trigger);
           zoomAnimation(mesh);
         },
       }

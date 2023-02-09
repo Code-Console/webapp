@@ -28,6 +28,8 @@ const Fit = ({ shirtDetail }: { shirtDetail: ShirtDetail[] }) => {
         return configuration?.fitId === str;
       case MENS_ITEM.SHOULDER:
         return configuration?.shoulderId === str;
+      case MENS_ITEM.COLLAR_STAND:
+        return configuration?.collarStandId === str;
     }
   };
   return (

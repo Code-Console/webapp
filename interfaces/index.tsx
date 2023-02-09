@@ -59,8 +59,9 @@ export interface IConfiguration {
   collarId?: string;
   cufId?: string;
   frontId?: string;
-  sleeveId?:string;
-  shoulderId?:string;
+  sleeveId?: string;
+  shoulderId?: string;
+  collarStandId?: string;
 }
 export interface ClientState {
   isAllModelLoaded: boolean;
