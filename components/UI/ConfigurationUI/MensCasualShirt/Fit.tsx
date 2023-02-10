@@ -41,12 +41,12 @@ const Fit = ({ shirtDetail }: { shirtDetail: ShirtDetail[] }) => {
       dispatch(actionConfiguration(color, configuration?.details));
   }, 200);
   return (
-    <div className="fit-detail">
+    <div >
       {configuration?.details === MENS_ITEM.BUTTONS ? (
         <>
-          <p style={{ marginLeft: "20px" }}>
+          <span className="desc-button">
             Click and pick button color as you want
-          </p>
+          </span>
           <input
             type="color"
             id="modelColorPicker"
@@ -55,25 +55,30 @@ const Fit = ({ shirtDetail }: { shirtDetail: ShirtDetail[] }) => {
           />
         </>
       ) : (
-        shirtDetail.map((obj, i) => {
-          return (
-            <div className="fit-detail-child" key={i}>
-              <div className="fit-detail-figure" onClick={() => onClick(obj)}>
-                <img
-                  src={obj.img}
-                  className={`img ${isSelected(obj.id) ? "border" : ""}`}
-                />
-                <div>{obj.type}</div>
-                <div>{obj.description}</div>
+        <div className="fit-detail">
+          {shirtDetail.map((obj, i) => {
+            return (
+              <div className="fit-detail-child" key={i}>
+                <div className="fit-detail-figure" onClick={() => onClick(obj)}>
+                  <img
+                    src={obj.img}
+                    className={`img ${isSelected(obj.id) ? "border" : ""}`}
+                  />
+                  <div>{obj.type}</div>
+                  <div>{obj.description}</div>
+                </div>
               </div>
-            </div>
-          );
-        })
+            );
+          })}
+        </div>
       )}
       <style jsx>{`
+        .desc-button {
+          margin: 0 5%;
+        }
         #modelColorPicker {
-          width: 100%;
-          margin: 0 20px;
+          width: 90%;
+          margin: 10px 5%;
           height: 50px;
         }
         .fit-detail {
