@@ -1,7 +1,9 @@
+import { debounce } from "lodash";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { actionConfiguration } from "../../../../redux/action";
 import { useConfiguration } from "../../../hooks";
+import { isHexColor } from "../../../util";
 import { MENS_ITEM, ShirtDetail } from "./assets";
 
 const Fit = ({ shirtDetail }: { shirtDetail: ShirtDetail[] }) => {
@@ -32,26 +34,53 @@ const Fit = ({ shirtDetail }: { shirtDetail: ShirtDetail[] }) => {
         return configuration?.collarStandId === str;
     }
   };
+
+  const onChange = debounce((color) => {
+    console.log("onChange", color);
+    if (isHexColor(color))
+      dispatch(actionConfiguration(color, configuration?.details));
+  }, 200);
   return (
     <div className="fit-detail">
-      {shirtDetail.map((obj, i) => {
-        return (
-          <div className="fit-detail-child" key={i}>
-            <div className="fit-detail-figure" onClick={() => onClick(obj)}>
-              <img
-                src={obj.img}
-                className={`img ${isSelected(obj.id) ? "border" : ""}`}
-              />
-              <div>{obj.type}</div>
-              <div>{obj.description}</div>
+      {configuration?.details === MENS_ITEM.BUTTONS ? (
+        <>
+          <p style={{ marginLeft: "20px" }}>
+            Click and pick button color as you want
+          </p>
+          <input
+            type="color"
+            id="modelColorPicker"
+            value={configuration?.butId || "#ffffff"}
+            onChange={(e) => onChange(e.target.value)}
+          />
+        </>
+      ) : (
+        shirtDetail.map((obj, i) => {
+          return (
+            <div className="fit-detail-child" key={i}>
+              <div className="fit-detail-figure" onClick={() => onClick(obj)}>
+                <img
+                  src={obj.img}
+                  className={`img ${isSelected(obj.id) ? "border" : ""}`}
+                />
+                <div>{obj.type}</div>
+                <div>{obj.description}</div>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })
+      )}
       <style jsx>{`
+        #modelColorPicker {
+          width: 100%;
+          margin: 0 20px;
+          height: 50px;
+        }
         .fit-detail {
           display: flex;
           flex-wrap: wrap;
+          overflow: auto;
+          height: calc(100vh - 130px);
         }
         .fit-detail-child {
           width: 50%;
@@ -72,6 +101,11 @@ const Fit = ({ shirtDetail }: { shirtDetail: ShirtDetail[] }) => {
         }
         .border {
           border: 2px solid;
+        }
+        @media (max-width: 780px) {
+          .fit-detail-child {
+            width: 100%;
+          }
         }
       `}</style>
     </div>

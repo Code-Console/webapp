@@ -32,7 +32,7 @@ const Detail = ({
       <Fit shirtDetail={showDetail} />
       <style jsx>{`
         .options-header {
-          height: 100px;
+          height: 70px;
           width: 100%;
         }
         .options-tab-title {
@@ -54,6 +54,11 @@ const Detail = ({
           content: "\E916";
           font-family: "protexsa";
           font-size: 22px;
+        }
+        @media (max-width: 780px) {
+          .options-tab-title {
+            font-size: 1.6rem;
+          }
         }
       `}</style>
     </div>

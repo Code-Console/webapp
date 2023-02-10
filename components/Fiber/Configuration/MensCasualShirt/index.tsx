@@ -48,13 +48,10 @@ const MensCasualShirt = () => {
     }
   }, [config?.fabricId]);
   React.useEffect(() => {
-    const img = fabricDetail.find((obj) => config?.butId === obj.id)?.img;
-    if (img && (ref?.current as any)?.getObjectByName("btn1")) {
-      updateMaterialTexture(
-        (ref?.current as any).getObjectByName("btn1"),
-        texture(img),
-        []
-      );
+    console.log("config?.butId->>>> ", config?.butId);
+    const mat = (ref?.current as any)?.getObjectByName("btn1")?.material;
+    if (mat) {
+      mat.color = new THREE.Color(config?.butId || "rgb(255,255,255)");
     }
   }, [config?.butId]);
 

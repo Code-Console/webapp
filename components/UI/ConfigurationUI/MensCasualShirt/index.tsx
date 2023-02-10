@@ -90,9 +90,8 @@ const MensCasualShirtUI = () => {
           width: 30%;
           max-width: 400px;
           height: 100vh;
-          overflow: auto;
           position: fixed;
-          overflow-x: hidden;
+          overflow: hidden;
           left: ${state.isShowDetail ? 100 : -500}px;
           box-shadow: 5px 0px 15px 0px rgb(255 255 225 / 25%);
           transition: left 0.5s;

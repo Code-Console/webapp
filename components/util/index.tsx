@@ -41,7 +41,10 @@ export const updateMaterialTexture = (
   if (!model) return;
   model.traverse((object: any) => {
     if (!object["isMesh"]) return;
-    if (object["material"].isMaterial && !except.includes(object["material"].name)) {
+    if (
+      object["material"].isMaterial &&
+      !except.includes(object["material"].name)
+    ) {
       object["material"].map = texture;
       object["material"].metalness = 1;
       object["material"].roughness = 1;
@@ -52,3 +55,7 @@ export const updateMaterialTexture = (
 export const isPortraitViewport = () =>
   Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) <
   Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+
+export const isHexColor = (strColor:any) => {
+  return /^#[0-9A-F]{6}$/i.test(strColor);
+};
