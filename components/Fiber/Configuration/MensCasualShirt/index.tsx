@@ -152,7 +152,7 @@ const MensCasualShirt = () => {
   }, [config?.frontId]);
 
   return (
-    <group ref={ref} dispose={null}>
+    <group ref={ref} dispose={null} scale={[0.7, 0.7, 0.7]}>
       <primitive object={watchGlb.scene} dispose={null} />
       <primitive object={mensPantGlb.scene} dispose={null} />
     </group>
