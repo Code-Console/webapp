@@ -10,6 +10,7 @@ export const flamingoGLBPath = `${resources3D}Flamingo.glb`;
 export const flowerGLBPath = `${resources3D}Flower.glb`;
 export const roomGLBPath = `${resources3D}room-1.glb`;
 export const mensCasualShirt = `${resources3D}mens_casual_shirt/scene.glb`;
+export const mensCasualPant = `${resources3D}mens_casual_shirt/pant.glb`;
 
 export const jumpManGLBPath = `${resources3D}jumpman-30k.glb`;
 export const beyonceGLBPath = `${resources3D}beyonce-30k.glb`;
@@ -28,7 +29,8 @@ export const loadingGif = `${resources3D}loading.gif`;
 export const environmentImagePath =
   "https://static.inspify.io/Chopard/ar/asset/v2/hdr/powerP2Studio_Dim02.hdr";
 
-export const logoImg = `${basePath}images/apple-touch-icon-72x72.png`;
+  export const mensCasualPantNormal = `${resources3D}mens_casual_shirt/normalPant.jpg`;
+  export const logoImg = `${basePath}images/apple-touch-icon-72x72.png`;
 export const ogImg = `${resources3D}img.jpg`;
 export const ogImgMeet = `${resources3D}meta.jpg`;
 export const distinctiveImg = `${resources3D}distinctive.jpg`;

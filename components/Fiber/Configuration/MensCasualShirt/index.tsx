@@ -1,18 +1,22 @@
 import { useGLTF } from "@react-three/drei";
 import React from "react";
-import { mensCasualShirt } from "../../../Assets";
+import { mensCasualPant, mensCasualShirt } from "../../../Assets";
 import { useConfiguration } from "../../../hooks";
 import { updateMaterialTexture } from "../../../util";
 import { fabricDetail } from "../../../UI/ConfigurationUI/MensCasualShirt/assets";
 import * as THREE from "three";
+import { useDispatch } from "react-redux";
+import { actionDeposited } from "../../../../redux/action";
 const MensCasualShirt = () => {
   const config = useConfiguration();
   const watchGlb = useGLTF(mensCasualShirt);
-  const ref = React.useRef();
+  const mensPantGlb = useGLTF(mensCasualPant);
+  const ref = React.useRef() as any;
+  const dispatch = useDispatch();
   React.useEffect(() => {
     if (watchGlb) {
       watchGlb.scene.scale.set(1.51, 1.51, 1.51);
-      watchGlb.scene.position.set(0, -2.7, 0);
+      watchGlb.scene.position.set(0, 0.0, 0);
       const frontRight = watchGlb.scene.getObjectByName("frontRight") as any;
       const frontLeft = watchGlb.scene.getObjectByName("frontLeft") as any;
       frontLeft.material = frontRight.material;
@@ -32,8 +36,26 @@ const MensCasualShirt = () => {
 
       const stand = watchGlb.scene.getObjectByName("stand") as any;
       stand.material = frontRight.material.clone();
+      watchGlb.scene.name = "shirt";
+      dispatch(actionDeposited(true));
     }
   }, [watchGlb]);
+  React.useEffect(() => {
+    if (mensPantGlb) {
+      mensPantGlb.scene.position.set(0, -5.0, 0.31);
+      mensPantGlb.scene.scale.set(7.5, 7.5, 7.5);
+      mensPantGlb.scene.name = "pant";
+      const pant = mensPantGlb.scene.getObjectByName("DG100110_1") as any;
+      if (pant?.material) {
+        pant.material = new THREE.MeshStandardMaterial({
+          roughness: 1,
+          metalness: 1,
+          color: 0xeeeeee,
+        });
+      }
+      console.log(mensPantGlb);
+    }
+  }, [mensPantGlb]);
   const texture = (img: string) => {
     const texture = new THREE.TextureLoader().load(img);
     texture.wrapS = THREE.RepeatWrapping;
@@ -44,11 +66,17 @@ const MensCasualShirt = () => {
   React.useEffect(() => {
     const img = fabricDetail.find((obj) => config?.fabricId === obj.id)?.img;
     if (img) {
-      updateMaterialTexture(ref?.current, texture(img), ["buttonMat"]);
+      const group = (ref?.current as any).getObjectByName("shirt");
+      updateMaterialTexture(group, texture(img), ["buttonMat"]);
     }
   }, [config?.fabricId]);
   React.useEffect(() => {
-    console.log("config?.butId->>>> ", config?.butId);
+    const mat = (ref?.current as any)?.getObjectByName("DG100110_1")?.material;
+    if (mat) {
+      mat.color = new THREE.Color(config?.paintId || "rgb(255,255,255)");
+    }
+  }, [config?.paintId]);
+  React.useEffect(() => {
     const mat = (ref?.current as any)?.getObjectByName("btn1")?.material;
     if (mat) {
       mat.color = new THREE.Color(config?.butId || "rgb(255,255,255)");
@@ -124,8 +152,9 @@ const MensCasualShirt = () => {
   }, [config?.frontId]);
 
   return (
-    <group dispose={null}>
-      <primitive ref={ref} object={watchGlb.scene} dispose={null} />
+    <group ref={ref} dispose={null}>
+      <primitive object={watchGlb.scene} dispose={null} />
+      <primitive object={mensPantGlb.scene} dispose={null} />
     </group>
   );
 };

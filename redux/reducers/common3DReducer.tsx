@@ -72,6 +72,8 @@ const common3DReducer = (
             return { ..._configuration, shoulderId: payload.configuration };
           case MENS_ITEM.COLLAR_STAND:
             return { ..._configuration, collarStandId: payload.configuration };
+          case MENS_ITEM.PAINT_COLOR:
+            return { ..._configuration, paintId: payload.configuration };
           default:
             return _configuration;
         }

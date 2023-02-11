@@ -1,7 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { actionConfigurationDetail } from "../../../../redux/action";
-import { useConfigurationDetail } from "../../../hooks";
+import { useConfigurationDetail, useIsAllModelLoadedState } from "../../../hooks";
+import Loading from "../../Loading";
 import { configType } from "./assets";
 import Detail from "./Detail";
 
@@ -9,6 +10,7 @@ const MensCasualShirtUI = () => {
   const [state, setState] = React.useState({
     isShowDetail: false,
   });
+  const isAllModelLoaded = useIsAllModelLoadedState();
   const details = useConfigurationDetail();
   const dispatch = useDispatch();
   const onCloseDetail = () => {
@@ -64,6 +66,7 @@ const MensCasualShirtUI = () => {
         <div className="detail-ui">
           <Detail details={details || ""} onCloseDetail={onCloseDetail} />
         </div>
+        {!isAllModelLoaded && <Loading />}
       </div>
       <style jsx>{`
         @font-face {

@@ -62,6 +62,7 @@ export interface IConfiguration {
   sleeveId?: string;
   shoulderId?: string;
   collarStandId?: string;
+  paintId?: string;
 }
 export interface ClientState {
   isAllModelLoaded: boolean;

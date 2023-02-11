@@ -16,6 +16,7 @@ export enum MENS_ITEM {
   SLEEVE = "Sleeve",
   SHOULDER = "Shoulder",
   COLLAR_STAND = "Collar stand",
+  PAINT_COLOR = "Paint Color",
 }
 export const configType = [
   {
@@ -53,6 +54,10 @@ export const configType = [
   {
     img: "90A",
     title: MENS_ITEM.COLLAR_STAND,
+  },
+  {
+    img: "90A",
+    title: MENS_ITEM.PAINT_COLOR,
   },
   // {
   //   img: "906",

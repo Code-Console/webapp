@@ -9,6 +9,11 @@ import { MENS_ITEM, ShirtDetail } from "./assets";
 const Fit = ({ shirtDetail }: { shirtDetail: ShirtDetail[] }) => {
   const dispatch = useDispatch();
   const configuration = useConfiguration();
+  const color =
+    (configuration?.details === MENS_ITEM.BUTTONS
+      ? configuration?.butId
+      : configuration?.paintId) || "#ffffff";
+
   const onClick = (obj: ShirtDetail) => {
     dispatch(actionConfiguration(obj.id, configuration?.details));
   };
@@ -32,6 +37,8 @@ const Fit = ({ shirtDetail }: { shirtDetail: ShirtDetail[] }) => {
         return configuration?.shoulderId === str;
       case MENS_ITEM.COLLAR_STAND:
         return configuration?.collarStandId === str;
+      case MENS_ITEM.PAINT_COLOR:
+        return configuration?.paintId === str;
     }
   };
 
@@ -41,8 +48,9 @@ const Fit = ({ shirtDetail }: { shirtDetail: ShirtDetail[] }) => {
       dispatch(actionConfiguration(color, configuration?.details));
   }, 200);
   return (
-    <div >
-      {configuration?.details === MENS_ITEM.BUTTONS ? (
+    <div>
+      {configuration?.details === MENS_ITEM.BUTTONS ||
+      configuration?.details === MENS_ITEM.PAINT_COLOR ? (
         <>
           <span className="desc-button">
             Click and pick button color as you want
@@ -50,7 +58,7 @@ const Fit = ({ shirtDetail }: { shirtDetail: ShirtDetail[] }) => {
           <input
             type="color"
             id="modelColorPicker"
-            value={configuration?.butId || "#ffffff"}
+            value={color}
             onChange={(e) => onChange(e.target.value)}
           />
         </>
